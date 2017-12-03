@@ -13,6 +13,6 @@ public class Cursor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("Hit: " + cameraRaycaster.layerHit);
+        //Debug.Log("Hit: " + cameraRaycaster.layerHit);
 	}
 }
