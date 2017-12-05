@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     ThirdPersonCharacter m_Character;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
     Vector3 currentClickTarget;
+    bool isInDirectMode = false;        // TODO - may make static if used elsewhere
+    Vector3 m_Move = Vector3.zero;
+
         
     private void Start()
     {
@@ -21,14 +24,44 @@ public class PlayerMovement : MonoBehaviour
     // Fixed update is called in sync with physics
     private void FixedUpdate()
     {
-        if (Input.GetMouseButton(0) )
+        if (Input.GetKeyDown(KeyCode.G))  // TODO Add to menu (G for gamepad)
         {
-            print("Cursor raycast hit " + cameraRaycaster.layerHit);
+            isInDirectMode = !isInDirectMode;
+            m_Move = Vector3.zero;
+            currentClickTarget = transform.position;
+        }
 
+        if (isInDirectMode)
+        {
+            ProcessDirectMovement();
+        }
+        else
+        {
+            ProcessMouseMovement();
+        }
+    }
+
+    private void ProcessDirectMovement()
+    {
+        // read inputs
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        // calculate camera relative direction to move:
+        Vector3 m_CamForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        m_Move = v * m_CamForward + h * Camera.main.transform.right;
+
+        m_Character.Move(m_Move, false, false);
+    }
+
+    private void ProcessMouseMovement()
+    {
+        if (Input.GetMouseButton(0))
+        {
             switch (cameraRaycaster.layerHit)
             {
                 case Layer.Walkable:
-                    currentClickTarget = cameraRaycaster.hit.point;                   
+                    currentClickTarget = cameraRaycaster.hit.point;
                     break;
                 case Layer.Enemy:
                     print("Not Moving To Enemy");
@@ -42,15 +75,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // stop wobbles once destination is reached
-        Vector3 playerToClickPoint = currentClickTarget - transform.position;
-        if (playerToClickPoint.magnitude >= stopMoveRadius)
+        m_Move = currentClickTarget - transform.position;
+        if (m_Move.magnitude >= stopMoveRadius)
         {
-            m_Character.Move(playerToClickPoint, false, false);
+            m_Character.Move(m_Move, false, false);
         }
         else
         {
             m_Character.Move(Vector3.zero, false, false);
-        }
+        }        
     }
 }
 

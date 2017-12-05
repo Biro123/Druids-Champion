@@ -578,7 +578,6 @@ GameObject:
   - component: {fileID: 95701538908546110}
   - component: {fileID: 54073948656529230}
   - component: {fileID: 136727865881290710}
-  - component: {fileID: 114947909162117696}
   - component: {fileID: 114297894662104442}
   - component: {fileID: 114924093117718768}
   m_Layer: 0
@@ -1633,7 +1632,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.012504578, y: 0, z: 0.03499925}
+  m_LocalPosition: {x: 2, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4836163875538996}
@@ -1933,7 +1932,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1357851288971216}
-  m_LocalRotation: {x: 0.5326752, y: 0.070340455, z: 0.83613276, w: -0.110415146}
+  m_LocalRotation: {x: 0.53267515, y: 0.07034045, z: 0.83613265, w: -0.11041513}
   m_LocalPosition: {x: 0.000022271464, y: -0.00006150465, z: 0.026027026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2503,7 +2502,7 @@ MonoBehaviour:
   m_GravityMultiplier: 2
   m_RunCycleLegOffset: 0.2
   m_MoveSpeedMultiplier: 1.2
-  m_AnimSpeedMultiplier: 1
+  m_AnimSpeedMultiplier: 1.2
   m_GroundCheckDistance: 0.3
 --- !u!114 &114924093117718768
 MonoBehaviour:
@@ -2517,17 +2516,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stopMoveRadius: 0.2
---- !u!114 &114947909162117696
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1400500621032120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &136727865881290710
 CapsuleCollider:
   m_ObjectHideFlags: 1
