@@ -6,11 +6,12 @@ using UnityStandardAssets.Characters.ThirdPerson;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float stopMoveRadius = 0.2f;
+    [SerializeField] float AttackRadius = 5.0f;
 
     ThirdPersonCharacter thirdPersonCharacter;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster;
-    Vector3 currentClickTarget;
-    bool isInDirectMode = false;        
+    bool isInDirectMode = false;
+    Vector3 currentDestination, clickPoint;    
     Vector3 movement = Vector3.zero;
 
         
@@ -18,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     {
         cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
         thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
-        currentClickTarget = transform.position;
+        currentDestination = transform.position;
     }
 
     // Fixed update is called in sync with physics
@@ -28,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isInDirectMode = !isInDirectMode;
             movement = Vector3.zero;
-            currentClickTarget = transform.position;
+            currentDestination = transform.position;
         }
 
         if (isInDirectMode)
@@ -58,13 +59,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
+            clickPoint = cameraRaycaster.hit.point;
             switch (cameraRaycaster.currentLayerHit)
             {
                 case Layer.Walkable:
-                    currentClickTarget = cameraRaycaster.hit.point;
+                    currentDestination = ShortDestination(clickPoint, stopMoveRadius );
                     break;
                 case Layer.Enemy:
-                    print("Not Moving To Enemy");
+                    currentDestination = ShortDestination(clickPoint, AttackRadius);
                     break;
                 case Layer.RaycastEndStop:
                     break;
@@ -75,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // stop wobbles once destination is reached
-        movement = currentClickTarget - transform.position;
+        movement = currentDestination - transform.position;
         if (movement.magnitude >= stopMoveRadius)
         {
             thirdPersonCharacter.Move(movement, false, false);
@@ -83,7 +85,26 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             thirdPersonCharacter.Move(Vector3.zero, false, false);
-        }        
+        }           
+    }
+
+    private Vector3 ShortDestination(Vector3 destination, float shortening)
+    {
+        Vector3 reductionVector = (destination - transform.position).normalized * shortening;
+        return destination - reductionVector;
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw Movement Gizmos
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(transform.position, currentDestination);
+        Gizmos.DrawSphere(currentDestination, 0.1f);
+        Gizmos.DrawSphere(clickPoint, 0.15f);
+
+        // Draw Attack Gizmos
+        Gizmos.color = new Color(255f, 0f, 0f, 0.5f);
+        Gizmos.DrawWireSphere(transform.position, AttackRadius);
     }
 }
 
