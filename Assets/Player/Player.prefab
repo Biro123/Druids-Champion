@@ -580,6 +580,7 @@ GameObject:
   - component: {fileID: 136727865881290710}
   - component: {fileID: 114297894662104442}
   - component: {fileID: 114924093117718768}
+  - component: {fileID: 114196896054198232}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1932,7 +1933,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1357851288971216}
-  m_LocalRotation: {x: 0.53267515, y: 0.07034045, z: 0.83613265, w: -0.11041513}
+  m_LocalRotation: {x: 0.5326752, y: 0.070340455, z: 0.83613276, w: -0.110415146}
   m_LocalPosition: {x: 0.000022271464, y: -0.00006150465, z: 0.026027026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2485,6 +2486,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114196896054198232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1400500621032120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f99f3d0f9b8e4249b3338b4ca07e022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoints: 100
 --- !u!114 &114297894662104442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2516,6 +2529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stopMoveRadius: 0.2
+  AttackRadius: 5
 --- !u!136 &136727865881290710
 CapsuleCollider:
   m_ObjectHideFlags: 1
