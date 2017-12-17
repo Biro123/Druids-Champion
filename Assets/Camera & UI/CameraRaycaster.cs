@@ -14,16 +14,12 @@ public class CameraRaycaster : MonoBehaviour
         Layer.Walkable,
         Layer.Player
     };
-
-    
-
+     
     private Camera viewCamera;
     private RaycastHit raycastHit;
     private Player player;
-    private float cameraToPlayerDistance;
     private int notFadeLayerMask = 0;
-
-
+    
     public RaycastHit hit
     {
         get { return raycastHit; }
@@ -43,7 +39,6 @@ public class CameraRaycaster : MonoBehaviour
     {
         viewCamera = Camera.main;
         player = FindObjectOfType<Player>();
-        cameraToPlayerDistance = (player.transform.position - transform.position).magnitude;
 
         // Set up the layermask to ignore
         foreach (Layer layer in unFadableLayers)
@@ -97,7 +92,6 @@ public class CameraRaycaster : MonoBehaviour
     private void FindBlockingObject()
     {
         // Ray ray = viewCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        // Ray ray = viewCamera.ViewportPointToRay(player.transform.position);
 
         // Define the Ray to cast - from camera to player
         Ray ray = new Ray(transform.position, player.transform.position - transform.position);
@@ -108,6 +102,7 @@ public class CameraRaycaster : MonoBehaviour
         hits = Physics.RaycastAll(ray, distanceToBackground, ~notFadeLayerMask);
         foreach(RaycastHit hit in hits)
         {
+            Debug.Log("Hit: " + hit.transform);
             HandleFade(hit);
         }
     }
@@ -121,6 +116,7 @@ public class CameraRaycaster : MonoBehaviour
         Fader fader = hitRenderer.GetComponent<Fader>();
         if (fader == null) // fader script not attached to object hit
         {
+            Debug.Log("Adding Fader to: " + hitRenderer.gameObject.name);
             fader = hitRenderer.gameObject.AddComponent<Fader>();
         }
         fader.BeTransparent();

@@ -7,7 +7,7 @@ public class Fader : MonoBehaviour {
     private bool shouldBeTransparent;
     private float transparency;
     private float targetTransparency = 0.3f;
-    private float fallOff = 0.5f;  // time to fade
+    private float fallOff = 0.3f;  // time to fade
     private Shader oldShader;
     private Color oldColor;
     private Material material;
@@ -24,6 +24,7 @@ public class Fader : MonoBehaviour {
             {
                 oldColor = material.color;
                 transparency = oldColor.a;
+                Debug.Log("OldColor: " + oldColor.ToString());
             }
             else
             {
@@ -47,6 +48,7 @@ public class Fader : MonoBehaviour {
 
         if (shouldBeTransparent)  // Fading Out
         {
+            Debug.Log("Fading Out");
             if (transparency >= targetTransparency)
             {
                 transparency -= ((1.0f - targetTransparency) * Time.deltaTime) / fallOff;
