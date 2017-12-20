@@ -24,7 +24,6 @@ public class Fader : MonoBehaviour {
             {
                 oldColor = material.color;
                 transparency = oldColor.a;
-                Debug.Log("OldColor: " + oldColor.ToString());
             }
             else
             {
