@@ -10,6 +10,7 @@ public class CursorAffordance : MonoBehaviour {
     [SerializeField] Texture2D unknownCursor = null;
     [SerializeField] Vector2 cursorHotspot = new Vector2(4 ,4 );
 
+    // TODO - resolve conflict with const and SerialiseField
     [SerializeField] const int walkableLayerNumber = 8;
     [SerializeField] const int enemyLayerNumber = 9;
 
