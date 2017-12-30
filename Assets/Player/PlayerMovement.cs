@@ -25,21 +25,22 @@ public class PlayerMovement : MonoBehaviour
     // Fixed update is called in sync with physics
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.G))  // TODO Add to menu (G for gamepad)
-        {
-            isInDirectMode = !isInDirectMode;
-            movement = Vector3.zero;
-            currentDestination = transform.position;
-        }
+        // TODO - Check commented code.. Was removed for improved raycaster
+        //if (Input.GetKeyDown(KeyCode.G))  // TODO Add to menu (G for gamepad)
+        //{
+        //    isInDirectMode = !isInDirectMode;
+        //    movement = Vector3.zero;
+        //    currentDestination = transform.position;
+        //}
 
-        if (isInDirectMode)
-        {
-            ProcessDirectMovement();
-        }
-        else
-        {
-            ProcessMouseMovement();
-        }
+        //if (isInDirectMode)
+        //{
+        //    ProcessDirectMovement();
+        //}
+        //else
+        //{
+        //    ProcessMouseMovement();
+        //}
     }
 
     private void ProcessDirectMovement()
@@ -57,35 +58,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProcessMouseMovement()
     {
-        if (Input.GetMouseButton(0))
-        {
-            clickPoint = cameraRaycaster.hit.point;
-            switch (cameraRaycaster.currentLayerHit)
-            {
-                case Layer.Walkable:
-                    currentDestination = ShortDestination(clickPoint, stopMoveRadius );
-                    break;
-                case Layer.Enemy:
-                    currentDestination = ShortDestination(clickPoint, AttackRadius);
-                    break;
-                case Layer.RaycastEndStop:
-                    break;
-                default:
-                    print("Unexpected Layer Found");
-                    break;
-            }
-        }
+        //if (Input.GetMouseButton(0))
+        //{
+        //    clickPoint = cameraRaycaster.hit.point;
+        //    switch (cameraRaycaster.currentLayerHit)
+        //    {
+        //        case Layer.Walkable:
+        //            currentDestination = ShortDestination(clickPoint, stopMoveRadius );
+        //            break;
+        //        case Layer.Enemy:
+        //            currentDestination = ShortDestination(clickPoint, AttackRadius);
+        //            break;
+        //        case Layer.RaycastEndStop:
+        //            break;
+        //        default:
+        //            print("Unexpected Layer Found");
+        //            break;
+        //    }
+        //}
 
-        // stop wobbles once destination is reached
-        movement = currentDestination - transform.position;
-        if (movement.magnitude >= stopMoveRadius)
-        {
-            thirdPersonCharacter.Move(movement, false, false);
-        }
-        else
-        {
-            thirdPersonCharacter.Move(Vector3.zero, false, false);
-        }           
+        //// stop wobbles once destination is reached
+        //movement = currentDestination - transform.position;
+        //if (movement.magnitude >= stopMoveRadius)
+        //{
+        //    thirdPersonCharacter.Move(movement, false, false);
+        //}
+        //else
+        //{
+        //    thirdPersonCharacter.Move(Vector3.zero, false, false);
+        //}           
     }
 
     private Vector3 ShortDestination(Vector3 destination, float shortening)

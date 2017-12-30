@@ -162,8 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ed6fdaa8f4eb147add751c13560388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerPriorities: 0900000008000000
-  distanceToBackground: 100
+  layerPriorities: 090000000800000014000000
   unFadableLayers: 09000000080000000a000000
 --- !u!124 &124942953257121608
 Behaviour:

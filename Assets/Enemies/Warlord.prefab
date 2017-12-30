@@ -2530,9 +2530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 100
   aggroDistance: 10
-  isLeader: 1
-  formationAggroDistance: 5
-  reformDistance: 10
+  formationAggroDistance: 10
+  attackRange: 7
   reformStopDistance: 0.5
 --- !u!114 &114673464821793468
 MonoBehaviour:
