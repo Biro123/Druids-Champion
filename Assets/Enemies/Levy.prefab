@@ -1374,7 +1374,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149790}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.705307, y: 0, z: -69.19682}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 469942}
@@ -2751,12 +2751,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 100
+  maxHealthPoints: 60
   aggroDistance: 10
-  isLeader: 0
-  formationAggroDistance: 6
-  reformDistance: 20
-  reformStopDistance: 3
+  formationAggroDistance: 4
+  attackRange: 1.5
+  formationStopDistance: 3
+  layersToTarget: 0a0000000b000000
 --- !u!114 &114940370719326110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2778,8 +2778,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 2
+  m_Acceleration: 4
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 1.5

@@ -20,8 +20,8 @@ public class Enemy : MonoBehaviour {
     [Tooltip("Range which can attack from")]
     [SerializeField] float attackRange = 1.5f;
 
-    [Tooltip("Stop Distance while reforming")]
-    [SerializeField] float reformStopDistance = 0.5f;
+    [Tooltip("Stop Distance while going back to formation")]
+    [SerializeField] float formationStopDistance = 0.5f;
 
     [SerializeField] int[] layersToTarget = { 10, 11 };
 
@@ -36,8 +36,9 @@ public class Enemy : MonoBehaviour {
     private bool inFormation = false;
     private UnitOrder currentOrder = UnitOrder.Solo;
     private Transform target = null;
+    private bool returnToStart = false;
 
-    
+
     public float healthAsPercentage
     {
         get
@@ -77,6 +78,7 @@ public class Enemy : MonoBehaviour {
 
     private void Start()
     {
+        currentHealthPoints = maxHealthPoints;
         startPosition = this.transform;
         player = FindObjectOfType<Player>();
         aICharacterControl = GetComponent<AICharacterControl>();
@@ -94,7 +96,7 @@ public class Enemy : MonoBehaviour {
 
             if (target != null)
             {   // 2. if have target - move to attack range
-                navMeshAgent.stoppingDistance = originalStopDistance + attackRange;
+                navMeshAgent.stoppingDistance = attackRange;
                 aICharacterControl.SetTarget(target);
             }
             else
@@ -107,15 +109,27 @@ public class Enemy : MonoBehaviour {
         if (currentOrder == UnitOrder.ShieldWall)
         {
             target = FindTargetInRange(formationAggroDistance);
-            if (target != null)
-            {   // Have target - move to attack range
-                navMeshAgent.stoppingDistance = originalStopDistance + attackRange;
-                aICharacterControl.SetTarget(target);
+
+            // Check distance from formation position and decide whether to return
+            var distanceFromFormation = this.transform.position - formationPosition.position;          
+            if (distanceFromFormation.magnitude >= formationAggroDistance * 2f)
+            {
+                returnToStart = true;
+            } else if (distanceFromFormation.magnitude <= formationAggroDistance)
+            {
+                returnToStart = false;
+            }
+            
+            // No target or too far from formation - return to formation
+            if ( target == null || returnToStart )
+            {   // Else back to formation pos 
+                navMeshAgent.stoppingDistance = formationStopDistance;
+                aICharacterControl.SetTarget(formationPosition);
             }
             else
-            {   // Else back to formation pos 
-                navMeshAgent.stoppingDistance = reformStopDistance;
-                aICharacterControl.SetTarget(formationPosition);
+            {   // Have target - move to attack range
+                navMeshAgent.stoppingDistance = attackRange;
+                aICharacterControl.SetTarget(target);
             }
         }
 
@@ -124,7 +138,7 @@ public class Enemy : MonoBehaviour {
             target = FindTargetInRange(aggroDistance);
             if (target != null)
             {   // Have target - move to attack range
-                navMeshAgent.stoppingDistance = originalStopDistance + attackRange;
+                navMeshAgent.stoppingDistance = attackRange;
                 aICharacterControl.SetTarget(target);
             }
             else
@@ -198,7 +212,7 @@ public class Enemy : MonoBehaviour {
         {
             if (formationPosition != null)
             {
-                navMeshAgent.stoppingDistance = reformStopDistance;   // small stopping distance to keep formation
+                navMeshAgent.stoppingDistance = formationStopDistance;   // small stopping distance to keep formation
                 aICharacterControl.SetTarget(formationPosition);
             }
             else

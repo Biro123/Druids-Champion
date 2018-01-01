@@ -100,7 +100,6 @@ public class Formation : MonoBehaviour {
 
     void Reform()
     {   //  When safe - reform to plug gaps and fill from front/centre
-        Debug.Log("Reforming");
         int j = 1;
         for (int i = 1; i <= troopPositions.Length; i++) // Leader is always on index 0
         {
@@ -122,17 +121,13 @@ public class Formation : MonoBehaviour {
 
     public void FillGap()
     {   // When opponents near, simply move from rear to front if there is a gap.
-        Debug.Log("Filling Gap ");
-
         if (row2Trooper == null) { return; }
-        Debug.Log("Filling Gap - still here!");
 
         // See if gap in front
         for (int i = 1; i < rankSize; i++)
         {
             if (troopers[i] == null)
             {
-                Debug.Log("Empty: " + i);
                 if (troopers[i+rankSize] != null)
                 { // if so, move from back
                     troopers[i] = troopers[i+rankSize];   // ensure index matches with position
