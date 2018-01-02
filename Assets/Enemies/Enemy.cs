@@ -4,28 +4,28 @@ using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour, IDamageable {
 
     [SerializeField] float maxHealthPoints = 100f;
 
     [Tooltip("Enemies within this range will move to attack range")]
     [SerializeField] float aggroDistance = 10f;
 
-    //[Tooltip("Can Lead ShieldWalls")]
-    //[SerializeField] bool isLeader = false;
+    [Tooltip("Range which can attack from")]
+    [SerializeField] float attackRange = 1.5f;
 
     [Tooltip("Aggro distance while in formation")]
     [SerializeField] float formationAggroDistance = 3f;
 
-    [Tooltip("Range which can attack from")]
-    [SerializeField] float attackRange = 1.5f;
-
     [Tooltip("Stop Distance while going back to formation")]
     [SerializeField] float formationStopDistance = 0.5f;
+    
+    [SerializeField] GameObject projectileToUse;
+    [SerializeField] GameObject projectileSocket;
+    [SerializeField] float damagePerShot = 9f;
 
     [SerializeField] int[] layersToTarget = { 10, 11 };
-
-
+    
     private float currentHealthPoints = 100f;
     private float originalStopDistance;
     private Transform startPosition = null;
@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour {
     private UnitOrder currentOrder = UnitOrder.Solo;
     private Transform target = null;
     private bool returnToStart = false;
+    private int opponentLayerMask = 0;
 
 
     public float healthAsPercentage
@@ -74,6 +75,11 @@ public class Enemy : MonoBehaviour {
         formationPosition = position;
     }
 
+    void IDamageable.TakeDamage(float damage)
+    {
+        currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
+    }
+
     private void Start()
     {
         currentHealthPoints = maxHealthPoints;
@@ -81,6 +87,12 @@ public class Enemy : MonoBehaviour {
         aICharacterControl = GetComponent<AICharacterControl>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         originalStopDistance = navMeshAgent.stoppingDistance;
+
+        // Set up the layermask of opponents to look for.
+        foreach (var layer in layersToTarget)
+        {
+            opponentLayerMask = opponentLayerMask | (1 << layer);
+        }
     }
 
     private void Update()
@@ -95,6 +107,7 @@ public class Enemy : MonoBehaviour {
             {   // 2. if have target - move to attack range
                 navMeshAgent.stoppingDistance = attackRange;
                 aICharacterControl.SetTarget(target);
+                AttackIfInRange(target);
             }
             else
             {   // Else back to orig pos - TODO - need an original transform.
@@ -112,7 +125,8 @@ public class Enemy : MonoBehaviour {
             if (distanceFromFormation.magnitude >= formationAggroDistance * 2f)
             {
                 returnToStart = true;
-            } else if (distanceFromFormation.magnitude <= formationAggroDistance)
+            }
+            else if (distanceFromFormation.magnitude <= formationAggroDistance)
             {
                 returnToStart = false;
             }
@@ -127,6 +141,7 @@ public class Enemy : MonoBehaviour {
             {   // Have target - move to attack range
                 navMeshAgent.stoppingDistance = attackRange;
                 aICharacterControl.SetTarget(target);
+                AttackIfInRange(target);
             }
         }
 
@@ -137,6 +152,7 @@ public class Enemy : MonoBehaviour {
             {   // Have target - move to attack range
                 navMeshAgent.stoppingDistance = attackRange;
                 aICharacterControl.SetTarget(target);
+                AttackIfInRange(target);
             }
             else
             {   // Else back to formation pos 
@@ -161,16 +177,8 @@ public class Enemy : MonoBehaviour {
 
     }
 
-    Transform FindTargetInRange(float aggroRange)
-    {
-        // Set up the layermask to check - ie. look for player or his allies.
-        int opponentLayerMask = 0;
-        foreach (var layer in layersToTarget)
-        {
-            opponentLayerMask = opponentLayerMask | (1 << layer);
-        }
-                
-
+    private Transform FindTargetInRange(float aggroRange)
+    {  
         // See what are in range
         Collider[] opponentsInRange = Physics.OverlapSphere(this.transform.position, aggroRange, opponentLayerMask);
 
@@ -193,5 +201,47 @@ public class Enemy : MonoBehaviour {
             }
         }
         return closestTarget.transform;
-    } 
- }
+    }
+
+    private void AttackIfInRange(Transform target)
+    {
+        if (projectileToUse == null || projectileSocket == null) { return; }
+
+        float distanceToTarget = Vector3.Distance(target.position, this.transform.position);
+        if (distanceToTarget <= attackRange)
+        {
+            // Spawn projectile
+            GameObject newProjectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
+
+            // Apply damage to it from the attacker
+            Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
+            projectileComponent.damage = damagePerShot;
+            
+            // Determine and apply its direction and velocity
+            Vector3 unitVectorToTarget = Vector3.Normalize(target.position - projectileSocket.transform.position);
+            float projectileSpeed = projectileComponent.projectileSpeed;
+            newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToTarget * projectileSpeed;
+
+            Debug.Log("unitV " + unitVectorToTarget.ToString());
+            Debug.Log("Speed " + projectileSpeed);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw Attack Sphere
+        Gizmos.color = new Color(255f, 0f, 0f);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        // Draw Move Sphere
+        Gizmos.color = new Color(0f, 255f, 0f);
+        if (currentOrder == UnitOrder.Reform || currentOrder == UnitOrder.ShieldWall)
+        {
+            Gizmos.DrawWireSphere(transform.position, formationAggroDistance);
+        } else
+        {
+            Gizmos.DrawWireSphere(transform.position, aggroDistance);
+        }
+
+    }
+}
