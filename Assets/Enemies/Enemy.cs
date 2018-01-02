@@ -32,8 +32,6 @@ public class Enemy : MonoBehaviour {
     private Transform formationPosition = null;
     private AICharacterControl aICharacterControl = null;
     private NavMeshAgent navMeshAgent;
-    private Player player = null;
-    private bool inFormation = false;
     private UnitOrder currentOrder = UnitOrder.Solo;
     private Transform target = null;
     private bool returnToStart = false;
@@ -80,7 +78,6 @@ public class Enemy : MonoBehaviour {
     {
         currentHealthPoints = maxHealthPoints;
         startPosition = this.transform;
-        player = FindObjectOfType<Player>();
         aICharacterControl = GetComponent<AICharacterControl>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         originalStopDistance = navMeshAgent.stoppingDistance;
@@ -196,29 +193,5 @@ public class Enemy : MonoBehaviour {
             }
         }
         return closestTarget.transform;
-    }
-
-
-
-    private void MoveToTarget(Transform target, float maxDistance)
-    {
-        var distanceToTarget = this.transform.position - target.position;
-        if (distanceToTarget.magnitude <= maxDistance)
-        {
-            navMeshAgent.stoppingDistance = originalStopDistance;     // stopping distance for attacking
-            aICharacterControl.SetTarget(target);
-        }
-        else   // Not in range of target
-        {
-            if (formationPosition != null)
-            {
-                navMeshAgent.stoppingDistance = formationStopDistance;   // small stopping distance to keep formation
-                aICharacterControl.SetTarget(formationPosition);
-            }
-            else
-            {
-                aICharacterControl.SetTarget(startPosition);
-            }
-        }
-    }
-}
+    } 
+ }

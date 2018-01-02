@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     ThirdPersonCharacter thirdPersonCharacter = null;   // A reference to the ThirdPersonCharacter on the object
     CameraRaycaster cameraRaycaster = null;
     AICharacterControl aICharacterControl = null;
-    bool isInDirectMode = false;
     Vector3 movement = Vector3.zero;
     GameObject walkTarget = null;
 
@@ -33,8 +32,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ProcessMouseClick (RaycastHit raycastHit, int layerHit)
     {
-        print("click " + raycastHit.ToString() + " " + layerHit);
-
         switch (layerHit)   
         {
             case walkableLayerNumber:
@@ -48,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
                 Debug.LogWarning("Don't know how to handle mouseclick for player movement");
                 break;
         }
-
     }
 
 

@@ -22,8 +22,7 @@ public class Formation : MonoBehaviour {
 	void Start () {
 
         troopPositions = GetComponentsInChildren<Transform>();
-        Debug.Log("TroopPositionsLength" + troopPositions.Length);
-        troopers = new GameObject[troopPositions.Length];
+        troopers = new GameObject[troopPositions.Length]; 
 
         int trooperIndex = 0;
         foreach (Transform troopPosition in troopPositions)

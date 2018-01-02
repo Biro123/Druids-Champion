@@ -16,7 +16,6 @@ public class CameraRaycaster : MonoBehaviour
 
     int topPriorityLayerLastFrame = -1; // So get ? from start with Default layer terrain
        
-    private Camera viewCamera;
     private RaycastHit raycastHit;
     private Player player;
     private int notFadeLayerMask = 0;
@@ -31,7 +30,6 @@ public class CameraRaycaster : MonoBehaviour
 
     void Start() 
     {
-        viewCamera = Camera.main;
         player = FindObjectOfType<Player>();
 
         // Set up the layermask to ignore
