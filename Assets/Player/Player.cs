@@ -20,7 +20,7 @@ public class Player : MonoBehaviour, IDamageable {
     {
         currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
 
-        if (currentHealthPoints <= 0f) { Destroy(gameObject); }
+        if (currentHealthPoints <= 0f) { }//TODO Player is dead 
 
     } 
 

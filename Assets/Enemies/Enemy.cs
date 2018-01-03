@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour, IDamageable {
     [SerializeField] GameObject projectileSocket;
     [SerializeField] float damagePerShot = 9f;
     [SerializeField] float secondsBetweenShots = 1.0f;
+    [SerializeField] Vector3 aimOffset = new Vector3(0f, 1f, 0f);
 
     [SerializeField] int[] layersToTarget = { 10, 11 };
     
@@ -234,7 +235,7 @@ public class Enemy : MonoBehaviour, IDamageable {
         projectileComponent.SetDamage(damagePerShot);
 
         // Determine and apply its direction and velocity
-        Vector3 unitVectorToTarget = Vector3.Normalize(target.position - projectileSocket.transform.position);
+        Vector3 unitVectorToTarget = Vector3.Normalize(target.position + aimOffset - projectileSocket.transform.position);
         float projectileSpeed = projectileComponent.projectileSpeed;
         newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToTarget * projectileSpeed;
     }
