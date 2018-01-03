@@ -20,11 +20,10 @@ public class Projectile : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         // Find component and see if damageable (Components may be null)
-        Component damageableComponent = other.GetComponent(typeof(IDamageable));
+        IDamageable damageableComponent = other.GetComponent<IDamageable>();
 
-        if (damageableComponent)
-        {   // Cast as IDamageble because Player.TakeDamage inherits from both mono and IDamageable
-            // So we need to tell it which to behave as.
+        if (damageableComponent != null)
+        {   
             (damageableComponent as IDamageable).TakeDamage(damage);
         }
     }
