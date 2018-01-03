@@ -597,6 +597,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1549522186132260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4892884681381820}
+  m_Layer: 9
+  m_Name: ProjectileSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1551322608323964
 GameObject:
   m_ObjectHideFlags: 1
@@ -2337,6 +2352,19 @@ Transform:
   m_Father: {fileID: 4897808303757628}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4892884681381820
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1549522186132260}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4980876424710412}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4897808303757628
 Transform:
   m_ObjectHideFlags: 1
@@ -2446,13 +2474,14 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1560762577121964}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -26.320862, y: 0, z: -12.351959}
+  m_LocalPosition: {x: 57.28482, y: 8.002197, z: -224.22394}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4405046866616268}
   - {fileID: 4264593956255862}
   - {fileID: 4712383827382480}
   - {fileID: 4141136075750230}
+  - {fileID: 4892884681381820}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -2530,9 +2559,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 100
   aggroDistance: 10
-  formationAggroDistance: 6
   attackRange: 2
+  formationAggroDistance: 6
   formationStopDistance: 0.5
+  projectileToUse: {fileID: 0}
+  projectileSocket: {fileID: 0}
+  damagePerShot: 9
+  secondsBetweenShots: 0.5
   layersToTarget: 0a0000000b000000
 --- !u!114 &114673464821793468
 MonoBehaviour:

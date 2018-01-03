@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour, IDamageable {
     [SerializeField] GameObject projectileToUse;
     [SerializeField] GameObject projectileSocket;
     [SerializeField] float damagePerShot = 9f;
+    [SerializeField] float secondsBetweenShots = 1.0f;
 
     [SerializeField] int[] layersToTarget = { 10, 11 };
     
@@ -35,6 +36,7 @@ public class Enemy : MonoBehaviour, IDamageable {
     private UnitOrder currentOrder = UnitOrder.Solo;
     private Transform target = null;
     private bool returnToStart = false;
+    private bool isAttacking = false;
     private int opponentLayerMask = 0;
 
 
@@ -205,26 +207,36 @@ public class Enemy : MonoBehaviour, IDamageable {
 
     private void AttackIfInRange(Transform target)
     {
+        
+
         if (projectileToUse == null || projectileSocket == null) { return; }
 
         float distanceToTarget = Vector3.Distance(target.position, this.transform.position);
-        if (distanceToTarget <= attackRange)
+        if (distanceToTarget <= attackRange && !isAttacking)
         {
-            // Spawn projectile
-            GameObject newProjectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
-
-            // Apply damage to it from the attacker
-            Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
-            projectileComponent.damage = damagePerShot;
-            
-            // Determine and apply its direction and velocity
-            Vector3 unitVectorToTarget = Vector3.Normalize(target.position - projectileSocket.transform.position);
-            float projectileSpeed = projectileComponent.projectileSpeed;
-            newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToTarget * projectileSpeed;
-
-            Debug.Log("unitV " + unitVectorToTarget.ToString());
-            Debug.Log("Speed " + projectileSpeed);
+            isAttacking = true;
+            InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots);  //TODO switch to coroutines
         }
+        if (distanceToTarget > attackRange)
+        {
+            isAttacking = false;
+            CancelInvoke();
+        }
+    }
+
+    private void SpawnProjectile() // Change to supply target?
+    {
+        // Spawn projectile
+        GameObject newProjectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
+
+        // Apply damage to it from the attacker
+        Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
+        projectileComponent.SetDamage(damagePerShot);
+
+        // Determine and apply its direction and velocity
+        Vector3 unitVectorToTarget = Vector3.Normalize(target.position - projectileSocket.transform.position);
+        float projectileSpeed = projectileComponent.projectileSpeed;
+        newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToTarget * projectileSpeed;
     }
 
     private void OnDrawGizmos()
