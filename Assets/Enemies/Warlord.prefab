@@ -2474,7 +2474,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1560762577121964}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 57.28482, y: 8.002197, z: -224.22394}
+  m_LocalPosition: {x: 58.69989, y: 8.002197, z: -230.265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4405046866616268}
@@ -2557,15 +2557,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 100
+  maxHealthPoints: 2500
   aggroDistance: 10
   attackRange: 2
   formationAggroDistance: 6
   formationStopDistance: 0.5
-  projectileToUse: {fileID: 0}
-  projectileSocket: {fileID: 0}
-  damagePerShot: 9
-  secondsBetweenShots: 0.5
+  projectileToUse: {fileID: 1155112663865220, guid: b9ef0db8aa91a8b47aff7aa131ee737f,
+    type: 2}
+  projectileSocket: {fileID: 1549522186132260}
+  damagePerShot: 60
+  secondsBetweenShots: 1
+  aimOffset: {x: 0, y: 1, z: 0}
   layersToTarget: 0a0000000b000000
 --- !u!114 &114673464821793468
 MonoBehaviour:
