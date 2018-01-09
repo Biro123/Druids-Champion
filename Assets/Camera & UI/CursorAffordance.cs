@@ -20,7 +20,6 @@ public class CursorAffordance : MonoBehaviour {
 	void Start () {
         cameraRaycaster = GetComponent<CameraRaycaster>();
         cameraRaycaster.notifyLayerChangeObservers += OnLayerChange; // Registering as Subscriber
-        // TODO - ALso consider De-Registering when leaving all game scenes
     }
 	
 	// Only called on a LayerChange by CameraRaycaster

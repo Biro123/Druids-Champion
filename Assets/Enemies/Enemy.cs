@@ -118,6 +118,8 @@ public class Enemy : MonoBehaviour, IDamageable {
             }
             else
             {   // Else back to orig pos - TODO - need an original transform.
+                // TODO - need to cancel Invoke from AttackIfInReange when target becomes null
+                // Also refactor
                 navMeshAgent.stoppingDistance = originalStopDistance;
                 aICharacterControl.SetTarget(startPosition);
             }
@@ -188,7 +190,6 @@ public class Enemy : MonoBehaviour, IDamageable {
     {  
         // See what are in range
         Collider[] opponentsInRange = Physics.OverlapSphere(this.transform.position, aggroRange, opponentLayerMask);
-
         if (opponentsInRange.Length == 0) { return null; }
 
         // Find closest in range
@@ -211,18 +212,20 @@ public class Enemy : MonoBehaviour, IDamageable {
     }
 
     private void AttackIfInRange(Transform target)
-    {
-        
+    {       
 
         if (projectileToUse == null || projectileSocket == null) { return; }
 
         float distanceToTarget = Vector3.Distance(target.position, this.transform.position);
-        if (distanceToTarget <= attackRange && !isAttacking)
+        if (target != null && distanceToTarget <= attackRange)
         {
-            isAttacking = true;
-            InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots);  //TODO switch to coroutines
+            if (!isAttacking)
+            {
+                isAttacking = true;
+                InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots);  //TODO switch to coroutines
+            }
         }
-        if (distanceToTarget > attackRange)
+        else
         {
             isAttacking = false;
             CancelInvoke();

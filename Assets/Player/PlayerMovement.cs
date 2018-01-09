@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    //TODO - make this get called again
+    //TODO - Direct Movement - make this get called again
     private void ProcessDirectMovement()
     {
         // read inputs

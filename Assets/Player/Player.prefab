@@ -3355,7 +3355,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.24, y: 8.18, z: -237.23}
+  m_LocalPosition: {x: 48.02, y: 8.01, z: -237.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827194604900974}
@@ -5247,8 +5247,8 @@ MonoBehaviour:
   m_JumpPower: 6
   m_GravityMultiplier: 2
   m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1.2
-  m_AnimSpeedMultiplier: 1.2
+  m_MoveSpeedMultiplier: 1
+  m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.5
 --- !u!114 &114456614963830870
 MonoBehaviour:
@@ -6397,13 +6397,13 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 1
+  m_Speed: 1.2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1.5
+  m_StoppingDistance: 1.2
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
