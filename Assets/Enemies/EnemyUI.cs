@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // Add a UI Socket transform to your enemy
-// Attack this script to the socket
+// Attach this script to the socket
 // Link to a canvas prefab that contains NPC UI
 public class EnemyUI : MonoBehaviour {
 
@@ -16,14 +16,12 @@ public class EnemyUI : MonoBehaviour {
     void Start()
     {
         cameraToLookAt = Camera.main;
-        //Instantiate(enemyCanvasPrefab, transform.position, Quaternion.identity, transform);
         Instantiate(enemyCanvasPrefab, transform.position, transform.rotation, transform);
     }
 
     // Update is called once per frame 
     void LateUpdate()
     {
-        //transform.LookAt(cameraToLookAt.transform);
         transform.rotation = Quaternion.LookRotation(cameraToLookAt.transform.forward);
     }
 }

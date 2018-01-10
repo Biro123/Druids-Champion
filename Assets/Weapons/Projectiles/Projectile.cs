@@ -17,14 +17,15 @@ public class Projectile : MonoBehaviour {
         damage = value;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
         // Find component and see if damageable (Components may be null)
-        IDamageable damageableComponent = other.GetComponent<IDamageable>();
+        IDamageable damageableComponent = collision.collider.GetComponent<IDamageable>();
 
         if (damageableComponent != null)
-        {   
+        {
             (damageableComponent as IDamageable).TakeDamage(damage);
         }
+        Destroy(gameObject);
     }
 }
