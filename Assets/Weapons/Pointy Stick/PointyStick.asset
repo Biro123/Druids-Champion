@@ -11,6 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a24fe6b13d6c584db1aa4fc23349804, type: 3}
   m_Name: PointyStick
   m_EditorClassIdentifier: 
+  gripTransform: {fileID: 4917214913903806, guid: b9b2857e1dd34cf49920ec2120a16298,
+    type: 2}
   weaponPrefab: {fileID: 1274797246840802, guid: 9cee90508e1538a41a9c647abea067d7,
     type: 2}
   attackAnimation: {fileID: 7400006, guid: 0d9d26e2162aa4d11ab075b34c029673, type: 3}

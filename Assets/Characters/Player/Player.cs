@@ -10,6 +10,7 @@ public class Player : MonoBehaviour, IDamageable {
     [SerializeField] float timeBetweenHits = 0.7f;
     [SerializeField] float attackRange = 2f;
     [SerializeField] Weapon weaponInUse;
+    [SerializeField] GameObject weaponSocket;
 
     [SerializeField] int enemyLayer = 9;
 
@@ -44,9 +45,9 @@ public class Player : MonoBehaviour, IDamageable {
 
     private void PutWeaponInHand()
     {
-
-        Instantiate(weaponInUse.GetWeaponPrefab() );
-        // TODO - move to correct place and child to hand
+        var weapon = Instantiate(weaponInUse.GetWeaponPrefab(), weaponSocket.transform );
+        weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
+        weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
     }
 
     void OnMouseClick(RaycastHit raycastHit, int layerHit)
