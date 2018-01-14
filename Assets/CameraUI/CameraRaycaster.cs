@@ -121,7 +121,6 @@ public class CameraRaycaster : MonoBehaviour
         hits = Physics.RaycastAll(ray, maxRaycastDepth, ~notFadeLayerMask);
         foreach(RaycastHit hit in hits)
         {
-            Debug.Log("Hit: " + hit.transform);
             HandleFade(hit);
         }
     }

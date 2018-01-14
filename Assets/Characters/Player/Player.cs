@@ -56,7 +56,7 @@ public class Player : MonoBehaviour, IDamageable {
         var dominantHands = GetComponentsInChildren<DominantHand>();
         int numberOfDominantHands = dominantHands.Length;
 
-        // Ensure either 1 dominant hand - or an error is returned.
+        // Ensure either 1 dominant hand - or an error is returned. 
         Assert.AreNotEqual(numberOfDominantHands, 0, "No Dominant Hand on Player");
         Assert.IsFalse(numberOfDominantHands > 1, "Multiple Dominant Hands on Player");
         return dominantHands[0].gameObject;        
