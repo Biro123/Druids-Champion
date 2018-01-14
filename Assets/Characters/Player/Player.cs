@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Player : MonoBehaviour, IDamageable {
 
@@ -9,8 +10,7 @@ public class Player : MonoBehaviour, IDamageable {
     [SerializeField] float damageCaused = 20f;
     [SerializeField] float timeBetweenHits = 0.7f;
     [SerializeField] float attackRange = 2f;
-    [SerializeField] Weapon weaponInUse;
-    [SerializeField] GameObject weaponSocket;
+    [SerializeField] Weapon weaponInUse;    
 
     [SerializeField] int enemyLayer = 9;
 
@@ -45,9 +45,21 @@ public class Player : MonoBehaviour, IDamageable {
 
     private void PutWeaponInHand()
     {
-        var weapon = Instantiate(weaponInUse.GetWeaponPrefab(), weaponSocket.transform );
+        GameObject dominantHand = RequestDominantHand();
+        var weapon = Instantiate(weaponInUse.GetWeaponPrefab(), dominantHand.transform );
         weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
         weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
+    }
+
+    private GameObject RequestDominantHand()
+    {
+        var dominantHands = GetComponentsInChildren<DominantHand>();
+        int numberOfDominantHands = dominantHands.Length;
+
+        // Ensure either 1 dominant hand - or an error is returned.
+        Assert.AreNotEqual(numberOfDominantHands, 0, "No Dominant Hand on Player");
+        Assert.IsFalse(numberOfDominantHands > 1, "Multiple Dominant Hands on Player");
+        return dominantHands[0].gameObject;        
     }
 
     void OnMouseClick(RaycastHit raycastHit, int layerHit)
