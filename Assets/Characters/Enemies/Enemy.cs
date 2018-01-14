@@ -222,7 +222,7 @@ public class Enemy : MonoBehaviour, IDamageable {
             if (!isAttacking)
             {
                 isAttacking = true;
-                InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots);  //TODO switch to coroutines
+                InvokeRepeating("FireProjectile", 0f, secondsBetweenShots);  //TODO switch to coroutines
             }
         }
         else
@@ -232,7 +232,8 @@ public class Enemy : MonoBehaviour, IDamageable {
         }
     }
 
-    private void SpawnProjectile() // Change to supply target?
+    // seperate out Character Firing Logic
+    private void FireProjectile() // Change to supply target?
     {
         // Spawn projectile
         GameObject newProjectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
@@ -240,10 +241,11 @@ public class Enemy : MonoBehaviour, IDamageable {
         // Apply damage to it from the attacker
         Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
         projectileComponent.SetDamage(damagePerShot);
+        projectileComponent.SetShooter(gameObject);
 
         // Determine and apply its direction and velocity
         Vector3 unitVectorToTarget = Vector3.Normalize(target.position + aimOffset - projectileSocket.transform.position);
-        float projectileSpeed = projectileComponent.projectileSpeed;
+        float projectileSpeed = projectileComponent.GetDefaultLaunchSpeed();
         newProjectile.GetComponent<Rigidbody>().velocity = unitVectorToTarget * projectileSpeed;
     }
 

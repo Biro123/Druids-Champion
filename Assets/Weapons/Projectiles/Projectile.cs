@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-    public float projectileSpeed = 10f;
+    [SerializeField] float projectileSpeed = 10f;
+
+    [SerializeField] GameObject shooter;  // Serialisable to inspect when paused
     private float damage;
+
+    public void SetShooter(GameObject shooter)
+    {
+        this.shooter = shooter;
+    }
 
     public float GetDamage()
     {
@@ -17,11 +24,25 @@ public class Projectile : MonoBehaviour {
         damage = value;
     }
 
+    public float GetDefaultLaunchSpeed()
+    {
+        return projectileSpeed;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         // Find component and see if damageable (Components may be null)
         IDamageable damageableComponent = collision.collider.GetComponent<IDamageable>();
 
+        if (shooter.gameObject.layer != collision.gameObject.layer)  // Do not damage shooter (or its allies)
+        {
+            DamageIfDamageable(damageableComponent);
+        }
+        
+    }
+
+    private void DamageIfDamageable(IDamageable damageableComponent)
+    {
         if (damageableComponent != null)
         {
             (damageableComponent as IDamageable).TakeDamage(damage);
