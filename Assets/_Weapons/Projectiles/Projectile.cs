@@ -38,7 +38,7 @@ namespace RPG.Weapons
             // Find component and see if damageable (Components may be null)
             IDamageable damageableComponent = collision.collider.GetComponent<IDamageable>();
 
-            if (shooter.gameObject.layer != collision.gameObject.layer)  // Do not damage shooter (or its allies)
+            if (shooter && shooter.layer != collision.gameObject.layer)  // Do not damage shooter (or its allies)
             {
                 DamageIfDamageable(damageableComponent);
             }
