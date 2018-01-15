@@ -14,8 +14,7 @@ namespace RPG.Characters
         [SerializeField] GameObject leaderPrefab;
 
         [Tooltip("Distance from enemy to reform")]
-        [SerializeField]
-        float reformDistance = 15f;
+        [SerializeField] float reformDistance = 15f;
         [SerializeField] int[] layersToTarget = { 10, 11 };
 
         private Transform[] troopPositions;

@@ -107,8 +107,6 @@ namespace RPG.Characters
                         lastHitTime = Time.time;
                     }
                 }
-
-
             }
         }
 
