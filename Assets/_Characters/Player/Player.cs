@@ -14,8 +14,6 @@ namespace RPG.Characters
 
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] float damageCaused = 20f;
-        [SerializeField] float timeBetweenHits = 0.7f;
-        [SerializeField] float attackRange = 2f;
         [SerializeField] Weapon weaponInUse;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
 
@@ -24,8 +22,8 @@ namespace RPG.Characters
         float currentHealthPoints;
         float lastHitTime = 0f;
 
-        GameObject currentTarget;
         CameraRaycaster cameraRaycaster;
+        Animator animator;
 
         public float healthAsPercentage
         {
@@ -35,12 +33,19 @@ namespace RPG.Characters
             }
         }
 
+        void IDamageable.TakeDamage(float damage)
+        {   // TakeDamage is called by other objects via an interface
+            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
+
+            if (currentHealthPoints <= 0f) { }//TODO Player is dead 
+        }
+
         private void Start()
         {
             SetHealthToMax();
             RegisterForMouseClick();
             PutWeaponInHand();
-            OverrideAnimatorController();
+            SetupRuntimeAnimator();
         }
 
         private void SetHealthToMax()
@@ -48,9 +53,9 @@ namespace RPG.Characters
             currentHealthPoints = maxHealthPoints;
         }
 
-        private void OverrideAnimatorController()
+        private void SetupRuntimeAnimator()
         {
-            Animator animator = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = animatorOverrideController;
             animatorOverrideController["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip();
         }
@@ -85,38 +90,35 @@ namespace RPG.Characters
         {
             if (layerHit == enemyLayer)
             {
-                var enemy = raycastHit.collider.gameObject;
-                currentTarget = enemy;
+                var target = raycastHit.collider.gameObject;
 
-                // Check Enemy in Range
-                if ((enemy.transform.position - transform.position).magnitude > attackRange)
+                if (IsInRange(target))
                 {
-                    return;
-                }
-
-                currentTarget = enemy;
-
-                // Find component and see if damageable (Components may be null)
-                IDamageable damageableComponent = currentTarget.GetComponent<IDamageable>();
-
-                if (damageableComponent != null)
-                {
-                    if (Time.time - lastHitTime >= timeBetweenHits)
-                    {
-                        damageableComponent.TakeDamage(damageCaused);
-                        lastHitTime = Time.time;
-                    }
+                    Attack(target);
                 }
             }
         }
 
-        void IDamageable.TakeDamage(float damage)
-        {   // TakeDamage is called by other objects via an interface
-            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-
-            if (currentHealthPoints <= 0f) { }//TODO Player is dead 
-
+        private bool IsInRange(GameObject target)
+        {
+            float distanceToTarget = (target.transform.position - this.transform.position).magnitude;
+            return distanceToTarget <= weaponInUse.GetAttackRange();
         }
 
+        private void Attack(GameObject enemy)
+        {
+            // Find component and see if damageable (Components may be null)
+            IDamageable damageableComponent = enemy.GetComponent<IDamageable>();
+
+            if (damageableComponent != null)
+            {
+                if (Time.time - lastHitTime >= weaponInUse.GetTimeBetweenHits())
+                {
+                    animator.SetTrigger("Attack");  // TODO make const
+                    damageableComponent.TakeDamage(damageCaused);
+                    lastHitTime = Time.time;
+                }
+            }
+        }
     }
 }

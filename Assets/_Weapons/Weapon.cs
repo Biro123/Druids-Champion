@@ -11,6 +11,8 @@ namespace RPG.Weapons
 
         [SerializeField] GameObject weaponPrefab;
         [SerializeField] AnimationClip attackAnimation;
+        [SerializeField] float timeBetweenHits = 0.7f;
+        [SerializeField] float attackRange = 2f;
 
         public GameObject GetWeaponPrefab()
         {
@@ -21,6 +23,17 @@ namespace RPG.Weapons
         {
             RemoveAnimationEvents();
             return attackAnimation;
+        }
+
+        public float GetTimeBetweenHits()
+        {
+            // TODO consider whether to take animation time into account
+            return timeBetweenHits;
+        }
+
+        public float GetAttackRange()
+        {
+            return attackRange;
         }
 
         // So that asset packs cannot cause bugs by expecting 'hit event' methods.
