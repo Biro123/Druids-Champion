@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33683811856995988}
   - component: {fileID: 23562980556957022}
   - component: {fileID: 65314925882301492}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Pallisade01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

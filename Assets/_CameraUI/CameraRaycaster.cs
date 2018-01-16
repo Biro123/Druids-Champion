@@ -10,12 +10,10 @@ namespace RPG.CameraUI
     {
         // INSPECTOR PROPERTIES RENDERED BY CUSTOM EDITOR SCRIPT
         [Tooltip("Layer mouse points to IN ORDER from top of list")]
-        [SerializeField]
-        int[] layerPriorities;
+        [SerializeField] int[] layerPriorities;
 
         [Tooltip("Determines which layers will NOT fade if blocking the player's view")]
-        [SerializeField]
-        int[] unFadableLayers;
+        [SerializeField] int[] FadableLayers;
 
         float maxRaycastDepth = 100f;  // Hard coded value
 
@@ -23,7 +21,7 @@ namespace RPG.CameraUI
 
         private RaycastHit raycastHit;
         private Player player;
-        private int notFadeLayerMask = 0;
+        private int FadeLayerMask = 0;
 
         // Set up the ability for another class to 'Subscribe' to layer-change events
         public delegate void OnCursorLayerChange(int newLayer);      // Declare new delegate type
@@ -38,12 +36,12 @@ namespace RPG.CameraUI
             player = FindObjectOfType<Player>();
 
             // Set up the layermask to ignore
-            foreach (int layer in unFadableLayers)
+            foreach (int layer in FadableLayers)
             {
                 // This line shifts a binary bit of 1 left (int)layer times and
                 // does a '|' (binary OR) to merge the bits with the previous - so for each bit,
                 // if either or both a '1', the result is a '1'
-                notFadeLayerMask = notFadeLayerMask | (1 << layer);
+                FadeLayerMask = FadeLayerMask | (1 << layer);
             }
         }
 
@@ -123,7 +121,7 @@ namespace RPG.CameraUI
 
             RaycastHit[] hits;
             // the ~ in front of notFadePlayerMask is a binary NOT
-            hits = Physics.RaycastAll(ray, maxRaycastDepth, ~notFadeLayerMask);
+            hits = Physics.RaycastAll(ray, maxRaycastDepth, FadeLayerMask);
             foreach (RaycastHit hit in hits)
             {
                 HandleFade(hit);

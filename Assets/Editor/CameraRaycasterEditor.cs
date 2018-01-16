@@ -7,7 +7,7 @@ namespace RPG.CameraUI
     public class CameraRaycasterEditor : Editor
     {
         bool isLayerPrioritiesUnfolded = true; // store the UI state
-        bool isUnFadableLayersUnfolded = true; // store the UI state
+        bool isFadableLayersUnfolded = true; // store the UI state
 
         public override void OnInspectorGUI()
         {
@@ -24,13 +24,13 @@ namespace RPG.CameraUI
                 EditorGUI.indentLevel--;
             }
 
-            isUnFadableLayersUnfolded = EditorGUILayout.Foldout(isUnFadableLayersUnfolded, "Unfadable Layers");
-            if (isUnFadableLayersUnfolded)
+            isFadableLayersUnfolded = EditorGUILayout.Foldout(isFadableLayersUnfolded, "Fadable Layers");
+            if (isFadableLayersUnfolded)
             {
                 EditorGUI.indentLevel++;
                 {
-                    BindArraySize("unFadableLayers");
-                    BindArrayElements("unFadableLayers", "Layer");
+                    BindArraySize("FadableLayers");
+                    BindArrayElements("FadableLayers", "Layer"); 
                 }
                 EditorGUI.indentLevel--;
             }
