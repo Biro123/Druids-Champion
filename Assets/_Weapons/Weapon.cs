@@ -13,6 +13,9 @@ namespace RPG.Weapons
         [SerializeField] AnimationClip attackAnimation;
         [SerializeField] float timeBetweenHits = 0.7f;
         [SerializeField] float attackRange = 2f;
+        [SerializeField] float bladeDamageModifier  = 0.5f;
+        [SerializeField] float bluntDamageModifier = 0.5f;
+        [SerializeField] float pierceDamageModifier = 0.5f;
 
         public GameObject GetWeaponPrefab()
         {

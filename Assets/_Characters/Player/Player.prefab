@@ -5129,8 +5129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoints: 1000
-  damageCaused: 150
-  weaponInUse: {fileID: 11400000, guid: 417338d85fde6d24c8a1a8d44866a425, type: 2}
+  damageCaused: 250
+  weaponInUse: {fileID: 11400000, guid: 5af973acbd85b7c44b26ebcdf599cbd5, type: 2}
   animatorOverrideController: {fileID: 22100000, guid: 7fc2e569acb3aa046895bfd768cedf2a,
     type: 2}
   enemyLayer: 9
