@@ -1119,7 +1119,7 @@ GameObject:
   - component: {fileID: 4000012322933416}
   - component: {fileID: 95000011610634314}
   m_Layer: 0
-  m_Name: Light Spearman1
+  m_Name: Light Spearman_Mesh1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
