@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEngine.AI;
-using RPG.CameraUI;  // TODO Consider re-wiring
+using RPG.CameraUI;  
 
 namespace RPG.Characters
 {
@@ -11,16 +11,11 @@ namespace RPG.Characters
     [RequireComponent(typeof(AICharacterControl))]
     public class PlayerMovement : MonoBehaviour
     {
-        ThirdPersonCharacter thirdPersonCharacter = null;   // A reference to the ThirdPersonCharacter on the object
+        ThirdPersonCharacter thirdPersonCharacter = null;   
         CameraRaycaster cameraRaycaster = null;
         AICharacterControl aICharacterControl = null;
         Vector3 movement = Vector3.zero;
         GameObject walkTarget = null;
-
-        // TODO - resolve conflict with const and SerialiseField
-        [SerializeField] const int walkableLayerNumber = 8;
-        [SerializeField] const int enemyLayerNumber = 9;
-
 
         private void Start()
         {
@@ -28,29 +23,29 @@ namespace RPG.Characters
             thirdPersonCharacter = GetComponent<ThirdPersonCharacter>();
             aICharacterControl = GetComponent<AICharacterControl>();
 
-            cameraRaycaster.notifyMouseClickObservers += ProcessMouseClick; // Registering as Subscriber
+            cameraRaycaster.onMouseOverWalkable += OnMouseOverWalkable;
+            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
 
             walkTarget = new GameObject("walkTarget");
         }
 
-        private void ProcessMouseClick(RaycastHit raycastHit, int layerHit)
+        private void OnMouseOverWalkable(Vector3 targetLocation)
         {
-            switch (layerHit)
+            if (Input.GetMouseButton(0))
             {
-                case walkableLayerNumber:
-                    walkTarget.transform.position = raycastHit.point;
-                    aICharacterControl.SetTarget(walkTarget.transform);
-                    break;
-                case enemyLayerNumber:
-                    aICharacterControl.SetTarget(raycastHit.transform);
-                    break;
-                default:
-                    Debug.LogWarning("Don't know how to handle mouseclick for player movement");
-                    break;
+                walkTarget.transform.position = targetLocation;
+                aICharacterControl.SetTarget(walkTarget.transform);
             }
         }
 
-
+        private void OnMouseOverEnemy(Enemy enemy )
+        {
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1) )
+            {
+                aICharacterControl.SetTarget(enemy.transform);
+            }
+        }
+                
         //TODO - Direct Movement - make this get called again
         private void ProcessDirectMovement()
         {

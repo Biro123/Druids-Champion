@@ -3325,7 +3325,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53.29, y: 8.01, z: -232.31}
+  m_LocalPosition: {x: 51.609, y: 8.01, z: -237.685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827194604900974}
@@ -5134,7 +5134,6 @@ MonoBehaviour:
   weaponInUse: {fileID: 11400000, guid: 5af973acbd85b7c44b26ebcdf599cbd5, type: 2}
   animatorOverrideController: {fileID: 22100000, guid: 7fc2e569acb3aa046895bfd768cedf2a,
     type: 2}
-  enemyLayer: 9
 --- !u!114 &114297894662104442
 MonoBehaviour:
   m_ObjectHideFlags: 1

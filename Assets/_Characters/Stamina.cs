@@ -28,16 +28,17 @@ namespace RPG.Characters
         {
             // Subscribe to Raycaster's on click event.
             cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.notifyRightClickObservers += OnRightClick;
+            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
         }
 
-        void OnRightClick(RaycastHit raycastHit, int layerHit)
+        void OnMouseOverEnemy (Enemy enemy)
         {
-            Debug.Log("Right Clicked");
-            float newStamina = currentStamina - costPerHit;
-            currentStamina = Mathf.Clamp(newStamina, 0, maxStamina);
-            
-            SetStaminaBar();
+            if (Input.GetMouseButtonDown(1))
+            {
+                float newStamina = currentStamina - costPerHit;
+                currentStamina = Mathf.Clamp(newStamina, 0, maxStamina);
+                SetStaminaBar();
+            }
         }
 
         private void SetStaminaBar()

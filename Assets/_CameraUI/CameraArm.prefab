@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 124942953257121608}
   - component: {fileID: 81105339412681510}
   - component: {fileID: 114774955215782882}
-  - component: {fileID: 114617602069158462}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -125,21 +124,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1305354508207232}
   m_Enabled: 1
---- !u!114 &114617602069158462
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1305354508207232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4fef35ca113f234bb977029d2d7e863, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkCursor: {fileID: 2800000, guid: ae4204b8a5c5395418182abade90dd4a, type: 3}
-  targetCursor: {fileID: 2800000, guid: 248bb72481e28b24da79b9fff8322b9f, type: 3}
-  unknownCursor: {fileID: 2800000, guid: 26fa731a188893f4bbad50ba0daf17cc, type: 3}
-  cursorHotspot: {x: 4, y: 4}
 --- !u!114 &114680194877371746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -162,8 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6ed6fdaa8f4eb147add751c13560388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerPriorities: 090000000800000014000000
   FadableLayers: 14000000
+  walkCursor: {fileID: 2800000, guid: ae4204b8a5c5395418182abade90dd4a, type: 3}
+  targetCursor: {fileID: 2800000, guid: 248bb72481e28b24da79b9fff8322b9f, type: 3}
+  cursorHotspot: {x: 4, y: 4}
 --- !u!124 &124942953257121608
 Behaviour:
   m_ObjectHideFlags: 1

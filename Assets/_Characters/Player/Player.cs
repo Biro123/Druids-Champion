@@ -11,14 +11,11 @@ namespace RPG.Characters
 {
     public class Player : MonoBehaviour, IDamageable
     {
-
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] float damageCaused = 20f;
         [SerializeField] Weapon weaponInUse;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
-
-        [SerializeField] int enemyLayer = 9;
-
+        
         float currentHealthPoints;
         float lastHitTime = 0f;
 
@@ -64,7 +61,15 @@ namespace RPG.Characters
         {
             // Subscribe to Raycaster's on click event.
             cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.notifyMouseClickObservers += OnMouseClick;
+            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
+        }
+
+        private void OnMouseOverEnemy(Enemy enemy)
+        {
+            if(Input.GetMouseButtonDown(0) && IsInRange(enemy.gameObject) )
+            {
+                Attack(enemy.gameObject);
+            }
         }
 
         private void PutWeaponInHand()
@@ -84,19 +89,6 @@ namespace RPG.Characters
             Assert.AreNotEqual(numberOfDominantHands, 0, "No Dominant Hand on Player");
             Assert.IsFalse(numberOfDominantHands > 1, "Multiple Dominant Hands on Player");
             return dominantHands[0].gameObject;
-        }
-
-        void OnMouseClick(RaycastHit raycastHit, int layerHit)
-        {
-            if (layerHit == enemyLayer)
-            {
-                var target = raycastHit.collider.gameObject;
-
-                if (IsInRange(target))
-                {
-                    Attack(target);
-                }
-            }
         }
 
         private bool IsInRange(GameObject target)
