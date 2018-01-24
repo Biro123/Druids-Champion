@@ -47,7 +47,6 @@ namespace RPG.CameraUI
         
         private bool RaycastForEnemy(Ray ray)
         {
-            // TODO - inadvertantly hits audio, stopping enemy from being targettable
             RaycastHit hitInfo;
             Physics.Raycast(ray, out hitInfo, maxRaycastDepth);
 

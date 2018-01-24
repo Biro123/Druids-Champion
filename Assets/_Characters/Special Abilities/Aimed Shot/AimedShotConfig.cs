@@ -10,12 +10,12 @@ namespace RPG.Characters
         [Header("Aimed Shot Specific")]
         [SerializeField] float extraDamage = 10f;
 
-        public override ISpecialAbility AddComponent(GameObject gameObjectToAttachTo)
+        public override void AttachComponentTo(GameObject gameObjectToAttachTo)
         {
             // Adds the ability Behaviour script to the player gameobject
             var behaviourComponent = gameObjectToAttachTo.AddComponent<AimedShotBehaviour>();
             behaviourComponent.SetConfig(this);
-            return behaviourComponent;
+            behaviour = behaviourComponent;
         }
     }
 }

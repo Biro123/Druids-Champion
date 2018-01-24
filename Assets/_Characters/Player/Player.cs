@@ -17,7 +17,7 @@ namespace RPG.Characters
         [SerializeField] AnimatorOverrideController animatorOverrideController;
 
         // Temporarily serializing for build/testing
-        [SerializeField] SpecialAbilityConfig ability1;
+        [SerializeField] SpecialAbilityConfig[] abilities;
         
         float currentHealthPoints;
         float lastHitTime = 0f;
@@ -48,7 +48,7 @@ namespace RPG.Characters
             RegisterForMouseClick();
             PutWeaponInHand();
             SetupRuntimeAnimator();
-            ability1.AddComponent(gameObject);   // Adds the ability behaviour script to the player.
+            abilities[0].AttachComponentTo(this.gameObject);   // Adds the ability behaviour script to the player.
         }
 
         private void SetHealthToMax()
@@ -79,16 +79,16 @@ namespace RPG.Characters
 
             if (Input.GetMouseButtonDown(1) )
             {
-                AttemptSpecialAbility1(enemy);
+                AttemptSpecialAbility(0, enemy);
             }
         }
 
-        private void AttemptSpecialAbility1(Enemy enemy)
+        private void AttemptSpecialAbility(int abilityIndex, Enemy enemy)
         {
             if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(10f))  // TODO - get cost from SO
             {
                 stamina.UseStamina(10f);
-                // TODO Use the ability
+                abilities[abilityIndex].Use();
             }            
         }
 

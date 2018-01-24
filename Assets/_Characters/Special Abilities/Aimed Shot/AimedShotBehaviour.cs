@@ -14,8 +14,7 @@ namespace RPG.Characters
 
         public void Use()
         {
-
+            print("Aimed SHot Used");
         }
-
     }
 }
