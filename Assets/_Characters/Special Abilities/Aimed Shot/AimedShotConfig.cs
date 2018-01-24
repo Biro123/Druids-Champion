@@ -12,6 +12,7 @@ namespace RPG.Characters
 
         public override ISpecialAbility AddComponent(GameObject gameObjectToAttachTo)
         {
+            // Adds the ability Behaviour script to the player gameobject
             var behaviourComponent = gameObjectToAttachTo.AddComponent<AimedShotBehaviour>();
             behaviourComponent.SetConfig(this);
             return behaviourComponent;

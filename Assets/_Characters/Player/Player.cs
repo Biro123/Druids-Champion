@@ -15,12 +15,16 @@ namespace RPG.Characters
         [SerializeField] float damageCaused = 20f;
         [SerializeField] Weapon weaponInUse;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
+
+        // Temporarily serializing for build/testing
+        [SerializeField] SpecialAbilityConfig ability1;
         
         float currentHealthPoints;
         float lastHitTime = 0f;
 
         CameraRaycaster cameraRaycaster;
         Animator animator;
+        Stamina stamina;
 
         public float healthAsPercentage
         {
@@ -36,13 +40,15 @@ namespace RPG.Characters
 
             if (currentHealthPoints <= 0f) { } // Player is dead 
         }
-
+        
         private void Start()
         {
             SetHealthToMax();
+            stamina = GetComponent<Stamina>();
             RegisterForMouseClick();
             PutWeaponInHand();
             SetupRuntimeAnimator();
+            ability1.AddComponent(gameObject);   // Adds the ability behaviour script to the player.
         }
 
         private void SetHealthToMax()
@@ -66,10 +72,24 @@ namespace RPG.Characters
 
         private void OnMouseOverEnemy(Enemy enemy)
         {
-            if(Input.GetMouseButtonDown(0) && IsInRange(enemy.gameObject) )
+            if(Input.GetMouseButton(0) && IsInRange(enemy.gameObject) )
             {
                 Attack(enemy.gameObject);
             }
+
+            if (Input.GetMouseButtonDown(1) )
+            {
+                AttemptSpecialAbility1(enemy);
+            }
+        }
+
+        private void AttemptSpecialAbility1(Enemy enemy)
+        {
+            if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(10f))  // TODO - get cost from SO
+            {
+                stamina.UseStamina(10f);
+                // TODO Use the ability
+            }            
         }
 
         private void PutWeaponInHand()

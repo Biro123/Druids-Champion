@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using RPG.CameraUI;
 
 namespace RPG.Characters
 {
@@ -10,35 +9,26 @@ namespace RPG.Characters
     {
         [SerializeField] RawImage staminaBarImage;
         [SerializeField] float maxStamina = 100f;
-        [SerializeField] float costPerHit = 5f;
 
         float currentStamina = 0f;
 
-        CameraRaycaster cameraRaycaster;
+        public bool IsStaminaAvailable(float amount)
+        {
+            return (amount <= currentStamina);
+        }
+
+        public void UseStamina(float amount)
+        {
+            float newStamina = currentStamina - amount;
+            currentStamina = Mathf.Clamp(newStamina, 0, maxStamina);
+            SetStaminaBar(); 
+        }
 
         // Use this for initialization
         void Start()
         {
             currentStamina = maxStamina;
             SetStaminaBar();
-            RegisterForRightClick();
-        }
-
-        private void RegisterForRightClick()
-        {
-            // Subscribe to Raycaster's on click event.
-            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
-        }
-
-        void OnMouseOverEnemy (Enemy enemy)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                float newStamina = currentStamina - costPerHit;
-                currentStamina = Mathf.Clamp(newStamina, 0, maxStamina);
-                SetStaminaBar();
-            }
         }
 
         private void SetStaminaBar()
