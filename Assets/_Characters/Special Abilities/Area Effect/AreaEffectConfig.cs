@@ -4,16 +4,17 @@ using UnityEngine;
 
 namespace RPG.Characters
 {
-    [CreateAssetMenu(menuName = ("RPG/Special Ability/Aimed Shot"))]
-    public class AimedShotConfig : SpecialAbility
+    [CreateAssetMenu(menuName = ("RPG/Special Ability/Area Effect"))]
+    public class AreaEffectConfig : SpecialAbility
     {
-        [Header("Aimed Shot Specific")]
-        [SerializeField] float extraDamage = 100f;
+        [Header("Area Effect Specific")]
+        [SerializeField] float extraDamage = 10f;
+        [SerializeField] float radius = 15f;
 
         public override void AttachComponentTo(GameObject gameObjectToAttachTo)
         {
             // Adds the ability Behaviour script to the player gameobject
-            var behaviourComponent = gameObjectToAttachTo.AddComponent<AimedShotBehaviour>();
+            var behaviourComponent = gameObjectToAttachTo.AddComponent<AreaEffectBehaviour>();
             behaviourComponent.SetConfig(this);
             behaviour = behaviourComponent;
         }
@@ -21,6 +22,10 @@ namespace RPG.Characters
         public float GetExtraDamage()
         {
             return extraDamage;
+        }
+        public float GetRadius()
+        {
+            return radius;
         }
 
     }
