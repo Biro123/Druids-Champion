@@ -2340,11 +2340,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114196896054198232, guid: c1c6df8ffa3296e4d80a9b247abcda37,
-        type: 2}
-      propertyPath: abilities.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4296236898536152, guid: c1c6df8ffa3296e4d80a9b247abcda37, type: 2}
       propertyPath: m_LocalPosition.x
       value: 51.609
@@ -2377,11 +2372,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 114988453791225846, guid: c1c6df8ffa3296e4d80a9b247abcda37,
-        type: 2}
-      propertyPath: staminaBarImage
-      value: 
-      objectReference: {fileID: 1453180515}
     - target: {fileID: 4377665660358356, guid: c1c6df8ffa3296e4d80a9b247abcda37, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0.29402483
@@ -2398,18 +2388,11 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 0.73622733
       objectReference: {fileID: 0}
-    - target: {fileID: 114196896054198232, guid: c1c6df8ffa3296e4d80a9b247abcda37,
+    - target: {fileID: 114988453791225846, guid: c1c6df8ffa3296e4d80a9b247abcda37,
         type: 2}
-      propertyPath: ability1
+      propertyPath: staminaBarImage
       value: 
-      objectReference: {fileID: 11400000, guid: 10544503d4a61a440b98cb687075d28f,
-        type: 2}
-    - target: {fileID: 114196896054198232, guid: c1c6df8ffa3296e4d80a9b247abcda37,
-        type: 2}
-      propertyPath: abilities.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 10544503d4a61a440b98cb687075d28f,
-        type: 2}
+      objectReference: {fileID: 1453180515}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1c6df8ffa3296e4d80a9b247abcda37, type: 2}
   m_IsPrefabParent: 0

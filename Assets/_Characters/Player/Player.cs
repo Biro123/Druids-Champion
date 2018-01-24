@@ -12,12 +12,12 @@ namespace RPG.Characters
     public class Player : MonoBehaviour, IDamageable
     {
         [SerializeField] float maxHealthPoints = 100f;
-        [SerializeField] float damageCaused = 20f;
+        [SerializeField] float baseDamage = 20f;
         [SerializeField] Weapon weaponInUse;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
 
         // Temporarily serializing for build/testing
-        [SerializeField] SpecialAbilityConfig[] abilities;
+        [SerializeField] SpecialAbility[] abilities;
         
         float currentHealthPoints;
         float lastHitTime = 0f;
@@ -85,10 +85,12 @@ namespace RPG.Characters
 
         private void AttemptSpecialAbility(int abilityIndex, Enemy enemy)
         {
-            if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(10f))  // TODO - get cost from SO
+            float staminaCost = abilities[abilityIndex].GetStaminaCost();
+            if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(staminaCost))  // TODO - get cost from SO
             {
-                stamina.UseStamina(10f);
-                abilities[abilityIndex].Use();
+                stamina.UseStamina(staminaCost);
+                var abilityParams = new AbilityUseParams(enemy, baseDamage);
+                abilities[abilityIndex].Use(abilityParams);
             }            
         }
 
@@ -127,7 +129,7 @@ namespace RPG.Characters
                 if (Time.time - lastHitTime >= weaponInUse.GetTimeBetweenHits())
                 {
                     animator.SetTrigger("Attack");  // TODO make const
-                    damageableComponent.TakeDamage(damageCaused);
+                    damageableComponent.TakeDamage(baseDamage);
                     lastHitTime = Time.time;
                 }
             }

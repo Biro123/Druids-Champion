@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e40f64819554e246abb5b027346358b, type: 3}
   m_Name: L1 Aimed Shot
   m_EditorClassIdentifier: 
-  energyCost: 10
-  extraDamage: 10
+  staminaCost: 20
+  extraDamage: 100

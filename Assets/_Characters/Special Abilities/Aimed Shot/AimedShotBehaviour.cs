@@ -12,9 +12,11 @@ namespace RPG.Characters
             this.config = configToSet;
         }
 
-        public void Use()
+        public void Use(AbilityUseParams useParams)
         {
-            print("Aimed SHot Used");
+            print("Aimed Shot used by " + gameObject.name );
+            float damageToDeal = useParams.baseDamage + config.GetExtraDamage();
+            useParams.target.TakeDamage(damageToDeal);
         }
     }
 }

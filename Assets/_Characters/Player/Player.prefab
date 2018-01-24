@@ -5130,10 +5130,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealthPoints: 1000
-  damageCaused: 250
+  baseDamage: 150
   weaponInUse: {fileID: 11400000, guid: 5af973acbd85b7c44b26ebcdf599cbd5, type: 2}
   animatorOverrideController: {fileID: 22100000, guid: 7fc2e569acb3aa046895bfd768cedf2a,
     type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 10544503d4a61a440b98cb687075d28f, type: 2}
 --- !u!114 &114297894662104442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5200,7 +5202,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staminaBarImage: {fileID: 0}
   maxStamina: 100
-  costPerHit: 5
 --- !u!136 &136727865881290710
 CapsuleCollider:
   m_ObjectHideFlags: 1
