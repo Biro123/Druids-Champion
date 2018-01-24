@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEngine.AI;
-using RPG.Weapons; // TODO - may re-wire
-using RPG.Core;    // TODO - may re-wire
+using RPG.Weapons; 
+using RPG.Core;    
 
 namespace RPG.Characters
 {

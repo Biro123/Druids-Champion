@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using RPG.CameraUI;  // TODO Consider re-wiring
-using RPG.Weapons;   // TODO Consider re-wiring
-using RPG.Core;      // TODO Consider re-wiring
+using RPG.CameraUI;  
+using RPG.Weapons;   
+using RPG.Core;      
 
 namespace RPG.Characters
 {
@@ -34,7 +34,7 @@ namespace RPG.Characters
         {   // TakeDamage is called by other objects via an interface
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
 
-            if (currentHealthPoints <= 0f) { }//TODO Player is dead 
+            if (currentHealthPoints <= 0f) { } // Player is dead 
         }
 
         private void Start()

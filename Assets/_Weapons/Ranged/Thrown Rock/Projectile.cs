@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RPG.Core;      // TODO Consider re-wiring
+using RPG.Core;      
 
 namespace RPG.Weapons
 {
