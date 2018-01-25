@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70cc3275b076a744bb5994bded91570, type: 3}
   m_Name: L1 Area Effect
   m_EditorClassIdentifier: 
-  staminaCost: 10
+  staminaCost: 35
   extraDamage: 50
-  radius: 15
+  radius: 7

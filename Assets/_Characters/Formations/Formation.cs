@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
 using RPG.Core;   // TODO Consider re-wiring
 
 namespace RPG.Characters

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,8 +10,10 @@ namespace RPG.Characters
     {
         [SerializeField] RawImage staminaBarImage;
         [SerializeField] float maxStamina = 100f;
+        [SerializeField] float recovPerSecond = 5f;
 
         float currentStamina = 0f;
+        float timeOfLastRecov = 0f;
 
         public bool IsStaminaAvailable(float amount)
         {
@@ -29,6 +32,21 @@ namespace RPG.Characters
         {
             currentStamina = maxStamina;
             SetStaminaBar();
+        }
+
+        private void Update()
+        {
+            if (currentStamina < maxStamina)
+            {
+                RecoverStamina();
+                SetStaminaBar();
+            }
+        }
+
+        private void RecoverStamina()
+        {
+            float staminaToAdd = recovPerSecond * Time.deltaTime;
+            currentStamina = Mathf.Clamp(currentStamina + staminaToAdd, 0, maxStamina);
         }
 
         private void SetStaminaBar()
