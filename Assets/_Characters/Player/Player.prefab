@@ -5135,7 +5135,7 @@ MonoBehaviour:
   animatorOverrideController: {fileID: 22100000, guid: 7fc2e569acb3aa046895bfd768cedf2a,
     type: 2}
   abilities:
-  - {fileID: 11400000, guid: 10544503d4a61a440b98cb687075d28f, type: 2}
+  - {fileID: 11400000, guid: 7581dccdad17cca4a873932b11548798, type: 2}
 --- !u!114 &114297894662104442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5202,6 +5202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staminaBarImage: {fileID: 0}
   maxStamina: 100
+  recovPerSecond: 5
 --- !u!136 &136727865881290710
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -5212,9 +5213,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
-  m_Height: 1.6
+  m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!137 &137166622535503550
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -6325,7 +6326,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1400500621032120}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 1.2
   m_Acceleration: 8
   avoidancePriority: 50
