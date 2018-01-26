@@ -13,7 +13,6 @@ namespace RPG.Characters
         [SerializeField] float recovPerSecond = 5f;
 
         float currentStamina = 0f;
-        float timeOfLastRecov = 0f;
 
         public bool IsStaminaAvailable(float amount)
         {

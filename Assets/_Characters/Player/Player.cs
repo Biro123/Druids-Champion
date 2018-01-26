@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 using RPG.CameraUI;  
 using RPG.Weapons;   
 using RPG.Core;      
@@ -36,11 +37,31 @@ namespace RPG.Characters
 
         void IDamageable.TakeDamage(float damage)
         {   // TakeDamage is called by other objects via an interface
-            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-
-            if (currentHealthPoints <= 0f) { } // Player is dead 
+            ReduceHealth(damage);
+            if (currentHealthPoints <= 0f)
+            {                
+                StartCoroutine(KillPlayer());
+            }
         }
-        
+
+        IEnumerator KillPlayer()
+        {
+            // Play death sound
+            // trigger death animation
+            // wait a little
+            print("Dying");
+            yield return new WaitForSeconds(3f);
+            print("Dead");
+            // Reload Current Scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        private void ReduceHealth(float damage)
+        {
+            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
+            // TODO Play sound
+        }
+
         private void Start()
         {
             SetHealthToMax();

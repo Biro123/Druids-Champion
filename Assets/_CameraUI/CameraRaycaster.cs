@@ -48,7 +48,8 @@ namespace RPG.CameraUI
         private bool RaycastForEnemy(Ray ray)
         {
             RaycastHit hitInfo;
-            Physics.Raycast(ray, out hitInfo, maxRaycastDepth);
+            bool hitAnything = Physics.Raycast(ray, out hitInfo, maxRaycastDepth);
+            if (!hitAnything) { return false; } 
 
             GameObject gameObjectHit = hitInfo.collider.gameObject;
             Enemy enemyHit = gameObjectHit.GetComponent<Enemy>();
