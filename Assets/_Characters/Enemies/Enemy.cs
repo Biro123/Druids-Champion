@@ -33,6 +33,7 @@ namespace RPG.Characters
         [SerializeField] GameObject projectileSocket;
         [SerializeField] float damagePerShot = 9f;
         [SerializeField] float secondsBetweenShots = 1.0f;
+        [SerializeField] float shotRateVariation = 0.1f;
         [SerializeField] Vector3 aimOffset = new Vector3(0f, 1f, 0f);
 
         [SerializeField] int[] layersToTarget = { 10, 11 };
@@ -120,7 +121,19 @@ namespace RPG.Characters
                 target = FindTargetInRange(aggroDistance);
 
                 if (target != null)
-                {   // 2. if have target - move to attack range
+                {
+                    // TODO Following code needs refactoring and including in other formations
+                    Player player = target.GetComponent<Player>();
+                    if (player)
+                    {
+                        if (player.healthAsPercentage <= Mathf.Epsilon)
+                        {
+                            StopAllCoroutines();
+                            Destroy(this);  // To stop enemy attacking dead player
+                        }
+                    }
+
+                    // 2. if have target - move to attack range
                     navMeshAgent.stoppingDistance = attackRange;
                     aICharacterControl.SetTarget(target);
                     AttackIfInRange(target);
@@ -231,7 +244,10 @@ namespace RPG.Characters
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    InvokeRepeating("FireProjectile", 0f, secondsBetweenShots);  //TODO switch to coroutines
+                    float thisShotDelay = secondsBetweenShots 
+                        + Random.Range(-shotRateVariation, +shotRateVariation);
+                    // add start delay to avoid quick attacks when dipping in and out of range
+                    InvokeRepeating("FireProjectile", thisShotDelay/2, thisShotDelay);  //TODO switch to coroutines
                 }
             }
             else

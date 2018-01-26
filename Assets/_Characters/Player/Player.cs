@@ -16,29 +16,45 @@ namespace RPG.Characters
         [SerializeField] float baseDamage = 20f;
         [SerializeField] Weapon weaponInUse;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
+        [SerializeField] AudioClip[] hitSounds;
+        [SerializeField] AudioClip[] deathSounds;
 
         // Temporarily serializing for build/testing
         [SerializeField] SpecialAbility[] abilities;
-        
+
+        const string DEATH_TRIGGER = "Death";
+        const string ATTACK_TRIGGER = "Attack";
+
         float currentHealthPoints;
         float lastHitTime = 0f;
 
         CameraRaycaster cameraRaycaster;
         Animator animator;
         Stamina stamina;
+        AudioSource audioSource;
 
         public float healthAsPercentage
         {
             get
-            {
-                return currentHealthPoints / maxHealthPoints;
-            }
+            { return currentHealthPoints / maxHealthPoints; }
+        }
+        
+        private void Start()
+        {
+            stamina = GetComponent<Stamina>();
+            audioSource = GetComponent<AudioSource>();
+            SetHealthToMax();
+            RegisterForMouseClick();
+            PutWeaponInHand();
+            SetupRuntimeAnimator();
+            abilities[0].AttachComponentTo(this.gameObject);   // Adds the ability behaviour script to the player.
         }
 
         void IDamageable.TakeDamage(float damage)
-        {   // TakeDamage is called by other objects via an interface
+        {   
+            bool isDieingThisHit = (currentHealthPoints > 0); // must ask before reducing health
             ReduceHealth(damage);
-            if (currentHealthPoints <= 0f)
+            if (currentHealthPoints <= 0f && isDieingThisHit)
             {                
                 StartCoroutine(KillPlayer());
             }
@@ -46,30 +62,38 @@ namespace RPG.Characters
 
         IEnumerator KillPlayer()
         {
-            // Play death sound
-            // trigger death animation
-            // wait a little
-            print("Dying");
+            PlayDeathSound();
+            animator.SetTrigger(DEATH_TRIGGER);
             yield return new WaitForSeconds(3f);
-            print("Dead");
-            // Reload Current Scene
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         private void ReduceHealth(float damage)
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-            // TODO Play sound
+            PlayHitSound();
         }
 
-        private void Start()
+        private void PlayHitSound()
         {
-            SetHealthToMax();
-            stamina = GetComponent<Stamina>();
-            RegisterForMouseClick();
-            PutWeaponInHand();
-            SetupRuntimeAnimator();
-            abilities[0].AttachComponentTo(this.gameObject);   // Adds the ability behaviour script to the player.
+            if (hitSounds.Length == 0) { return; }
+
+            int audioIndex = UnityEngine.Random.Range(0, hitSounds.Length);
+            audioSource.clip = hitSounds[audioIndex];
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+
+        private void PlayDeathSound()
+        {
+            if (deathSounds.Length == 0) { return; }
+
+            int audioIndex = UnityEngine.Random.Range(0, deathSounds.Length);
+            audioSource.clip = deathSounds[audioIndex];
+            audioSource.Stop();
+            audioSource.Play();
         }
 
         private void SetHealthToMax()
@@ -149,7 +173,7 @@ namespace RPG.Characters
             {
                 if (Time.time - lastHitTime >= weaponInUse.GetTimeBetweenHits())
                 {
-                    animator.SetTrigger("Attack");  // TODO make const
+                    animator.SetTrigger(ATTACK_TRIGGER);  
                     damageableComponent.TakeDamage(baseDamage);
                     lastHitTime = Time.time;
                 }
