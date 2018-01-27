@@ -8,7 +8,7 @@ namespace RPG.Characters
 {
     public class Stamina : MonoBehaviour
     {
-        [SerializeField] RawImage staminaBarImage;
+        [SerializeField] Image staminaBarImage;
         [SerializeField] float maxStamina = 100f;
         [SerializeField] float recovPerSecond = 5f;
 
@@ -51,8 +51,7 @@ namespace RPG.Characters
         private void SetStaminaBar()
         {
             var staminaAsPercentage = currentStamina / maxStamina;
-            float xValue = -(staminaAsPercentage / 2f) - 0.5f;
-            staminaBarImage.uvRect = new Rect(xValue, 0f, 0.5f, 1f);
+            staminaBarImage.fillAmount = staminaAsPercentage;
         }
     }
 }
