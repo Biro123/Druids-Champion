@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Name: L1 Area Effect
   m_EditorClassIdentifier: 
   staminaCost: 35
+  particlePrefab: {fileID: 1606462035129914, guid: c74949da1d8d5ad4c8e112bcd0507f92,
+    type: 2}
   extraDamage: 50
-  radius: 7
+  radius: 6

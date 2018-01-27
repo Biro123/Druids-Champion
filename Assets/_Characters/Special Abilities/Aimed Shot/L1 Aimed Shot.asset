@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Name: L1 Aimed Shot
   m_EditorClassIdentifier: 
   staminaCost: 20
+  particlePrefab: {fileID: 1264099519758138, guid: 3d8d28f28a0f4924f8f898903542f192,
+    type: 2}
   extraDamage: 100

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Core;
+using System;
 
 namespace RPG.Characters    
 {
     public class AreaEffectBehaviour : MonoBehaviour, ISpecialAbility
     {
         AreaEffectConfig config;
+        ParticleSystem myParticleSystem;
 
         public void SetConfig(AreaEffectConfig configToSet)
         {
@@ -15,6 +17,20 @@ namespace RPG.Characters
         }
 
         public void Use(AbilityUseParams useParams)
+        {
+            DealRadialDamage(useParams);            
+            PlayParticleEffec();
+        }
+
+        private void PlayParticleEffec()
+        {
+            var particlePrefab = Instantiate(config.GetParticlePrefab(), this.gameObject.transform );
+            myParticleSystem = particlePrefab.GetComponent<ParticleSystem>();
+            myParticleSystem.Play();
+            Destroy(particlePrefab, myParticleSystem.main.duration);
+        }
+
+        private void DealRadialDamage(AbilityUseParams useParams)
         {
             float damageToDeal = useParams.baseDamage + config.GetExtraDamage();
             Collider[] collidersInRange = Physics.OverlapSphere(transform.position, config.GetRadius());
@@ -29,8 +45,7 @@ namespace RPG.Characters
                         damageableEnemy.TakeDamage(damageToDeal);
                     }
                 }
-            }           
-            
+            }
         }
     }
 }

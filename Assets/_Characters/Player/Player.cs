@@ -71,7 +71,12 @@ namespace RPG.Characters
         private void ReduceHealth(float damage)
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-            PlayHitSound();
+            float chanceToPlaySound = (damage*3 / maxHealthPoints);
+            Debug.Log("chance to play " + chanceToPlaySound);
+            if (UnityEngine.Random.Range(0f, 1f) <= chanceToPlaySound)
+            {
+                PlayHitSound();
+            }
         }
 
         private void PlayHitSound()

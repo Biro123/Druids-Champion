@@ -6,6 +6,7 @@ namespace RPG.Characters
     public class AimedShotBehaviour : MonoBehaviour, ISpecialAbility 
     {
         AimedShotConfig config;
+        ParticleSystem myParticleSystem;
 
         public void SetConfig(AimedShotConfig configToSet)
         {
@@ -14,9 +15,23 @@ namespace RPG.Characters
 
         public void Use(AbilityUseParams useParams)
         {
-            print("Aimed Shot used by " + gameObject.name );
+            DealDamage(useParams);
+            PlayParticleEffect();
+        }
+
+        private void DealDamage(AbilityUseParams useParams)
+        {
             float damageToDeal = useParams.baseDamage + config.GetExtraDamage();
             useParams.target.TakeDamage(damageToDeal);
         }
+
+        private void PlayParticleEffect()
+        {
+            var particlePrefab = Instantiate(config.GetParticlePrefab(), this.gameObject.transform);
+            myParticleSystem = particlePrefab.GetComponent<ParticleSystem>();
+            myParticleSystem.Play();
+            Destroy(particlePrefab, myParticleSystem.main.duration);
+        }
+
     }
 }
