@@ -5,13 +5,7 @@ namespace RPG.Characters
 {
     public class AimedShotBehaviour : AbilityBehaviour 
     {
-        AimedShotConfig config;
         ParticleSystem myParticleSystem;
-
-        public void SetConfig(AimedShotConfig configToSet)
-        {
-            this.config = configToSet;
-        }
 
         public override void Use(AbilityUseParams useParams)
         {
@@ -21,17 +15,9 @@ namespace RPG.Characters
 
         private void DealDamage(AbilityUseParams useParams)
         {
-            float damageToDeal = useParams.baseDamage + config.GetExtraDamage();
+            float damageToDeal = useParams.baseDamage + (config as AimedShotConfig).GetExtraDamage();
             useParams.target.AdjustHealth(damageToDeal);
         }
-
-        private void PlayParticleEffect()
-        {
-            var particlePrefab = Instantiate(config.GetParticlePrefab(), this.gameObject.transform);
-            myParticleSystem = particlePrefab.GetComponent<ParticleSystem>();
-            myParticleSystem.Play();
-            Destroy(particlePrefab, myParticleSystem.main.duration);
-        }
-
+        
     }
 }

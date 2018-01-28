@@ -8,32 +8,17 @@ namespace RPG.Characters
 {
     public class AreaEffectBehaviour : AbilityBehaviour
     {
-        AreaEffectConfig config;
-        ParticleSystem myParticleSystem;
-
-        public void SetConfig(AreaEffectConfig configToSet)
-        {
-            this.config = configToSet;
-        }
-
         public override void Use(AbilityUseParams useParams)
         {
             DealRadialDamage(useParams);            
-            PlayParticleEffec();
+            PlayParticleEffect();
         }
 
-        private void PlayParticleEffec()
-        {
-            var particlePrefab = Instantiate(config.GetParticlePrefab(), this.gameObject.transform );
-            myParticleSystem = particlePrefab.GetComponent<ParticleSystem>();
-            myParticleSystem.Play();
-            Destroy(particlePrefab, myParticleSystem.main.duration);
-        }
 
         private void DealRadialDamage(AbilityUseParams useParams)
         {
-            float damageToDeal = useParams.baseDamage + config.GetExtraDamage();
-            Collider[] collidersInRange = Physics.OverlapSphere(transform.position, config.GetRadius());
+            float damageToDeal = useParams.baseDamage + (config as AreaEffectConfig).GetExtraDamage();
+            Collider[] collidersInRange = Physics.OverlapSphere(transform.position, (config as AreaEffectConfig).GetRadius());
 
             foreach (Collider colliderInRange in collidersInRange)
             {

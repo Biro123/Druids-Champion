@@ -8,16 +8,9 @@ namespace RPG.Characters
 {
     public class FirstAidBehaviour : AbilityBehaviour
     {
-        FirstAidConfig config = null;
-        ParticleSystem myParticleSystem = null;
         AudioSource audioSource = null;
         AudioClip audioclip = null;
-
-        public void SetConfig(FirstAidConfig configToSet)
-        {
-            this.config = configToSet;
-        }
-
+        
         public override void Use(AbilityUseParams useParams)
         {
             HealPlayer(useParams);            
@@ -41,16 +34,9 @@ namespace RPG.Characters
             var damageable = GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.AdjustHealth(-config.GetHealAmount());
+                damageable.AdjustHealth( -(config as FirstAidConfig).GetHealAmount() );
             }            
         }
-
-        private void PlayParticleEffect()
-        {
-            var particlePrefab = Instantiate(config.GetParticlePrefab(), this.gameObject.transform );
-            myParticleSystem = particlePrefab.GetComponent<ParticleSystem>();
-            myParticleSystem.Play();
-            Destroy(particlePrefab, myParticleSystem.main.duration);
-        }
+        
     }
 }

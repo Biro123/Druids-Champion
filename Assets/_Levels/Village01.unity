@@ -12489,6 +12489,16 @@ Prefab:
       propertyPath: staminaBarImage
       value: 
       objectReference: {fileID: 1021061885}
+    - target: {fileID: 198872239181412036, guid: c1c6df8ffa3296e4d80a9b247abcda37,
+        type: 2}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198872239181412036, guid: c1c6df8ffa3296e4d80a9b247abcda37,
+        type: 2}
+      propertyPath: randomSeed
+      value: 644118186
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1c6df8ffa3296e4d80a9b247abcda37, type: 2}
   m_IsPrefabParent: 0
