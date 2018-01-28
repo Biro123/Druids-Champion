@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RPG.Characters
 {
     [CreateAssetMenu(menuName = ("RPG/Special Ability/First Aid"))]
-    public class FirstAidConfig : SpecialAbility
+    public class FirstAidConfig : AbilityConfig
     {
         [Header("First Aid Specific")]
         [SerializeField] float healAmount = 100f;

@@ -16,11 +16,13 @@ namespace RPG.Characters
         [SerializeField] float baseDamage = 20f;
         [SerializeField] Weapon weaponInUse;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
+        [SerializeField] ParticleSystem unarmouredHitParticleSystem = null;
         [SerializeField] AudioClip[] hitSounds;
         [SerializeField] AudioClip[] deathSounds;
 
+
         // Temporarily serializing for build/testing
-        [SerializeField] SpecialAbility[] abilities;
+        [SerializeField] AbilityConfig[] abilities;
 
         const string DEATH_TRIGGER = "Death";
         const string ATTACK_TRIGGER = "Attack";
@@ -100,6 +102,8 @@ namespace RPG.Characters
         private void ReduceHealth(float damage)
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
+            if(damage <= 0) { return; }  // don't play sound if being healed.
+
             float chanceToPlaySound = (damage*3 / maxHealthPoints);
             if (UnityEngine.Random.Range(0f, 1f) <= chanceToPlaySound)
             {
@@ -165,7 +169,8 @@ namespace RPG.Characters
         private void AttemptSpecialAbility(int abilityIndex)
         {
             float staminaCost = abilities[abilityIndex].GetStaminaCost();
-            if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(staminaCost))  
+            // TODO if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(staminaCost))
+            if (stamina.IsStaminaAvailable(staminaCost))
             {
                 stamina.UseStamina(staminaCost);
                 var abilityParams = new AbilityUseParams(enemy, baseDamage);
@@ -207,11 +212,59 @@ namespace RPG.Characters
             {
                 if (Time.time - lastHitTime >= weaponInUse.GetTimeBetweenHits())
                 {
-                    animator.SetTrigger(ATTACK_TRIGGER);  
-                    damageableComponent.AdjustHealth(baseDamage);
+                    animator.SetTrigger(ATTACK_TRIGGER);
+                    damageableComponent.AdjustHealth(CalculateDamage());
                     lastHitTime = Time.time;
                 }
             }
+        }
+
+        private float CalculateDamage()
+        {
+            bool isArmourHit = IsArmourHit();
+            if (UnityEngine.Random.Range(0f, 1f) <= weaponInUse.GetChanceForSwing())
+            {
+                float bluntDamage = ApplyWeaponAndArmour(
+                    weaponInUse.GetBluntDamageModification(), 
+                    enemy.GetBluntArmourAmount(),
+                    isArmourHit);
+                float bladeDamage = ApplyWeaponAndArmour(
+                    weaponInUse.GetBladeDamageModification(), 
+                    enemy.GetBladeArmourAmount(),
+                    isArmourHit);
+                Debug.Log("Swing: " + bluntDamage + " " + bladeDamage);
+                return bluntDamage + bladeDamage;
+            }
+            else
+            {
+                float pierceDamage = ApplyWeaponAndArmour(
+                    weaponInUse.GetPierceDamageModification(), 
+                    enemy.GetPierceArmourAmount(),
+                    isArmourHit);
+                Debug.Log("Thrust: " + pierceDamage);
+                return pierceDamage;
+            }
+        }
+
+        private float ApplyWeaponAndArmour(float weaponDamageMod, float armourProtection, bool armourHit)
+        {
+            float weaponDamage = baseDamage * weaponDamageMod;
+
+            if (armourHit)
+            {
+                float damageWithArmour = Mathf.Clamp(weaponDamage - armourProtection, 0f, weaponDamage);
+                return damageWithArmour;
+            }
+            else
+            {
+                unarmouredHitParticleSystem.Play();
+                return weaponDamage;
+            }
+        }
+
+        private bool IsArmourHit()
+        {
+            return UnityEngine.Random.Range(0f, 1f) <= enemy.GetArmourCoverage();
         }
     }
 }

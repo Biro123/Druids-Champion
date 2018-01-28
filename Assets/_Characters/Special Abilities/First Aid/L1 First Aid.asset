@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Name: L1 First Aid
   m_EditorClassIdentifier: 
   staminaCost: 20
-  particlePrefab: {fileID: 0}
+  particlePrefab: {fileID: 1606462035129914, guid: f8102786fd0215d42a118d7244132dd4,
+    type: 2}
+  audioClip: {fileID: 8300000, guid: 3d9914c57d37e704c9b1f1f57c7e6809, type: 3}
   healAmount: 100
   safeRadius: 15

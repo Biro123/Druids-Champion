@@ -35,6 +35,11 @@ namespace RPG.Characters
         [SerializeField] float secondsBetweenShots = 1.0f;
         [SerializeField] float shotRateVariation = 0.1f;
         [SerializeField] Vector3 aimOffset = new Vector3(0f, 1f, 0f);
+        [Range(0.0f, 1.0f)] [SerializeField] float armourCoverage = 0.4f;
+        [SerializeField] float bladeArmourAmount = 20f;
+        [SerializeField] float bluntArmourAmount = 20f;
+        [SerializeField] float pierceArmourAmount = 20f;
+
 
         [SerializeField] int[] layersToTarget = { 10, 11 };
 
@@ -58,6 +63,12 @@ namespace RPG.Characters
                 return currentHealthPoints / maxHealthPoints;
             }
         }
+
+        public float GetArmourCoverage() { return armourCoverage; }
+
+        public float GetBladeArmourAmount() { return bladeArmourAmount; }
+        public float GetBluntArmourAmount() { return bluntArmourAmount; }
+        public float GetPierceArmourAmount() { return pierceArmourAmount; }
 
         public void SetOrder(UnitOrder order, Transform position)
         {

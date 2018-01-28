@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RPG.Characters
 {
     [CreateAssetMenu(menuName = ("RPG/Special Ability/Aimed Shot"))]
-    public class AimedShotConfig : SpecialAbility
+    public class AimedShotConfig : AbilityConfig
     {
         [Header("Aimed Shot Specific")]
         [SerializeField] float extraDamage = 100f;

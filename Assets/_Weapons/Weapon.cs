@@ -11,11 +11,13 @@ namespace RPG.Weapons
 
         [SerializeField] GameObject weaponPrefab;
         [SerializeField] AnimationClip attackAnimation;
+        [Range(0.1f, 1.2f)] [SerializeField] float quality = 0.8f;
+        [Range(0.1f, 1.0f)] [SerializeField] float condition = 0.8f;
         [SerializeField] float timeBetweenHits = 0.7f;
         [SerializeField] float attackRange = 2f;
-        [SerializeField] float bladeDamageModifier  = 0.5f;
-        [SerializeField] float bluntDamageModifier = 0.5f;
-        [SerializeField] float pierceDamageModifier = 0.5f;
+        [Range(0f, 2.0f)] [SerializeField] float bladeDamageModifier = 0.5f;
+        [Range(0f, 2.0f)] [SerializeField] float bluntDamageModifier = 0.5f;
+        [Range(0f, 2.0f)] [SerializeField] float pierceDamageModifier = 0.5f;
 
         public GameObject GetWeaponPrefab()
         {
@@ -38,6 +40,29 @@ namespace RPG.Weapons
         {
             return attackRange;
         }
+
+        public float GetBladeDamageModification()
+        {
+            return bladeDamageModifier * quality * condition;
+        }
+
+        public float GetBluntDamageModification()
+        {
+            return bluntDamageModifier * quality * condition;
+        }
+
+        public float GetPierceDamageModification()
+        {
+            return pierceDamageModifier * quality * condition;
+        }
+
+        public float GetChanceForSwing()
+        {
+            float mainSwingDamageMod = Mathf.Max(bladeDamageModifier, bluntDamageModifier);
+            float chanceForSwing = mainSwingDamageMod / (mainSwingDamageMod + pierceDamageModifier);
+            return chanceForSwing;
+        }
+
 
         // So that asset packs cannot cause bugs by expecting 'hit event' methods.
         private void RemoveAnimationEvents()

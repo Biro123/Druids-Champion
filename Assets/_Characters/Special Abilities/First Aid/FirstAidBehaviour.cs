@@ -8,8 +8,10 @@ namespace RPG.Characters
 {
     public class FirstAidBehaviour : MonoBehaviour, ISpecialAbility
     {
-        FirstAidConfig config;
-        ParticleSystem myParticleSystem;
+        FirstAidConfig config = null;
+        ParticleSystem myParticleSystem = null;
+        AudioSource audioSource = null;
+        AudioClip audioclip = null;
 
         public void SetConfig(FirstAidConfig configToSet)
         {
@@ -19,7 +21,19 @@ namespace RPG.Characters
         public void Use(AbilityUseParams useParams)
         {
             HealPlayer(useParams);            
-            PlayParticleEffec();
+            PlayParticleEffect();
+            PlayAbilityAudio();
+        }
+
+        private void PlayAbilityAudio()
+        {
+            audioclip = config.GetAudioClip();
+            if (audioclip != null)
+            {
+                audioSource = GetComponent<AudioSource>();
+                audioSource.clip = audioclip;
+                audioSource.Play();
+            }
         }
 
         private void HealPlayer(AbilityUseParams useParams)
@@ -31,7 +45,7 @@ namespace RPG.Characters
             }            
         }
 
-        private void PlayParticleEffec()
+        private void PlayParticleEffect()
         {
             var particlePrefab = Instantiate(config.GetParticlePrefab(), this.gameObject.transform );
             myParticleSystem = particlePrefab.GetComponent<ParticleSystem>();
