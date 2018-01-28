@@ -25,13 +25,14 @@ namespace RPG.Characters
         const string DEATH_TRIGGER = "Death";
         const string ATTACK_TRIGGER = "Attack";
 
-        float currentHealthPoints;
+        float currentHealthPoints = 0;
         float lastHitTime = 0f;
 
-        CameraRaycaster cameraRaycaster;
-        Animator animator;
-        Stamina stamina;
-        AudioSource audioSource;
+        Enemy enemy = null;
+        CameraRaycaster cameraRaycaster = null;
+        Animator animator = null;
+        Stamina stamina = null;
+        AudioSource audioSource = null;
 
         public float healthAsPercentage
         {
@@ -47,13 +48,41 @@ namespace RPG.Characters
             RegisterForMouseClick();
             PutWeaponInHand();
             SetupRuntimeAnimator();
-            abilities[0].AttachComponentTo(this.gameObject);   // Adds the ability behaviour script to the player.
+            AttachInitialAbilities();
         }
 
-        void IDamageable.TakeDamage(float damage)
+        private void AttachInitialAbilities()
+        {
+            for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++)
+            {
+                // Add the behaviour script to the player.
+                abilities[abilityIndex].AttachComponentTo(this.gameObject);   
+            }
+        }
+
+        private void Update()
+        {
+            if(healthAsPercentage > Mathf.Epsilon)
+            {
+                ScanForAbilityKeyDown();
+            }
+        }
+
+        private void ScanForAbilityKeyDown()
+        {
+            for (int keyIndex = 1; keyIndex <= abilities.Length; keyIndex++)
+            {
+                if(Input.GetKeyDown(keyIndex.ToString()))
+                {
+                    AttemptSpecialAbility(keyIndex-1);
+                }
+            }
+        }
+
+        void IDamageable.AdjustHealth(float amount)
         {   
             bool isDieingThisHit = (currentHealthPoints > 0); // must ask before reducing health
-            ReduceHealth(damage);
+            ReduceHealth(amount);
             if (currentHealthPoints <= 0f && isDieingThisHit)
             {                
                 StartCoroutine(KillPlayer());
@@ -72,7 +101,6 @@ namespace RPG.Characters
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
             float chanceToPlaySound = (damage*3 / maxHealthPoints);
-            Debug.Log("chance to play " + chanceToPlaySound);
             if (UnityEngine.Random.Range(0f, 1f) <= chanceToPlaySound)
             {
                 PlayHitSound();
@@ -120,23 +148,24 @@ namespace RPG.Characters
             cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
         }
 
-        private void OnMouseOverEnemy(Enemy enemy)
+        private void OnMouseOverEnemy(Enemy enemyToSet)
         {
+            enemy = enemyToSet;
             if(Input.GetMouseButton(0) && IsInRange(enemy.gameObject) )
             {
-                Attack(enemy.gameObject);
+                Attack();
             }
 
             if (Input.GetMouseButtonDown(1) )
             {
-                AttemptSpecialAbility(0, enemy);
+                AttemptSpecialAbility(0);
             }
         }
 
-        private void AttemptSpecialAbility(int abilityIndex, Enemy enemy)
+        private void AttemptSpecialAbility(int abilityIndex)
         {
             float staminaCost = abilities[abilityIndex].GetStaminaCost();
-            if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(staminaCost))  // TODO - get cost from SO
+            if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(staminaCost))  
             {
                 stamina.UseStamina(staminaCost);
                 var abilityParams = new AbilityUseParams(enemy, baseDamage);
@@ -169,7 +198,7 @@ namespace RPG.Characters
             return distanceToTarget <= weaponInUse.GetAttackRange();
         }
 
-        private void Attack(GameObject enemy)
+        private void Attack()
         {
             // Find component and see if damageable (Components may be null)
             IDamageable damageableComponent = enemy.GetComponent<IDamageable>();
@@ -179,7 +208,7 @@ namespace RPG.Characters
                 if (Time.time - lastHitTime >= weaponInUse.GetTimeBetweenHits())
                 {
                     animator.SetTrigger(ATTACK_TRIGGER);  
-                    damageableComponent.TakeDamage(baseDamage);
+                    damageableComponent.AdjustHealth(baseDamage);
                     lastHitTime = Time.time;
                 }
             }

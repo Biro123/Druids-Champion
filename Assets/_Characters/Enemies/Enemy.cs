@@ -88,7 +88,7 @@ namespace RPG.Characters
             formationPosition = position;
         }
 
-        void IDamageable.TakeDamage(float damage)
+        void IDamageable.AdjustHealth(float damage)
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
             if (currentHealthPoints <= 0)

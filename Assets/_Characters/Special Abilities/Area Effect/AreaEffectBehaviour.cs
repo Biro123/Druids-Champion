@@ -42,7 +42,7 @@ namespace RPG.Characters
                     IDamageable damageableEnemy = colliderInRange.GetComponent<IDamageable>();
                     if (damageableEnemy != null)
                     {
-                        damageableEnemy.TakeDamage(damageToDeal);
+                        damageableEnemy.AdjustHealth(damageToDeal);
                     }
                 }
             }
