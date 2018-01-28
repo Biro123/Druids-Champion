@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Characters
@@ -7,6 +6,9 @@ namespace RPG.Characters
     public abstract class AbilityBehaviour : MonoBehaviour
     {
         protected AbilityConfig config = null;   // Protected can be accessed by children
+
+        AudioSource audioSource = null;
+        AudioClip audioclip = null;
 
         const float PARTICLE_CLEAN_UP_DELAY = 5f;
 
@@ -16,6 +18,16 @@ namespace RPG.Characters
         public void SetConfig(AbilityConfig configToSet)
         {
             config = configToSet;
+        }
+
+        protected void PlayAbilityAudio()
+        {
+            audioclip = config.GetRandomAbilitySound();
+            if (audioclip != null)
+            {
+                audioSource = GetComponent<AudioSource>();
+                audioSource.PlayOneShot(audioclip);
+            }
         }
 
         protected void PlayParticleEffect()

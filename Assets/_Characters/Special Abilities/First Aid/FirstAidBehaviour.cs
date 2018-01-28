@@ -8,25 +8,12 @@ namespace RPG.Characters
 {
     public class FirstAidBehaviour : AbilityBehaviour
     {
-        AudioSource audioSource = null;
-        AudioClip audioclip = null;
         
         public override void Use(AbilityUseParams useParams)
         {
             HealPlayer(useParams);            
             PlayParticleEffect();
             PlayAbilityAudio();
-        }
-
-        private void PlayAbilityAudio()
-        {
-            audioclip = config.GetAudioClip();
-            if (audioclip != null)
-            {
-                audioSource = GetComponent<AudioSource>();
-                audioSource.clip = audioclip;
-                audioSource.Play();
-            }
         }
 
         private void HealPlayer(AbilityUseParams useParams)

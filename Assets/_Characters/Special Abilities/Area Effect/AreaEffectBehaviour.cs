@@ -12,6 +12,7 @@ namespace RPG.Characters
         {
             DealRadialDamage(useParams);            
             PlayParticleEffect();
+            PlayAbilityAudio();
         }
 
 
