@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RPG.Characters
 {
-    public class AimedShotBehaviour : MonoBehaviour, ISpecialAbility 
+    public class AimedShotBehaviour : AbilityBehaviour 
     {
         AimedShotConfig config;
         ParticleSystem myParticleSystem;
@@ -13,7 +13,7 @@ namespace RPG.Characters
             this.config = configToSet;
         }
 
-        public void Use(AbilityUseParams useParams)
+        public override void Use(AbilityUseParams useParams)
         {
             DealDamage(useParams);
             PlayParticleEffect();

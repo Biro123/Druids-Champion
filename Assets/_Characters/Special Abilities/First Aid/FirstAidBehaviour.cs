@@ -6,7 +6,7 @@ using System;
 
 namespace RPG.Characters    
 {
-    public class FirstAidBehaviour : MonoBehaviour, ISpecialAbility
+    public class FirstAidBehaviour : AbilityBehaviour
     {
         FirstAidConfig config = null;
         ParticleSystem myParticleSystem = null;
@@ -18,7 +18,7 @@ namespace RPG.Characters
             this.config = configToSet;
         }
 
-        public void Use(AbilityUseParams useParams)
+        public override void Use(AbilityUseParams useParams)
         {
             HealPlayer(useParams);            
             PlayParticleEffect();
