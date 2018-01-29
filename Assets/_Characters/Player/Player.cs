@@ -58,7 +58,7 @@ namespace RPG.Characters
             for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++)
             {
                 // Add the behaviour script to the player.
-                abilities[abilityIndex].AttachComponentTo(this.gameObject);   
+                abilities[abilityIndex].AttachAbilityTo(this.gameObject);   
             }
         }
 

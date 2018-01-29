@@ -11,12 +11,17 @@ namespace RPG.Characters
         [SerializeField] float healAmount = 100f;
         [SerializeField] float safeRadius = 15f;
 
-        public override void AttachComponentTo(GameObject gameObjectToAttachTo)
+        //public override void AttachComponentTo(GameObject gameObjectToAttachTo)
+        //{
+        //    // Adds the ability Behaviour script to the player gameobject
+        //    var behaviourComponent = gameObjectToAttachTo.AddComponent<FirstAidBehaviour>();
+        //    behaviourComponent.SetConfig(this);
+        //    behaviour = behaviourComponent;
+        //}
+
+        public override AbilityBehaviour GetBehaviour(GameObject objectToAttachTo)
         {
-            // Adds the ability Behaviour script to the player gameobject
-            var behaviourComponent = gameObjectToAttachTo.AddComponent<FirstAidBehaviour>();
-            behaviourComponent.SetConfig(this);
-            behaviour = behaviourComponent;
+            return objectToAttachTo.AddComponent<FirstAidBehaviour>();
         }
 
         public float GetHealAmount()
