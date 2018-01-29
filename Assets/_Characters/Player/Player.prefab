@@ -5243,7 +5243,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 1000
   baseDamage: 370
-  weaponInUse: {fileID: 11400000, guid: 5af973acbd85b7c44b26ebcdf599cbd5, type: 2}
+  currentWeaponConfig: {fileID: 11400000, guid: 5af973acbd85b7c44b26ebcdf599cbd5,
+    type: 2}
   animatorOverrideController: {fileID: 22100000, guid: 7fc2e569acb3aa046895bfd768cedf2a,
     type: 2}
   unarmouredHitParticleSystem: {fileID: 198872239181412036}
@@ -6478,7 +6479,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

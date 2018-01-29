@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using RPG.CameraUI;  
-using RPG.Weapons;   
 using RPG.Core;      
 
 namespace RPG.Characters
@@ -14,7 +13,7 @@ namespace RPG.Characters
     {
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] float baseDamage = 20f;
-        [SerializeField] Weapon weaponInUse;
+        [SerializeField] Weapon currentWeaponConfig;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
         [SerializeField] ParticleSystem unarmouredHitParticleSystem = null;
         [SerializeField] AudioClip[] hitSounds;
@@ -26,6 +25,7 @@ namespace RPG.Characters
 
         const string DEATH_TRIGGER = "Death";
         const string ATTACK_TRIGGER = "Attack";
+        const string DEFAULT_ATTACK = "DEFAULT ATTACK";
 
         float currentHealthPoints = 0;
         float lastHitTime = 0f;
@@ -35,6 +35,7 @@ namespace RPG.Characters
         Animator animator = null;
         Stamina stamina = null;
         AudioSource audioSource = null;
+        GameObject weaponObject;
 
         public float healthAsPercentage
         {
@@ -48,8 +49,8 @@ namespace RPG.Characters
             audioSource = GetComponent<AudioSource>();
             SetHealthToMax();
             RegisterForMouseClick();
-            PutWeaponInHand();
-            SetupRuntimeAnimator();
+            PutWeaponInHand(currentWeaponConfig);
+            SetAttackAnimation();
             AttachInitialAbilities();
         }
 
@@ -60,6 +61,18 @@ namespace RPG.Characters
                 // Add the behaviour script to the player.
                 abilities[abilityIndex].AttachAbilityTo(this.gameObject);   
             }
+        }
+
+        public void PutWeaponInHand(Weapon weaponToUse)
+        {
+            print("Putting " + weaponToUse + " in hand");
+            currentWeaponConfig = weaponToUse;
+            var weaponPrefab = weaponToUse.GetWeaponPrefab();
+            GameObject dominantHand = RequestDominantHand();
+            Destroy(weaponObject);
+            weaponObject = Instantiate(weaponPrefab, dominantHand.transform);
+            weaponObject.transform.localPosition = currentWeaponConfig.gripTransform.localPosition;
+            weaponObject.transform.localRotation = currentWeaponConfig.gripTransform.localRotation;
         }
 
         private void Update()
@@ -138,11 +151,11 @@ namespace RPG.Characters
             currentHealthPoints = maxHealthPoints;
         }
 
-        private void SetupRuntimeAnimator()
+        private void SetAttackAnimation()
         {
             animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = animatorOverrideController;
-            animatorOverrideController["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip();
+            animatorOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();
         }
 
         private void RegisterForMouseClick()
@@ -178,15 +191,7 @@ namespace RPG.Characters
             }            
         }
 
-        private void PutWeaponInHand()
-        {
-            GameObject dominantHand = RequestDominantHand();
-            var weapon = Instantiate(weaponInUse.GetWeaponPrefab(), dominantHand.transform);
-            weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
-            weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
-        }
-
-        private GameObject RequestDominantHand()
+         private GameObject RequestDominantHand()
         {
             var dominantHands = GetComponentsInChildren<DominantHand>();
             int numberOfDominantHands = dominantHands.Length;
@@ -200,7 +205,7 @@ namespace RPG.Characters
         private bool IsInRange(GameObject target)
         {
             float distanceToTarget = (target.transform.position - this.transform.position).magnitude;
-            return distanceToTarget <= weaponInUse.GetAttackRange();
+            return distanceToTarget <= currentWeaponConfig.GetAttackRange();
         }
 
         private void Attack()
@@ -210,8 +215,9 @@ namespace RPG.Characters
 
             if (damageableComponent != null)
             {
-                if (Time.time - lastHitTime >= weaponInUse.GetTimeBetweenHits())
+                if (Time.time - lastHitTime >= currentWeaponConfig.GetTimeBetweenHits())
                 {
+                    SetAttackAnimation();
                     animator.SetTrigger(ATTACK_TRIGGER);
                     damageableComponent.AdjustHealth(CalculateDamage());
                     lastHitTime = Time.time;
@@ -222,14 +228,14 @@ namespace RPG.Characters
         private float CalculateDamage()
         {
             bool isArmourHit = IsArmourHit();
-            if (UnityEngine.Random.Range(0f, 1f) <= weaponInUse.GetChanceForSwing())
+            if (UnityEngine.Random.Range(0f, 1f) <= currentWeaponConfig.GetChanceForSwing())
             {
                 float bluntDamage = ApplyWeaponAndArmour(
-                    weaponInUse.GetBluntDamageModification(), 
+                    currentWeaponConfig.GetBluntDamageModification(), 
                     enemy.GetBluntArmourAmount(),
                     isArmourHit);
                 float bladeDamage = ApplyWeaponAndArmour(
-                    weaponInUse.GetBladeDamageModification(), 
+                    currentWeaponConfig.GetBladeDamageModification(), 
                     enemy.GetBladeArmourAmount(),
                     isArmourHit);
                 Debug.Log("Swing: " + bluntDamage + " " + bladeDamage);
@@ -238,7 +244,7 @@ namespace RPG.Characters
             else
             {
                 float pierceDamage = ApplyWeaponAndArmour(
-                    weaponInUse.GetPierceDamageModification(), 
+                    currentWeaponConfig.GetPierceDamageModification(), 
                     enemy.GetPierceArmourAmount(),
                     isArmourHit);
                 Debug.Log("Thrust: " + pierceDamage);
