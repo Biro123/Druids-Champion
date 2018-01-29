@@ -46,7 +46,6 @@ namespace RPG.Characters
         private float originalStopDistance;
         private Transform startPosition = null;
         private Transform formationPosition = null;
-        private AICharacterControl aICharacterControl = null;
         private NavMeshAgent navMeshAgent;
         private UnitOrder currentOrder = UnitOrder.Solo;
         private Transform target = null;
@@ -111,7 +110,6 @@ namespace RPG.Characters
         {
             currentHealthPoints = maxHealthPoints;
             startPosition = this.transform;
-            aICharacterControl = GetComponent<AICharacterControl>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             originalStopDistance = navMeshAgent.stoppingDistance;
 
@@ -145,7 +143,7 @@ namespace RPG.Characters
 
                     // 2. if have target - move to attack range
                     navMeshAgent.stoppingDistance = attackRange;
-                    aICharacterControl.SetTarget(target);
+                    //REM aICharacterControl.SetTarget(target);
                     AttackIfInRange(target);
                 }
                 else
@@ -153,7 +151,7 @@ namespace RPG.Characters
                     // TODO - need to cancel Invoke from AttackIfInReange when target becomes null
                     // Also refactor
                     navMeshAgent.stoppingDistance = originalStopDistance;
-                    aICharacterControl.SetTarget(startPosition);
+                    //REM aICharacterControl.SetTarget(startPosition);
                 }
             }
 
@@ -176,12 +174,12 @@ namespace RPG.Characters
                 if (target == null || returnToStart)
                 {   // Else back to formation pos 
                     navMeshAgent.stoppingDistance = formationStopDistance;
-                    aICharacterControl.SetTarget(formationPosition);
+                    //REM aICharacterControl.SetTarget(formationPosition);
                 }
                 else
                 {   // Have target - move to attack range
                     navMeshAgent.stoppingDistance = attackRange;
-                    aICharacterControl.SetTarget(target);
+                    //REM aICharacterControl.SetTarget(target);
                     AttackIfInRange(target);
                 }
             }
@@ -192,13 +190,13 @@ namespace RPG.Characters
                 if (target != null)
                 {   // Have target - move to attack range
                     navMeshAgent.stoppingDistance = attackRange;
-                    aICharacterControl.SetTarget(target);
+                    //REM aICharacterControl.SetTarget(target);
                     AttackIfInRange(target);
                 }
                 else
                 {   // Else back to formation pos 
                     navMeshAgent.stoppingDistance = originalStopDistance;
-                    aICharacterControl.SetTarget(formationPosition);
+                    //REM aICharacterControl.SetTarget(formationPosition);
                 }
             }
 
@@ -212,7 +210,7 @@ namespace RPG.Characters
                 else
                 {   // Else back to formation pos 
                     navMeshAgent.stoppingDistance = 0.5f;
-                    aICharacterControl.SetTarget(formationPosition);
+                    //REM aICharacterControl.SetTarget(formationPosition);
                 }
             }
 
