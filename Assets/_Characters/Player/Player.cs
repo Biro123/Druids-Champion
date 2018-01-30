@@ -93,7 +93,7 @@ namespace RPG.Characters
 
             if (Input.GetMouseButtonDown(1) )
             {
-                specialAbilities.AttemptSpecialAbility(0);
+                specialAbilities.AttemptSpecialAbility(0, enemy.gameObject);
             }
         }
 
