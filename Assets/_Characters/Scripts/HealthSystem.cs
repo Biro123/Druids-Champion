@@ -49,7 +49,7 @@ namespace RPG.Characters
             }
         }
 
-        void AdjustHealth(float amount)
+        public void AdjustHealth(float amount)
         {
             bool isDieingThisHit = (currentHealthPoints > 0); // must ask before reducing health
             ReduceHealth(amount);

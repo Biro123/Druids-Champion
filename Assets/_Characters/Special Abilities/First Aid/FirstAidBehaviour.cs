@@ -8,7 +8,13 @@ namespace RPG.Characters
 {
     public class FirstAidBehaviour : AbilityBehaviour
     {
-        
+        Player player;
+
+        private void Start()
+        {
+            player = GetComponent<Player>();
+        }
+
         public override void Use(AbilityUseParams useParams)
         {
             HealPlayer(useParams);            
@@ -18,10 +24,10 @@ namespace RPG.Characters
 
         private void HealPlayer(AbilityUseParams useParams)
         {
-            var damageable = GetComponent<IDamageable>();
-            if (damageable != null)
+            var playerHealth = player.GetComponent<HealthSystem>();
+            if (playerHealth != null)
             {
-                damageable.AdjustHealth( -(config as FirstAidConfig).GetHealAmount() );
+                playerHealth.AdjustHealth( -(config as FirstAidConfig).GetHealAmount() );
             }            
         }
         

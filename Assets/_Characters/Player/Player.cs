@@ -9,23 +9,18 @@ using RPG.Core;
 
 namespace RPG.Characters
 {
-    public class Player : MonoBehaviour, IDamageable
+    public class Player : MonoBehaviour
     {
-
         [SerializeField] float baseDamage = 20f;
         [SerializeField] Weapon currentWeaponConfig;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
         [SerializeField] ParticleSystem unarmouredHitParticleSystem = null;
 
-
-
         // Temporarily serializing for build/testing
         [SerializeField] AbilityConfig[] abilities;
 
-
         const string ATTACK_TRIGGER = "Attack";
         const string DEFAULT_ATTACK = "DEFAULT ATTACK";
-
 
         float lastHitTime = 0f;
 
@@ -33,7 +28,6 @@ namespace RPG.Characters
         CameraRaycaster cameraRaycaster = null;
         Animator animator;
         Stamina stamina = null;
-
         GameObject weaponObject;
 
 
@@ -70,7 +64,8 @@ namespace RPG.Characters
 
         private void Update()
         {
-            if(healthAsPercentage > Mathf.Epsilon)
+            var healthAsPercentage = GetComponent<HealthSystem>().healthAsPercentage;
+            if (healthAsPercentage > Mathf.Epsilon)
             {
                 ScanForAbilityKeyDown();
             }

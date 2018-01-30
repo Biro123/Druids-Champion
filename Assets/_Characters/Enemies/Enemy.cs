@@ -7,7 +7,7 @@ using RPG.Core;
 namespace RPG.Characters
 {
 
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, IDamageable  // TODO remove interface
     {
         [Tooltip("Enemies within this range will move to attack range")]
         [SerializeField]
@@ -56,6 +56,11 @@ namespace RPG.Characters
         public float GetBladeArmourAmount() { return bladeArmourAmount; }
         public float GetBluntArmourAmount() { return bluntArmourAmount; }
         public float GetPierceArmourAmount() { return pierceArmourAmount; }
+
+        public void AdjustHealth(float amount)
+        {
+            //TODO Remove 
+        }
 
         public void SetOrder(UnitOrder order, Transform position)
         {
@@ -110,17 +115,6 @@ namespace RPG.Characters
 
                 if (target != null)
                 {
-                    // TODO Following code needs refactoring and including in other formations
-                    Player player = target.GetComponent<Player>();
-                    if (player)
-                    {
-                        if (player.healthAsPercentage <= Mathf.Epsilon)
-                        {
-                            StopAllCoroutines();
-                            Destroy(this);  // To stop enemy attacking dead player
-                        }
-                    }
-
                     // 2. if have target - move to attack range
                     navMeshAgent.stoppingDistance = attackRange;
                     //REM aICharacterControl.SetTarget(target);
