@@ -5,27 +5,36 @@ using UnityEngine.AI;
 namespace RPG.Characters
 {
     [SelectionBase]
-    [RequireComponent(typeof(NavMeshAgent))]
     public class Character : MonoBehaviour
     {
-        [Header("Animator Settings")]
+        [Header("Animator")]
         [SerializeField] RuntimeAnimatorController animatorController;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
         [SerializeField] Avatar characterAvatar;
 
-        [Header("Capsule Collider Settings")]
+        [Header("Audio")]
+        [Range(0f, 1f)] [SerializeField] float audioVolume = 1;
+
+        [Header("Capsule Collider")]
         [SerializeField] Vector3 colliderCentre = new Vector3(0, 0.9f, 0f);
         [SerializeField] float colliderRadius = 0.3f;
         [SerializeField] float colliderHeight = 1.8f;
 
-        [Header("Movement Properties")]
-        [SerializeField] float stoppingDistance = 1f;
+        [Header("Movement")]
         [SerializeField] float moveSpeedMultiplier = 1f;
         [SerializeField] float animationSpeedMultiplier = 1f;
         [SerializeField] float movingTurnSpeed = 360;
         [SerializeField] float stationaryTurnSpeed = 180;
 
-        NavMeshAgent agent;
+        [Header("Navigation")]
+        [SerializeField] float navMeshAgentSteeringSpeed = 1.2f;
+        [SerializeField] float navMeshAgentStoppingDistance = 1f;
+        [SerializeField] bool navMeshAgentAutoBraking = false;
+
+        [Header("Rigid Body")]
+        [SerializeField] float rigidBodyMass = 80f;
+
+        NavMeshAgent navMeshAgent;
         Animator animator;
         Rigidbody rigidBody;
         float turnAmount;
@@ -46,29 +55,36 @@ namespace RPG.Characters
             capsuleCollider.center = colliderCentre;
             capsuleCollider.radius = colliderRadius;
             capsuleCollider.height = colliderHeight;
+
+            rigidBody = gameObject.AddComponent<Rigidbody>();
+            rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+            rigidBody.mass = rigidBodyMass;
+
+            var audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.volume = audioVolume;
+
+            navMeshAgent = gameObject.AddComponent<NavMeshAgent>();
+            navMeshAgent.updatePosition = true;
+            navMeshAgent.updateRotation = false;
+            navMeshAgent.autoBraking = navMeshAgentAutoBraking;
+            navMeshAgent.stoppingDistance = navMeshAgentStoppingDistance;
+            navMeshAgent.speed = navMeshAgentSteeringSpeed;
+            //navMeshAgent.areaMask.   // TODO need to set to walkable? 
         }
 
         private void Start()
         {
             CameraUI.CameraRaycaster cameraRaycaster = Camera.main.GetComponent<CameraUI.CameraRaycaster>();
-
-            rigidBody = GetComponent<Rigidbody>();
-            rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-
-            agent = GetComponent<NavMeshAgent>();
-            agent.updatePosition = true;
-            agent.updateRotation = false;
-            agent.stoppingDistance = stoppingDistance;
-
             cameraRaycaster.onMouseOverWalkable += OnMouseOverWalkable;
             cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;            
         }
 
         private void Update()
         {
-            if (agent.remainingDistance > agent.stoppingDistance)
+            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
             {
-                Move(agent.desiredVelocity);
+                Move(navMeshAgent.desiredVelocity);
             }
             else
             {
@@ -120,7 +136,7 @@ namespace RPG.Characters
         {
             if (Input.GetMouseButton(0))
             {
-                agent.SetDestination(targetLocation);
+                navMeshAgent.SetDestination(targetLocation);
             }
         }
 
@@ -128,7 +144,7 @@ namespace RPG.Characters
         {
             if (Input.GetMouseButton(0) || Input.GetMouseButton(1) )
             {
-                agent.SetDestination(enemy.transform.position);
+                navMeshAgent.SetDestination(enemy.transform.position);
             }
         }
 
