@@ -15,10 +15,7 @@ namespace RPG.Characters
         [SerializeField] Weapon currentWeaponConfig;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
         [SerializeField] ParticleSystem unarmouredHitParticleSystem = null;
-
-        // Temporarily serializing for build/testing
-        [SerializeField] AbilityConfig[] abilities;
-
+        
         const string ATTACK_TRIGGER = "Attack";
         const string DEFAULT_ATTACK = "DEFAULT ATTACK";
 
@@ -27,28 +24,18 @@ namespace RPG.Characters
         Enemy enemy = null;
         CameraRaycaster cameraRaycaster = null;
         Animator animator;
-        Stamina stamina = null;
+        SpecialAbilities specialAbilities;
         GameObject weaponObject;
-
 
         
         private void Start()
         {
-            stamina = GetComponent<Stamina>();
+            specialAbilities = GetComponent<SpecialAbilities>();
             RegisterForMouseClick();
             PutWeaponInHand(currentWeaponConfig);
             SetAttackAnimation();
-            AttachInitialAbilities();
         }
 
-        private void AttachInitialAbilities()
-        {
-            for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++)
-            {
-                // Add the behaviour script to the player.
-                abilities[abilityIndex].AttachAbilityTo(this.gameObject);   
-            }
-        }
 
         public void PutWeaponInHand(Weapon weaponToUse)
         {
@@ -65,7 +52,7 @@ namespace RPG.Characters
         private void Update()
         {
             var healthAsPercentage = GetComponent<HealthSystem>().healthAsPercentage;
-            if (healthAsPercentage > Mathf.Epsilon)
+            if (healthAsPercentage > Mathf.Epsilon)  // If we are alive
             {
                 ScanForAbilityKeyDown();
             }
@@ -73,11 +60,11 @@ namespace RPG.Characters
 
         private void ScanForAbilityKeyDown()
         {
-            for (int keyIndex = 1; keyIndex <= abilities.Length; keyIndex++)
+            for (int keyIndex = 1; keyIndex <= specialAbilities.GetNumberOfAbilities(); keyIndex++)
             {
                 if(Input.GetKeyDown(keyIndex.ToString()))
                 {
-                    AttemptSpecialAbility(keyIndex-1);
+                    specialAbilities.AttemptSpecialAbility(keyIndex-1);
                 }
             }
         }
@@ -106,23 +93,11 @@ namespace RPG.Characters
 
             if (Input.GetMouseButtonDown(1) )
             {
-                AttemptSpecialAbility(0);
+                specialAbilities.AttemptSpecialAbility(0);
             }
         }
 
-        private void AttemptSpecialAbility(int abilityIndex)
-        {
-            float staminaCost = abilities[abilityIndex].GetStaminaCost();
-            // TODO if (IsInRange(enemy.gameObject) && stamina.IsStaminaAvailable(staminaCost))
-            if (stamina.IsStaminaAvailable(staminaCost))
-            {
-                stamina.UseStamina(staminaCost);
-                var abilityParams = new AbilityUseParams(enemy, baseDamage);
-                abilities[abilityIndex].Use(abilityParams);
-            }            
-        }
-
-         private GameObject RequestDominantHand()
+        private GameObject RequestDominantHand()
         {
             var dominantHands = GetComponentsInChildren<DominantHand>();
             int numberOfDominantHands = dominantHands.Length;
