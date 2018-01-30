@@ -11,43 +11,36 @@ namespace RPG.Characters
 {
     public class Player : MonoBehaviour, IDamageable
     {
-        [SerializeField] float maxHealthPoints = 100f;
+
         [SerializeField] float baseDamage = 20f;
         [SerializeField] Weapon currentWeaponConfig;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
         [SerializeField] ParticleSystem unarmouredHitParticleSystem = null;
-        [SerializeField] AudioClip[] hitSounds;
-        [SerializeField] AudioClip[] deathSounds;
+
 
 
         // Temporarily serializing for build/testing
         [SerializeField] AbilityConfig[] abilities;
 
-        const string DEATH_TRIGGER = "Death";
+
         const string ATTACK_TRIGGER = "Attack";
         const string DEFAULT_ATTACK = "DEFAULT ATTACK";
 
-        float currentHealthPoints = 0;
+
         float lastHitTime = 0f;
 
         Enemy enemy = null;
         CameraRaycaster cameraRaycaster = null;
-        Animator animator = null;
+        Animator animator;
         Stamina stamina = null;
-        AudioSource audioSource = null;
+
         GameObject weaponObject;
 
-        public float healthAsPercentage
-        {
-            get
-            { return currentHealthPoints / maxHealthPoints; }
-        }
+
         
         private void Start()
         {
             stamina = GetComponent<Stamina>();
-            audioSource = GetComponent<AudioSource>();
-            SetHealthToMax();
             RegisterForMouseClick();
             PutWeaponInHand(currentWeaponConfig);
             SetAttackAnimation();
@@ -93,64 +86,7 @@ namespace RPG.Characters
                 }
             }
         }
-
-        void IDamageable.AdjustHealth(float amount)
-        {   
-            bool isDieingThisHit = (currentHealthPoints > 0); // must ask before reducing health
-            ReduceHealth(amount);
-            if (currentHealthPoints <= 0f && isDieingThisHit)
-            {                
-                StartCoroutine(KillPlayer());
-            }
-        }
-
-        IEnumerator KillPlayer()
-        {
-            PlayDeathSound();
-            animator.SetTrigger(DEATH_TRIGGER);
-            yield return new WaitForSeconds(3f);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
-        private void ReduceHealth(float damage)
-        {
-            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-            if(damage <= 0) { return; }  // don't play sound if being healed.
-
-            float chanceToPlaySound = (damage*3 / maxHealthPoints);
-            if (UnityEngine.Random.Range(0f, 1f) <= chanceToPlaySound)
-            {
-                PlayHitSound();
-            }
-        }
-
-        private void PlayHitSound()
-        {
-            if (hitSounds.Length == 0) { return; }
-
-            int audioIndex = UnityEngine.Random.Range(0, hitSounds.Length);
-            audioSource.clip = hitSounds[audioIndex];
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-        }
-
-        private void PlayDeathSound()
-        {
-            if (deathSounds.Length == 0) { return; }
-
-            int audioIndex = UnityEngine.Random.Range(0, deathSounds.Length);
-            audioSource.clip = deathSounds[audioIndex];
-            audioSource.Stop();
-            audioSource.Play();
-        }
-
-        private void SetHealthToMax()
-        {
-            currentHealthPoints = maxHealthPoints;
-        }
-
+        
         private void SetAttackAnimation()
         {
             animator = GetComponent<Animator>();

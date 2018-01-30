@@ -7,11 +7,8 @@ using RPG.Core;
 namespace RPG.Characters
 {
 
-    public class Enemy : MonoBehaviour, IDamageable
+    public class Enemy : MonoBehaviour
     {
-
-        [SerializeField] float maxHealthPoints = 100f;
-
         [Tooltip("Enemies within this range will move to attack range")]
         [SerializeField]
         float aggroDistance = 10f;
@@ -42,7 +39,7 @@ namespace RPG.Characters
 
         [SerializeField] int[] layersToTarget = { 10, 11 };
 
-        private float currentHealthPoints = 100f;
+
         private float originalStopDistance;
         private Transform startPosition = null;
         private Transform formationPosition = null;
@@ -53,15 +50,7 @@ namespace RPG.Characters
         private bool isAttacking = false;
         private int opponentLayerMask = 0;
 
-
-        public float healthAsPercentage
-        {
-            get
-            {
-                return currentHealthPoints / maxHealthPoints;
-            }
-        }
-
+        
         public float GetArmourCoverage() { return armourCoverage; }
 
         public float GetBladeArmourAmount() { return bladeArmourAmount; }
@@ -97,18 +86,9 @@ namespace RPG.Characters
             formationPosition = position;
         }
 
-        void IDamageable.AdjustHealth(float damage)
-        {
-            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
-            if (currentHealthPoints <= 0)
-            {
-                Destroy(gameObject);
-            }
-        }
 
         private void Start()
         {
-            currentHealthPoints = maxHealthPoints;
             startPosition = this.transform;
             navMeshAgent = GetComponent<NavMeshAgent>();
             originalStopDistance = navMeshAgent.stoppingDistance;
