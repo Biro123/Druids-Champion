@@ -1153,10 +1153,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4296236898536152}
-  - component: {fileID: 95701538908546110}
   - component: {fileID: 54073948656529230}
   - component: {fileID: 82100695229813068}
-  - component: {fileID: 136727865881290710}
   - component: {fileID: 195097079110456972}
   - component: {fileID: 114924093117718768}
   - component: {fileID: 114196896054198232}
@@ -3598,7 +3596,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1975207599524208}
-  m_LocalRotation: {x: 0.29402483, y: -0.071910895, z: -0.60526663, w: 0.73622733}
+  m_LocalRotation: {x: 0.2940248, y: -0.07191089, z: -0.6052666, w: 0.7362273}
   m_LocalPosition: {x: -0.07850078, y: -0.041947484, z: -0.018961621}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5212,23 +5210,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!95 &95701538908546110
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1400500621032120}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 6a0af412b3bd5e4429eb52b218255660, type: 3}
-  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114196896054198232
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5291,6 +5272,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5182dfadbd26a4983545f22de1530b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animatorController: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+  animatorOverrideController: {fileID: 22100000, guid: 7fc2e569acb3aa046895bfd768cedf2a,
+    type: 2}
+  characterAvatar: {fileID: 9000000, guid: 6a0af412b3bd5e4429eb52b218255660, type: 3}
+  colliderCentre: {x: 0, y: 0.9, z: 0}
+  colliderRadius: 0.3
+  colliderHeight: 1.8
   stoppingDistance: 1
   moveSpeedMultiplier: 1
   animationSpeedMultiplier: 1
@@ -5311,23 +5299,11 @@ MonoBehaviour:
     type: 2}
   maxStamina: 100
   recovPerSecond: 5
+  outOfStamClip: {fileID: 0}
   abilities:
   - {fileID: 11400000, guid: 10544503d4a61a440b98cb687075d28f, type: 2}
   - {fileID: 11400000, guid: 7581dccdad17cca4a873932b11548798, type: 2}
   - {fileID: 11400000, guid: fa12904743eb32f49b4d48a427744012, type: 2}
---- !u!136 &136727865881290710
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1400500621032120}
-  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 1.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!137 &137166622535503550
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
