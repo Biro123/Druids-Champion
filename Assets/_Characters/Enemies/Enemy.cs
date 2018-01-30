@@ -7,7 +7,7 @@ using RPG.Core;
 namespace RPG.Characters
 {
 
-    public class Enemy : MonoBehaviour, IDamageable  // TODO remove interface
+    public class Enemy : MonoBehaviour
     {
         [Tooltip("Enemies within this range will move to attack range")]
         [SerializeField]

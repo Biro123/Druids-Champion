@@ -36,22 +36,23 @@ namespace RPG.Characters
         private void OnCollisionEnter(Collision collision)
         {
             // Find component and see if damageable (Components may be null)
-            IDamageable damageableComponent = collision.collider.GetComponent<IDamageable>();
+            // IDamageable damageableComponent = collision.collider.GetComponent<IDamageable>();
 
             if (shooter && shooter.layer != collision.gameObject.layer)  // Do not damage shooter (or its allies)
             {
-                DamageIfDamageable(damageableComponent);
+                // DamageIfDamageable(damageableComponent);
             }
 
         }
 
-        private void DamageIfDamageable(IDamageable damageableComponent)
-        {
-            if (damageableComponent != null)
-            {
-                (damageableComponent as IDamageable).AdjustHealth(damage);
-            }
-            Destroy(gameObject);
-        }
+        // TODO Re-implement
+        //private void DamageIfDamageable(IDamageable damageableComponent)
+        //{
+        //    if (damageableComponent != null)
+        //    {
+        //        (damageableComponent as IDamageable).AdjustHealth(damage);
+        //    }
+        //    Destroy(gameObject);
+        //}
     }
 }

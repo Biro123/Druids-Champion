@@ -7,17 +7,17 @@ namespace RPG.Characters
     {
         ParticleSystem myParticleSystem;
 
-        public override void Use(AbilityUseParams useParams)
+        public override void Use(GameObject target)
         {
-            DealDamage(useParams);
+            DealDamage(target);
             PlayParticleEffect();
             PlayAbilityAudio();
         }
 
-        private void DealDamage(AbilityUseParams useParams)
+        private void DealDamage(GameObject target)
         {
-            float damageToDeal = useParams.baseDamage + (config as AimedShotConfig).GetExtraDamage();
-            useParams.target.AdjustHealth(damageToDeal);
+            float damageToDeal = (config as AimedShotConfig).GetExtraDamage();
+            target.GetComponent<HealthSystem>().AdjustHealth(damageToDeal);
         }
         
     }

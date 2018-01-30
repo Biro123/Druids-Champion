@@ -117,15 +117,15 @@ namespace RPG.Characters
         private void Attack()
         {
             // Find component and see if damageable (Components may be null)
-            IDamageable damageableComponent = enemy.GetComponent<IDamageable>();
+            HealthSystem targetHealthSystem = enemy.GetComponent<HealthSystem>();
 
-            if (damageableComponent != null)
+            if (targetHealthSystem != null)
             {
                 if (Time.time - lastHitTime >= currentWeaponConfig.GetTimeBetweenHits())
                 {
                     SetAttackAnimation();
                     animator.SetTrigger(ATTACK_TRIGGER);
-                    damageableComponent.AdjustHealth(CalculateDamage());
+                    targetHealthSystem.AdjustHealth(CalculateDamage());
                     lastHitTime = Time.time;
                 }
             }
