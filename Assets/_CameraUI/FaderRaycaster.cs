@@ -9,14 +9,14 @@ namespace RPG.CameraUI
     {
         const int FADABLE_LAYER = 20;
 
-        private Player player;   
+        private PlayerControl player;   
         private int fadeLayerMask = 0;  
         float maxRaycastDepth = 100f;
 
         // Use this for initialization
         void Start()
         {
-            player = FindObjectOfType<Player>();
+            player = FindObjectOfType<PlayerControl>();
 
             // This line shifts a binary bit of 1 left (int)layer times and
             // does a '|' (binary OR) to merge the bits with the previous - so for each bit,

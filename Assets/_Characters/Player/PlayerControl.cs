@@ -1,41 +1,83 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
-using RPG.CameraUI;  
-using RPG.Core;      
+using RPG.CameraUI;    // For mouse events  
 
 namespace RPG.Characters
 {
-    public class Player : MonoBehaviour
+    public class PlayerControl : MonoBehaviour
     {
         [SerializeField] float baseDamage = 20f;
         [SerializeField] Weapon currentWeaponConfig;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
-        [SerializeField] ParticleSystem unarmouredHitParticleSystem = null;
+        [SerializeField] ParticleSystem unarmouredHitParticleSystem;
         
         const string ATTACK_TRIGGER = "Attack";
         const string DEFAULT_ATTACK = "DEFAULT ATTACK";
 
         float lastHitTime = 0f;
 
-        Enemy enemy = null;
-        CameraRaycaster cameraRaycaster = null;
+        Enemy enemy;
+        CameraRaycaster cameraRaycaster;
         Animator animator;
         SpecialAbilities specialAbilities;
         GameObject weaponObject;
+        Character character;
 
         
         private void Start()
         {
+            character = GetComponent<Character>();
             specialAbilities = GetComponent<SpecialAbilities>();
-            RegisterForMouseClick();
+            RegisterForMouseEvents();
             PutWeaponInHand(currentWeaponConfig);
             SetAttackAnimation();
         }
 
+        private void RegisterForMouseEvents()
+        {
+            // Subscribe to Raycaster's on click event.
+            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
+            cameraRaycaster.onMouseOverWalkable += OnMouseOverWalkable;
+        }
+
+        private void Update()
+        {
+            ScanForAbilityKeyDown();
+        }
+
+        private void ScanForAbilityKeyDown()
+        {
+            for (int keyIndex = 1; keyIndex <= specialAbilities.GetNumberOfAbilities(); keyIndex++)
+            {
+                if (Input.GetKeyDown(keyIndex.ToString()))
+                {
+                    specialAbilities.AttemptSpecialAbility(keyIndex - 1);
+                }
+            }
+        }
+
+        private void OnMouseOverWalkable(Vector3 targetLocation)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                character.SetDestination(targetLocation);
+            }
+        }
+
+        private void OnMouseOverEnemy(Enemy enemyToSet)
+        {
+            enemy = enemyToSet;
+            if (Input.GetMouseButton(0) && IsInRange(enemy.gameObject))
+            {
+                Attack();
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                specialAbilities.AttemptSpecialAbility(0, enemy.gameObject);
+            }
+        }
 
         public void PutWeaponInHand(Weapon weaponToUse)
         {
@@ -48,26 +90,6 @@ namespace RPG.Characters
             weaponObject.transform.localPosition = currentWeaponConfig.gripTransform.localPosition;
             weaponObject.transform.localRotation = currentWeaponConfig.gripTransform.localRotation;
         }
-
-        private void Update()
-        {
-            var healthAsPercentage = GetComponent<HealthSystem>().healthAsPercentage;
-            if (healthAsPercentage > Mathf.Epsilon)  // If we are alive
-            {
-                ScanForAbilityKeyDown();
-            }
-        }
-
-        private void ScanForAbilityKeyDown()
-        {
-            for (int keyIndex = 1; keyIndex <= specialAbilities.GetNumberOfAbilities(); keyIndex++)
-            {
-                if(Input.GetKeyDown(keyIndex.ToString()))
-                {
-                    specialAbilities.AttemptSpecialAbility(keyIndex-1);
-                }
-            }
-        }
         
         private void SetAttackAnimation()
         {
@@ -76,27 +98,7 @@ namespace RPG.Characters
             animatorOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();
         }
 
-        private void RegisterForMouseClick()
-        {
-            // Subscribe to Raycaster's on click event.
-            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
-        }
-
-        private void OnMouseOverEnemy(Enemy enemyToSet)
-        {
-            enemy = enemyToSet;
-            if(Input.GetMouseButton(0) && IsInRange(enemy.gameObject) )
-            {
-                Attack();
-            }
-
-            if (Input.GetMouseButtonDown(1) )
-            {
-                specialAbilities.AttemptSpecialAbility(0, enemy.gameObject);
-            }
-        }
-
+        //todo most mothods from now should be on weaponsystem
         private GameObject RequestDominantHand()
         {
             var dominantHands = GetComponentsInChildren<DominantHand>();
@@ -114,6 +116,7 @@ namespace RPG.Characters
             return distanceToTarget <= currentWeaponConfig.GetAttackRange();
         }
 
+        // TODO use coroutine for move and attack
         private void Attack()
         {
             // Find component and see if damageable (Components may be null)
@@ -131,6 +134,7 @@ namespace RPG.Characters
             }
         }
 
+        // todo move to weaponsystem
         private float CalculateDamage()
         {
             bool isArmourHit = IsArmourHit();

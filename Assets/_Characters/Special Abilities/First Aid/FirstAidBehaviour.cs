@@ -8,11 +8,11 @@ namespace RPG.Characters
 {
     public class FirstAidBehaviour : AbilityBehaviour
     {
-        Player player;
+        PlayerControl player;
 
         private void Start()
         {
-            player = GetComponent<Player>();
+            player = GetComponent<PlayerControl>();
         }
 
         public override void Use(GameObject target)

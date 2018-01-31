@@ -39,6 +39,7 @@ namespace RPG.Characters
         Rigidbody rigidBody;
         float turnAmount;
         float forwardAmount;
+        bool isAlive = true;
 
         private void Awake()
         {
@@ -75,14 +76,12 @@ namespace RPG.Characters
 
         private void Start()
         {
-            CameraUI.CameraRaycaster cameraRaycaster = Camera.main.GetComponent<CameraUI.CameraRaycaster>();
-            cameraRaycaster.onMouseOverWalkable += OnMouseOverWalkable;
-            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;            
+         
         }
 
         private void Update()
         {
-            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive)
             {
                 Move(navMeshAgent.desiredVelocity);
             }
@@ -94,10 +93,15 @@ namespace RPG.Characters
 
         public void Kill()
         {
-            // to allow death signalling
+            isAlive = false;
         }
 
-        public void Move(Vector3 movement)
+        public void SetDestination(Vector3 worldPosition)
+        {
+            navMeshAgent.destination = worldPosition; ;
+        }
+
+        private void Move(Vector3 movement)
         {
             SetForwardAndTurn(movement);
             ApplyExtraTurnRotation();
@@ -132,22 +136,6 @@ namespace RPG.Characters
             animator.speed = animationSpeedMultiplier;
         }
 
-        private void OnMouseOverWalkable(Vector3 targetLocation)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                navMeshAgent.SetDestination(targetLocation);
-            }
-        }
-
-        private void OnMouseOverEnemy(Enemy enemy )
-        {
-            if (Input.GetMouseButton(0) || Input.GetMouseButton(1) )
-            {
-                navMeshAgent.SetDestination(enemy.transform.position);
-            }
-        }
-
         public void OnAnimatorMove()
         {
             // we implement this function to override the default root motion.
@@ -160,6 +148,6 @@ namespace RPG.Characters
                 velocity.y = rigidBody.velocity.y;
                 rigidBody.velocity = velocity;
             }
-        }        
+        }
     }
 }
