@@ -14,9 +14,11 @@ MonoBehaviour:
   gripTransform: {fileID: 4689537459407266, guid: 7d8e995a5da50c54894ea6d2c5420d2c,
     type: 2}
   weaponPrefab: {fileID: 100000, guid: ee04c8e479165444cacd1a3a7b02cad1, type: 2}
-  attackAnimation: {fileID: 7400000, guid: 16b4a0031272510489ca40cdfd99c114, type: 3}
+  attackAnimation: {fileID: 7400000, guid: 5937d12bb68bf5f438c6caf3d4222063, type: 3}
+  quality: 0.8
+  condition: 0.8
   timeBetweenHits: 2.5
-  attackRange: 2.5
+  attackRange: 2
   bladeDamageModifier: 1
   bluntDamageModifier: 0.9
   pierceDamageModifier: 0

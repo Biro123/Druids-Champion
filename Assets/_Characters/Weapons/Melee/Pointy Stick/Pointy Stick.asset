@@ -9,13 +9,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a24fe6b13d6c584db1aa4fc23349804, type: 3}
-  m_Name: PointyStick
+  m_Name: Pointy Stick
   m_EditorClassIdentifier: 
   gripTransform: {fileID: 4917214913903806, guid: b9b2857e1dd34cf49920ec2120a16298,
     type: 2}
   weaponPrefab: {fileID: 1274797246840802, guid: 9cee90508e1538a41a9c647abea067d7,
     type: 2}
-  attackAnimation: {fileID: 7400000, guid: 96f8270c0e4678d4580d41b43babe823, type: 3}
+  attackAnimation: {fileID: 7400000, guid: e926e621b8f1c664cb310c28338c232f, type: 3}
+  quality: 0.8
+  condition: 0.8
   timeBetweenHits: 0.7
   attackRange: 2.5
   bladeDamageModifier: 0

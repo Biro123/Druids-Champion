@@ -16,8 +16,10 @@ MonoBehaviour:
   weaponPrefab: {fileID: 1427361354784342, guid: dc8bc3c8dae102547b4a319ebbd68327,
     type: 2}
   attackAnimation: {fileID: 7400000, guid: 4cc7a6346b1003244b110b3324155da7, type: 3}
+  quality: 0.8
+  condition: 0.8
   timeBetweenHits: 1
-  attackRange: 1.5
+  attackRange: 2
   bladeDamageModifier: 0.75
   bluntDamageModifier: 0.25
   pierceDamageModifier: 0.5

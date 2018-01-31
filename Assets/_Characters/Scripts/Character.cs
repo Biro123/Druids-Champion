@@ -108,6 +108,11 @@ namespace RPG.Characters
             UpdateAnimator();
         }
 
+        public AnimatorOverrideController GetAnimatorOverrideController()
+        {
+            return animatorOverrideController;
+        }
+
         private void SetForwardAndTurn(Vector3 movement)
         {
             // convert the world relative moveInput vector into a local-relative
