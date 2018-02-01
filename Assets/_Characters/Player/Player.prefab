@@ -1158,6 +1158,7 @@ GameObject:
   - component: {fileID: 114988453791225846}
   - component: {fileID: 114790978641495978}
   - component: {fileID: 114992957174461168}
+  - component: {fileID: 114969935699904204}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -3351,7 +3352,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 51.609, y: 8.01, z: -237.685}
+  m_LocalPosition: {x: 51.609, y: 8.005, z: -237.685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827194604900974}
@@ -5174,7 +5175,7 @@ MonoBehaviour:
     type: 2}
   characterAvatar: {fileID: 9000000, guid: 6a0af412b3bd5e4429eb52b218255660, type: 3}
   audioVolume: 1
-  colliderCentre: {x: 0, y: 0.9, z: 0}
+  colliderCentre: {x: 0, y: 0.95, z: 0}
   colliderRadius: 0.3
   colliderHeight: 1.8
   moveSpeedMultiplier: 1
@@ -5185,6 +5186,22 @@ MonoBehaviour:
   navMeshAgentStoppingDistance: 1
   navMeshAgentAutoBraking: 0
   rigidBodyMass: 80
+--- !u!114 &114969935699904204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1400500621032120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96707d7169b1c204197a14724bdb4305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headArmourConfig: {fileID: 0}
+  bodyArmourConfig: {fileID: 11400000, guid: bc73ab6df80beb94c978d2d22baa5eb6, type: 2}
+  armArmourConfig: {fileID: 0}
+  legArmourConfig: {fileID: 0}
+  unarmouredHitParticleSystem: {fileID: 0}
 --- !u!114 &114988453791225846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5218,7 +5235,6 @@ MonoBehaviour:
   baseDamage: 220
   currentWeaponConfig: {fileID: 11400000, guid: 56775f97211f3164ebdc486f3dc8fbdc,
     type: 2}
-  unarmouredHitParticleSystem: {fileID: 198872239181412036}
 --- !u!137 &137166622535503550
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

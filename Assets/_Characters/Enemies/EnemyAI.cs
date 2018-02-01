@@ -6,19 +6,12 @@ using RPG.Core;
 
 namespace RPG.Characters
 {
-
     [RequireComponent(typeof(WeaponSystem))]
     public class EnemyAI : MonoBehaviour
     {
         [Tooltip("Enemies within this range will move to attack range")]
         [SerializeField] float aggroDistance = 10f;
         
-        //TODO pull out to armour system ?
-        [Range(0.0f, 1.0f)] [SerializeField] float armourCoverage = 0.4f;
-        [SerializeField] float bladeArmourAmount = 20f;
-        [SerializeField] float bluntArmourAmount = 20f;
-        [SerializeField] float pierceArmourAmount = 20f;
-
         //TODO try to do this without layers
         [SerializeField] int[] layersToTarget = { 10, 11 };
 
@@ -26,12 +19,8 @@ namespace RPG.Characters
 
         private Transform startPosition;
         private Transform target = null;
-        private int opponentLayerMask = 0;
-                
-        public float GetArmourCoverage() { return armourCoverage; }
-        public float GetBladeArmourAmount() { return bladeArmourAmount; }
-        public float GetBluntArmourAmount() { return bluntArmourAmount; }
-        public float GetPierceArmourAmount() { return pierceArmourAmount; }                 
+        private int opponentLayerMask = 0;         
+              
 
         private void Start()
         {

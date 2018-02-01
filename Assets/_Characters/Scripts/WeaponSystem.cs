@@ -9,7 +9,6 @@ namespace RPG.Characters
     {
         [SerializeField] float baseDamage = 220f;
         [SerializeField] WeaponConfig currentWeaponConfig;
-        [SerializeField] ParticleSystem unarmouredHitParticleSystem;
 
         GameObject target;
         GameObject weaponObject;
@@ -93,57 +92,30 @@ namespace RPG.Characters
 
         private float CalculateDamage()
         {
-            bool isArmourHit = IsArmourHit();
+            ArmourSystem.ArmourProtection targetArmour = new ArmourSystem.ArmourProtection();
+            ArmourSystem targetArmourSystem = target.GetComponent<ArmourSystem>();
+            if (targetArmourSystem)
+            {
+                targetArmour = targetArmourSystem.CalculateArmour();
+            }
+
             if (UnityEngine.Random.Range(0f, 1f) <= currentWeaponConfig.GetChanceForSwing())
             {
                 // TODO fix armour penetration
-                //float bluntDamage = ApplyWeaponAndArmour(
-                //    currentWeaponConfig.GetBluntDamageModification(),
-                //    enemy.GetBluntArmourAmount(),
-                //    isArmourHit);
-                //float bladeDamage = ApplyWeaponAndArmour(
-                //    currentWeaponConfig.GetBladeDamageModification(),
-                //    enemy.GetBladeArmourAmount(),
-                //    isArmourHit);
-                //Debug.Log("Swing: " + bluntDamage + " " + bladeDamage);
-                //return bluntDamage + bladeDamage;
-                return baseDamage;
+                float bluntDamageDone = baseDamage * currentWeaponConfig.GetBluntDamageModification();
+                float bluntDamageTaken = Mathf.Clamp(bluntDamageDone - targetArmour.blunt, 0f, bluntDamageDone);
+
+                float bladeDamageDone = baseDamage * currentWeaponConfig.GetBladeDamageModification();
+                float bladeDamageTaken = Mathf.Clamp(bladeDamageDone - targetArmour.blade, 0f, bladeDamageDone);
+                
+                return bluntDamageTaken + bladeDamageTaken;
             }
             else
             {
-                // TODO fix armour penetration
-                //float pierceDamage = ApplyWeaponAndArmour(
-                //    currentWeaponConfig.GetPierceDamageModification(),
-                //    enemy.GetPierceArmourAmount(),
-                //    isArmourHit);
-                //Debug.Log("Thrust: " + pierceDamage);
-                //return pierceDamage;
-                return baseDamage;
+                float pierceDamageDone = baseDamage * currentWeaponConfig.GetPierceDamageModification();
+                float pierceDamageTaken = Mathf.Clamp(pierceDamageDone - targetArmour.pierce, 0f, pierceDamageDone);
+                return pierceDamageTaken;
             }
         }
-
-        private float ApplyWeaponAndArmour(float weaponDamageMod, float armourProtection, bool armourHit)
-        {
-            float weaponDamage = baseDamage * weaponDamageMod;
-
-            if (armourHit)
-            {
-                float damageWithArmour = Mathf.Clamp(weaponDamage - armourProtection, 0f, weaponDamage);
-                return damageWithArmour;
-            }
-            else
-            {
-                unarmouredHitParticleSystem.Play();
-                return weaponDamage;
-            }
-        }
-
-        private bool IsArmourHit()
-        {
-            //TODO fix armourhit
-            //return UnityEngine.Random.Range(0f, 1f) <= enemy.GetArmourCoverage();
-            return true;
-        }
-
     }
 }
