@@ -101,21 +101,30 @@ namespace RPG.Characters
 
             if (UnityEngine.Random.Range(0f, 1f) <= currentWeaponConfig.GetChanceForSwing())
             {
-                // TODO fix armour penetration
-                float bluntDamageDone = baseDamage * currentWeaponConfig.GetBluntDamageModification();
-                float bluntDamageTaken = Mathf.Clamp(bluntDamageDone - targetArmour.blunt, 0f, bluntDamageDone);
-
-                float bladeDamageDone = baseDamage * currentWeaponConfig.GetBladeDamageModification();
-                float bladeDamageTaken = Mathf.Clamp(bladeDamageDone - targetArmour.blade, 0f, bladeDamageDone);
-                
-                return bluntDamageTaken + bladeDamageTaken;
+                return CalculateSwingDamage(targetArmour);
             }
             else
             {
-                float pierceDamageDone = baseDamage * currentWeaponConfig.GetPierceDamageModification();
-                float pierceDamageTaken = Mathf.Clamp(pierceDamageDone - targetArmour.pierce, 0f, pierceDamageDone);
-                return pierceDamageTaken;
+                return CalculateThrustDamage(targetArmour);
             }
+        }
+
+        private float CalculateSwingDamage(ArmourSystem.ArmourProtection targetArmour)
+        {
+            float bluntDamageDone = baseDamage * currentWeaponConfig.GetBluntDamageModification();
+            float bluntDamageTaken = Mathf.Clamp(bluntDamageDone - targetArmour.blunt, 0f, bluntDamageDone);
+
+            float bladeDamageDone = baseDamage * currentWeaponConfig.GetBladeDamageModification();
+            float bladeDamageTaken = Mathf.Clamp(bladeDamageDone - targetArmour.blade, 0f, bladeDamageDone);
+
+            return bluntDamageTaken + bladeDamageTaken;
+        }
+        
+        private float CalculateThrustDamage(ArmourSystem.ArmourProtection targetArmour)
+        {
+            float pierceDamageDone = baseDamage * currentWeaponConfig.GetPierceDamageModification();
+            float pierceDamageTaken = Mathf.Clamp(pierceDamageDone - targetArmour.pierce, 0f, pierceDamageDone);
+            return pierceDamageTaken;
         }
     }
 }

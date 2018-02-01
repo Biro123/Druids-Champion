@@ -6,6 +6,7 @@ using RPG.Core;
 
 namespace RPG.Characters
 {
+    [RequireComponent(typeof(Character))]
     [RequireComponent(typeof(WeaponSystem))]
     public class EnemyAI : MonoBehaviour
     {
@@ -17,17 +18,21 @@ namespace RPG.Characters
 
         float currentWeaponRange;
 
-        private Transform startPosition;
-        private Transform target = null;
-        private int opponentLayerMask = 0;         
-              
+        Character character;
+        Transform target = null;
+        int opponentLayerMask = 0;
+        float distanceToTarget = 0f;
+
+
+        enum State { attacking, chasing, idle, patrolling, returning };
+        State state = State.idle;
 
         private void Start()
         {
+            character = GetComponent<Character>();
             WeaponSystem weaponSystem = GetComponent<WeaponSystem>();
             currentWeaponRange = weaponSystem.GetCurrentWeapon().GetAttackRange();
-            startPosition = this.transform;
-
+  
             // Set up the layermask of opponents to look for.
             foreach (var layer in layersToTarget)
             {
@@ -38,10 +43,39 @@ namespace RPG.Characters
         private void Update()
         {
             target = FindTargetInRange(aggroDistance);
-
-            if (target != null)
+            distanceToTarget = 0f;
+            if (target)
             {
+                distanceToTarget = (transform.position - target.transform.position).magnitude;
+            }
+
+            if (target == null && state != State.patrolling)
+            {
+                StopAllCoroutines();
+                state = State.patrolling;
+            }
+            
+            if (target && state != State.chasing)
+            {
+                StopAllCoroutines();
+                StartCoroutine(ChaseTarget());
+            }
+
+            if(distanceToTarget <= currentWeaponRange && state != State.attacking)
+            {
+                StopAllCoroutines();
+                state = State.attacking;
                 //  TODO    AttackIfInRange(target);
+            }
+        }
+
+        IEnumerator ChaseTarget()
+        {
+            state = State.chasing;
+            while(distanceToTarget >= currentWeaponRange )
+            {
+                character.SetDestination(target.position);
+                yield return new WaitForEndOfFrame();
             }
         }
 
