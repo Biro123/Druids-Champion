@@ -1,20 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RPG.Core;   // TODO Consider re-wiring
+using RPG.Core;  
 
 namespace RPG.Characters
 {
     public class Formation : MonoBehaviour
     {
-
+        [Header("Setup")]
         [SerializeField] GameObject row1Trooper;
         [SerializeField] GameObject row2Trooper;
         [SerializeField] GameObject leaderPrefab;
 
+        [Header("Formation Behaviour")]
         [Tooltip("Distance from enemy to reform")]
         [SerializeField] float reformDistance = 15f;
         [SerializeField] int[] layersToTarget = { 10, 11 };
+
+        [Header("Individual Troop settings")]
+        [Tooltip("Aggro distance while in formation")]
+        [SerializeField]float formationAggroDistance = 3f;
+
+        [Tooltip("Stop Distance while going back to formation")]
+        [SerializeField] float formationStopDistance = 0.5f;
 
         private Transform[] troopPositions;
         private GameObject[] troopers;
@@ -47,7 +55,7 @@ namespace RPG.Characters
         private void AddTrooper(GameObject troopPrefab, int trooperIndex, Transform troopPosition)
         {
             GameObject trooper = Instantiate(troopPrefab, troopPosition.position, transform.rotation, transform.parent);
-            trooper.GetComponent<Enemy>().SetOrder(UnitOrder.ShieldWall, troopPosition);
+            //trooper.GetComponent<Enemy>().SetOrder(UnitOrder.ShieldWall, troopPosition);
             troopers[trooperIndex] = trooper;
         }
 
@@ -60,7 +68,7 @@ namespace RPG.Characters
                 {
                     if (trooper != null)
                     {
-                        trooper.GetComponent<Enemy>().SetOrder(UnitOrder.Skirmish, trooper.transform);
+                       // trooper.GetComponent<Enemy>().SetOrder(UnitOrder.Skirmish, trooper.transform);
                     }
 
                 }
@@ -111,7 +119,7 @@ namespace RPG.Characters
                 {
                     // Move last trooper to first, and set its target to that position
                     troopers[i] = troopers[j];   // ensure index matches with position
-                    troopers[i].GetComponent<Enemy>().SetOrder(UnitOrder.Reform, troopPositions[i]);
+                    //troopers[i].GetComponent<Enemy>().SetOrder(UnitOrder.Reform, troopPositions[i]);
                 }
                 else
                 {
@@ -136,7 +144,7 @@ namespace RPG.Characters
                     if (troopers[i + rankSize] != null)
                     { // if so, move from back
                         troopers[i] = troopers[i + rankSize];   // ensure index matches with position
-                        troopers[i].GetComponent<Enemy>().SetFormationPos(troopPositions[i]);
+                        //troopers[i].GetComponent<Enemy>().SetFormationPos(troopPositions[i]);
                     }
                 }
             }

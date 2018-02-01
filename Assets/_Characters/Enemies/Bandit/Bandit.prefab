@@ -987,6 +987,7 @@ GameObject:
   - component: {fileID: 114583735368621104}
   - component: {fileID: 114187151816115150}
   - component: {fileID: 114310259329006632}
+  - component: {fileID: 114802186839615088}
   m_Layer: 0
   m_Name: Bandit
   m_TagString: Untagged
@@ -2292,6 +2293,23 @@ MonoBehaviour:
   navMeshAgentStoppingDistance: 1
   navMeshAgentAutoBraking: 0
   rigidBodyMass: 80
+--- !u!114 &114802186839615088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884801355505468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aggroDistance: 10
+  armourCoverage: 0.4
+  bladeArmourAmount: 20
+  bluntArmourAmount: 20
+  pierceArmourAmount: 20
+  layersToTarget: 0a0000000b000000
 --- !u!137 &137026925393275836
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

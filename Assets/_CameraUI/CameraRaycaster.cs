@@ -16,7 +16,7 @@ namespace RPG.CameraUI
         float maxRaycastDepth = 100f;  // Hard coded value
                 
         // Delegates allow other class to 'Subscribe' to them
-        public delegate void OnMouseOverEnemy(Enemy enemy);     // Declare new delegate type
+        public delegate void OnMouseOverEnemy(EnemyAI enemy);     // Declare new delegate type
         public event OnMouseOverEnemy onMouseOverEnemy;         // Instantiate an observer set
 
         public delegate void OnMouseOverTerrain(Vector3 destination);
@@ -52,7 +52,7 @@ namespace RPG.CameraUI
             if (!hitAnything) { return false; } 
 
             GameObject gameObjectHit = hitInfo.collider.gameObject;
-            Enemy enemyHit = gameObjectHit.GetComponent<Enemy>();
+            EnemyAI enemyHit = gameObjectHit.GetComponent<EnemyAI>();
             if (enemyHit)
             {
                 Cursor.SetCursor(targetCursor, cursorHotspot, CursorMode.Auto);

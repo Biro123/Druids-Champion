@@ -5,7 +5,7 @@ namespace RPG.Characters
 {
     public class PlayerControl : MonoBehaviour
     {
-        Enemy enemy;
+        EnemyAI enemy;
         CameraRaycaster cameraRaycaster;
         SpecialAbilities specialAbilities;
         Character character;
@@ -52,7 +52,7 @@ namespace RPG.Characters
             }
         }
 
-        private void OnMouseOverEnemy(Enemy enemyToSet)
+        private void OnMouseOverEnemy(EnemyAI enemyToSet)
         {
             enemy = enemyToSet;
             if (Input.GetMouseButton(0) && IsInRange(enemy.gameObject))

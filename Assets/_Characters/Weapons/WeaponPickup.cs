@@ -46,8 +46,12 @@ namespace RPG.Characters
 
         private void OnTriggerEnter(Collider other)
         {
-            FindObjectOfType<WeaponSystem>().PutWeaponInHand(weaponConfig);
-            audioSource.PlayOneShot(pickupSFX);
+            if (other.GetComponent<PlayerControl>())
+            {
+                print("switching weapon");
+                other.GetComponent<WeaponSystem>().PutWeaponInHand(weaponConfig);
+                audioSource.PlayOneShot(pickupSFX);
+            }
         }
 
     }
