@@ -20,6 +20,7 @@ namespace RPG.Characters
             HealPlayer();            
             PlayParticleEffect();
             PlayAbilityAudio();
+            PlayAbilityAnimation();
         }
 
         private void HealPlayer()
