@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -18,6 +16,8 @@ namespace RPG.Characters
         Character character;
 
         float lastHitTime;
+        bool attackerIsAlive;
+        bool targetIsAlive;
 
         const string ATTACK_TRIGGER = "Attack";
         const string DEFAULT_ATTACK = "DEFAULT ATTACK";
@@ -31,9 +31,37 @@ namespace RPG.Characters
             SetAttackAnimation();
         }
 
+        private void Update()
+        {
+            bool targetInRange;
+
+            attackerIsAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+
+            if (target == null)
+            {
+                targetIsAlive = false;
+                targetInRange = false;
+            }
+            else
+            {
+                targetIsAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+
+                float distanceToTarget = Vector3.Distance(this.transform.position, target.transform.position);
+                targetInRange = (distanceToTarget <= currentWeaponConfig.GetAttackRange());
+            }
+
+            if (targetIsAlive && attackerIsAlive && targetInRange)
+            {
+                FaceTarget();
+            }
+            else
+            {
+                StopAllCoroutines();
+            } 
+        }
+
         public void PutWeaponInHand(WeaponConfig weaponToUse)
         {
-            print("Putting " + weaponToUse + " in hand");
             currentWeaponConfig = weaponToUse;
             var weaponPrefab = weaponToUse.GetWeaponPrefab();
             GameObject dominantHand = RequestDominantHand();
@@ -47,16 +75,11 @@ namespace RPG.Characters
         {
             target = targetToAttack;
             targetHealthSystem = target.GetComponent<HealthSystem>();
-            print("Attacking: " + target);
             StartCoroutine(AttackTargetRepeatedly());
         }
 
         IEnumerator AttackTargetRepeatedly()
-        {
-            // determine both attacker and defender are alive
-            bool attackerIsAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
-            bool targetIsAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
-            
+        {            
             while(attackerIsAlive && targetIsAlive)
             {
                 float weaponHitPeriod = currentWeaponConfig.GetTimeBetweenHits();
@@ -105,9 +128,6 @@ namespace RPG.Characters
 
         private void AttackTargetOnce()
         {
-            //FaceTarget();  // TODO make work
-            transform.LookAt(target.transform);
-
             if (targetHealthSystem != null)
             {
                 SetAttackAnimation();
@@ -127,7 +147,7 @@ namespace RPG.Characters
         {
             var attackTurnSpeed = character.GetAttackTurnRate();
             var amountToRotate = Quaternion.LookRotation(target.transform.position - this.transform.position);
-            var rotateSpeed = Mathf.Min(attackTurnSpeed * Time.deltaTime, 1);
+            var rotateSpeed = attackTurnSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Lerp(transform.rotation, amountToRotate, rotateSpeed);
         }
 
