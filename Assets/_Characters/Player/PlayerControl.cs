@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 using RPG.CameraUI;    // For mouse events  
 
 namespace RPG.Characters
 {
     public class PlayerControl : MonoBehaviour
     {
-        EnemyAI enemy;
-        CameraRaycaster cameraRaycaster;
         SpecialAbilities specialAbilities;
         Character character;
         WeaponSystem weaponSystem;
@@ -23,7 +22,7 @@ namespace RPG.Characters
         private void RegisterForMouseEvents()
         {
             // Subscribe to Raycaster's on click event.
-            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+            var cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
             cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
             cameraRaycaster.onMouseOverWalkable += OnMouseOverWalkable;
         }
@@ -52,18 +51,47 @@ namespace RPG.Characters
             }
         }
 
-        private void OnMouseOverEnemy(EnemyAI enemyToSet)
+        private void OnMouseOverEnemy(EnemyAI enemy)
         {
-            enemy = enemyToSet;
             if (Input.GetMouseButton(0) && IsInRange(enemy.gameObject))
             {
                 weaponSystem.AttackTarget(enemy.gameObject);
             }
+            else if (Input.GetMouseButton(0) && ! IsInRange(enemy.gameObject))
+            {
+                StartCoroutine(MoveAndAttack(enemy.gameObject));
+            }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && IsInRange(enemy.gameObject))
             {
                 specialAbilities.AttemptSpecialAbility(0, enemy.gameObject);
             }
+            else if (Input.GetMouseButtonDown(1) && !IsInRange(enemy.gameObject))
+            {
+                StartCoroutine(MoveAndSpecial(0, enemy.gameObject));
+            }
+        }
+
+        IEnumerator MoveToTarget(GameObject target)
+        {
+            character.SetDestination(target.transform.position);
+            while (!IsInRange(target))
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator MoveAndAttack (GameObject target)
+        {
+            yield return StartCoroutine(MoveToTarget(target));
+            weaponSystem.AttackTarget(target.gameObject);
+        }
+
+        IEnumerator MoveAndSpecial (int specialAbilityIndex, GameObject target)
+        {
+            yield return StartCoroutine(MoveToTarget(target));
+            specialAbilities.AttemptSpecialAbility(specialAbilityIndex, target.gameObject);
         }
               
         private bool IsInRange(GameObject target)
