@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -11,6 +12,7 @@ namespace RPG.Characters
         [SerializeField] WeaponConfig currentWeaponConfig;
 
         GameObject target;
+        HealthSystem targetHealthSystem;
         GameObject weaponObject;
         Animator animator;
         Character character;
@@ -44,9 +46,30 @@ namespace RPG.Characters
         public void AttackTarget(GameObject targetToAttack)
         {
             target = targetToAttack;
+            targetHealthSystem = target.GetComponent<HealthSystem>();
             print("Attacking: " + target);
-            // todo use a repeat attack co-routine
+            StartCoroutine(AttackTargetRepeatedly());
+        }
 
+        IEnumerator AttackTargetRepeatedly()
+        {
+            // determine both attacker and defender are alive
+            bool attackerIsAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+            bool targetIsAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+            
+            while(attackerIsAlive && targetIsAlive)
+            {
+                float weaponHitPeriod = currentWeaponConfig.GetTimeBetweenHits();
+                float timeToWait = weaponHitPeriod * character.GetAnimSpeedMultiplier();
+                bool isTimeToHit = Time.time - lastHitTime > timeToWait;
+
+                if(isTimeToHit)
+                {
+                    AttackTargetOnce();
+                    lastHitTime = Time.time;
+                }
+                yield return new WaitForSeconds(timeToWait);
+            }            
         }
 
         public WeaponConfig GetCurrentWeapon()
@@ -56,10 +79,17 @@ namespace RPG.Characters
         
         private void SetAttackAnimation()
         {
-            animator = GetComponent<Animator>();
-            var animatorOverrideController = character.GetAnimatorOverrideController();
-            animator.runtimeAnimatorController = animatorOverrideController;
-            animatorOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();
+            if (!character.GetAnimatorOverrideController())
+            {
+                Debug.Break();
+                Debug.LogAssertion("Please proved " + gameObject + " with an animator Override Controller");
+            }
+            else
+            {
+                var animatorOverrideController = character.GetAnimatorOverrideController();
+                animator.runtimeAnimatorController = animatorOverrideController;
+                animatorOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();
+            }
         }
 
         private GameObject RequestDominantHand()
@@ -73,21 +103,32 @@ namespace RPG.Characters
             return dominantHands[0].gameObject;
         }
 
-        private void Attack()
+        private void AttackTargetOnce()
         {
-            // Find component and see if damageable (Components may be null)
-            HealthSystem targetHealthSystem = target.GetComponent<HealthSystem>();
+            //FaceTarget();  // TODO make work
+            transform.LookAt(target.transform);
 
             if (targetHealthSystem != null)
             {
-                if (Time.time - lastHitTime >= currentWeaponConfig.GetTimeBetweenHits())
-                {
-                    SetAttackAnimation();
-                    animator.SetTrigger(ATTACK_TRIGGER);
-                    targetHealthSystem.AdjustHealth(CalculateDamage());
-                    lastHitTime = Time.time;
-                }
+                SetAttackAnimation();
+                animator.SetTrigger(ATTACK_TRIGGER);
+                float damageDelay = 0.5f; // TODO get from weapon
+                StartCoroutine(DamageAfterDelay(damageDelay));                
             }
+        }
+
+        IEnumerator DamageAfterDelay (float delay)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            targetHealthSystem.AdjustHealth(CalculateDamage());            
+        }
+
+        private void FaceTarget()
+        {
+            var attackTurnSpeed = character.GetAttackTurnRate();
+            var amountToRotate = Quaternion.LookRotation(target.transform.position - this.transform.position);
+            var rotateSpeed = Mathf.Min(attackTurnSpeed * Time.deltaTime, 1);
+            transform.rotation = Quaternion.Lerp(transform.rotation, amountToRotate, rotateSpeed);
         }
 
         private float CalculateDamage()

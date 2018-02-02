@@ -25,6 +25,7 @@ namespace RPG.Characters
         [SerializeField] float animationSpeedMultiplier = 1f;
         [SerializeField] float movingTurnSpeed = 360;
         [SerializeField] float stationaryTurnSpeed = 180;
+        [SerializeField] float attackTurnRate = 0.5f;
 
         [Header("Navigation")]
         [SerializeField] float navMeshAgentSteeringSpeed = 1.2f;
@@ -74,11 +75,6 @@ namespace RPG.Characters
             //navMeshAgent.areaMask.   // TODO need to set to walkable? 
         }
 
-        private void Start()
-        {
-         
-        }
-
         private void Update()
         {
             if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive)
@@ -89,6 +85,16 @@ namespace RPG.Characters
             {
                 Move(Vector3.zero);
             }
+        }
+
+        public float GetAttackTurnRate()
+        {
+            return attackTurnRate;
+        }
+
+        public float GetAnimSpeedMultiplier()
+        {
+            return animationSpeedMultiplier;
         }
 
         public void Kill()
