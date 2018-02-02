@@ -14,6 +14,7 @@ namespace RPG.Characters
         [SerializeField] float aggroDistance = 10f;
         [SerializeField] WaypointContainer patrolPath;
         [SerializeField] float waypointTolerance = 3f;
+        [SerializeField] float waypointDwellTime = 0.5f;
 
         //TODO try to do this without layers
         [SerializeField] int[] layersToTarget = { 10, 11 };
@@ -22,6 +23,7 @@ namespace RPG.Characters
 
         Character character;
         Transform target = null;
+        WeaponSystem weaponSystem;
         int opponentLayerMask = 0;
         float distanceToTarget = 0f;
         int waypointIndex;
@@ -32,7 +34,7 @@ namespace RPG.Characters
         private void Start()
         {
             character = GetComponent<Character>();
-            WeaponSystem weaponSystem = GetComponent<WeaponSystem>();
+            weaponSystem = GetComponent<WeaponSystem>();
             currentWeaponRange = weaponSystem.GetCurrentWeapon().GetAttackRange();
   
             // Set up the layermask of opponents to look for.
@@ -54,12 +56,14 @@ namespace RPG.Characters
             if (target == null && state != State.patrolling)
             {
                 StopAllCoroutines();
+                weaponSystem.StopAttacking();
                 StartCoroutine(Patrol());
             }
             
             if (target && state != State.chasing)
             {
                 StopAllCoroutines();
+                weaponSystem.StopAttacking();
                 StartCoroutine(ChaseTarget());
             }
 
@@ -67,7 +71,7 @@ namespace RPG.Characters
             {
                 StopAllCoroutines();
                 state = State.attacking;
-                //  TODO    AttackIfInRange(target);
+                weaponSystem.AttackTarget(target.gameObject);
             }
         }
 
@@ -84,7 +88,7 @@ namespace RPG.Characters
                 character.SetDestination(nextWaypointPos);
                 CycleWaypointWhenClose(nextWaypointPos);
                 // wait at waypoint
-                yield return new WaitForSeconds(0.5f);  // TODO parameterise
+                yield return new WaitForSeconds(waypointDwellTime);  
             }
 
         }

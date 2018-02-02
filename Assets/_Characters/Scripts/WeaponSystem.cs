@@ -71,6 +71,11 @@ namespace RPG.Characters
             weaponObject.transform.localRotation = currentWeaponConfig.gripTransform.localRotation;
         }
 
+        public void StopAttacking()
+        {
+            StopAllCoroutines();
+        }
+
         public void AttackTarget(GameObject targetToAttack)
         {
             target = targetToAttack;
