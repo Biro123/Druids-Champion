@@ -9,17 +9,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a24fe6b13d6c584db1aa4fc23349804, type: 3}
-  m_Name: ShortBow
+  m_Name: Wooden Club
   m_EditorClassIdentifier: 
-  gripTransform: {fileID: 4917214913903806, guid: 99b7c54cfa2ea504ba78f58188d7f9c9,
+  gripTransform: {fileID: 4689537459407266, guid: 0ea8322622c42cf4a8ed187640c56b8c,
     type: 2}
-  weaponPrefab: {fileID: 100000, guid: c3e89ea780e5be64a86a38ae5b3680d8, type: 3}
-  attackAnimation: {fileID: 7400000, guid: 522e6e5c331853c46a1b4bf644d62789, type: 3}
+  weaponPrefab: {fileID: 1285728164963844, guid: 1553fff436c6751408196999c04fd91a,
+    type: 2}
+  attackAnimation: {fileID: 7400000, guid: fa2e4218597459545922351daff42f77, type: 3}
   quality: 0.8
   condition: 0.8
   timeBetweenHits: 2
-  damageDelay: 1
-  attackRange: 15
+  damageDelay: 0.5
+  attackRange: 2
   bladeDamageModifier: 0
-  bluntDamageModifier: 0
-  pierceDamageModifier: 1
+  bluntDamageModifier: 0.91
+  pierceDamageModifier: 0
