@@ -13,7 +13,8 @@ namespace RPG.Characters
         [SerializeField] AnimationClip attackAnimation;
         [Range(0.1f, 1.2f)] [SerializeField] float quality = 0.8f;
         [Range(0.1f, 1.0f)] [SerializeField] float condition = 0.8f;
-        [SerializeField] float timeBetweenHits = 0.7f;
+        [SerializeField] float timeBetweenHits = 1f;
+        [SerializeField] float damageDelay = 0.5f;
         [SerializeField] float attackRange = 2f;
         [Range(0f, 2.0f)] [SerializeField] float bladeDamageModifier = 0.5f;
         [Range(0f, 2.0f)] [SerializeField] float bluntDamageModifier = 0.5f;
@@ -32,8 +33,12 @@ namespace RPG.Characters
 
         public float GetTimeBetweenHits()
         {
-            // TODO consider whether to take animation time into account
             return timeBetweenHits;
+        }
+
+        public float GetDamageDelay()
+        {
+            return damageDelay;
         }
 
         public float GetAttackRange()
@@ -62,7 +67,6 @@ namespace RPG.Characters
             float chanceForSwing = mainSwingDamageMod / (mainSwingDamageMod + pierceDamageModifier);
             return chanceForSwing;
         }
-
 
         // So that asset packs cannot cause bugs by expecting 'hit event' methods.
         private void RemoveAnimationEvents()

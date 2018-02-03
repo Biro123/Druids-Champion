@@ -1665,7 +1665,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1801571592290454}
-  m_LocalRotation: {x: 0.5326752, y: 0.070340455, z: 0.83613276, w: -0.110415146}
+  m_LocalRotation: {x: 0.53267515, y: 0.07034045, z: 0.83613265, w: -0.11041513}
   m_LocalPosition: {x: 0.000022271464, y: -0.00006150465, z: 0.026027026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2557,17 +2557,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 2700
   aggroDistance: 10
-  attackRange: 2
-  formationAggroDistance: 6
-  formationStopDistance: 0.5
-  projectileToUse: {fileID: 1155112663865220, guid: b9ef0db8aa91a8b47aff7aa131ee737f,
-    type: 2}
-  projectileSocket: {fileID: 1549522186132260}
-  damagePerShot: 60
-  secondsBetweenShots: 1
-  aimOffset: {x: 0, y: 1, z: 0}
+  patrolPath: {fileID: 0}
+  waypointTolerance: 3
+  waypointDwellTime: 0.5
   layersToTarget: 0a0000000b000000
 --- !u!114 &114673464821793468
 MonoBehaviour:
@@ -2611,8 +2604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1946e1c1bae1c34ba2666ebb3463952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCanvasPrefab: {fileID: 1311539807392560, guid: 9a9d70d10b9331d469e57254147e0430,
-    type: 2}
 --- !u!136 &136484323314901566
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -137,7 +137,7 @@ namespace RPG.Characters
             {
                 SetAttackAnimation();
                 animator.SetTrigger(ATTACK_TRIGGER);
-                float damageDelay = 0.5f; // TODO get from weapon
+                float damageDelay = currentWeaponConfig.GetDamageDelay(); 
                 StartCoroutine(DamageAfterDelay(damageDelay));                
             }
         }
@@ -183,6 +183,7 @@ namespace RPG.Characters
             float bladeDamageDone = baseDamage * currentWeaponConfig.GetBladeDamageModification();
             float bladeDamageTaken = Mathf.Clamp(bladeDamageDone - targetArmour.blade, 0f, bladeDamageDone);
 
+            Debug.Log("Swing Dmg on " + target + ": " + bladeDamageTaken + " Blade, " + bluntDamageDone + " Blunt." );
             return bluntDamageTaken + bladeDamageTaken;
         }
         
@@ -190,6 +191,7 @@ namespace RPG.Characters
         {
             float pierceDamageDone = baseDamage * currentWeaponConfig.GetPierceDamageModification();
             float pierceDamageTaken = Mathf.Clamp(pierceDamageDone - targetArmour.pierce, 0f, pierceDamageDone);
+            Debug.Log("Pierce Dmg on " + target + ": " + pierceDamageTaken);
             return pierceDamageTaken;
         }
     }

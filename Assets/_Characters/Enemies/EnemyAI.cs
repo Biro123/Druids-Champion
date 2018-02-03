@@ -70,7 +70,6 @@ namespace RPG.Characters
             if(target && distanceToTarget <= currentWeaponRange && state != State.attacking)
             {
                 StopAllCoroutines();
-                state = State.attacking;
                 weaponSystem.AttackTarget(target.gameObject);
             }
         }
