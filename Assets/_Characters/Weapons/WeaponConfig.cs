@@ -11,6 +11,7 @@ namespace RPG.Characters
 
         [SerializeField] GameObject weaponPrefab;
         [SerializeField] AnimationClip attackAnimation;
+        [SerializeField] AudioClip parrySound;
         [Range(0.1f, 1.2f)] [SerializeField] float quality = 0.8f;
         [Range(0.1f, 1.0f)] [SerializeField] float condition = 0.8f;
         [SerializeField] float timeBetweenHits = 1f;
@@ -29,6 +30,11 @@ namespace RPG.Characters
         {
             RemoveAnimationEvents();
             return attackAnimation;
+        }
+
+        public AudioClip GetParrySound()
+        {
+            return parrySound;
         }
 
         public float GetTimeBetweenHits()

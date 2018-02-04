@@ -63,21 +63,18 @@ namespace RPG.Characters
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
             if (damage <= 0) { return; }  // don't play sound if being healed.
-
-            float chanceToPlaySound = (damage * 3 / maxHealthPoints);
-            if (UnityEngine.Random.Range(0f, 1f) <= chanceToPlaySound)
-            {
-                PlayHitSound();
-            }
+            
+            float hitSoundVolume = (damage / maxHealthPoints * 3);   // anything over third health = full volume
+            PlayHitSound( Mathf.Clamp(hitSoundVolume, 0, 1) );
         }
 
-        private void PlayHitSound()
+        private void PlayHitSound(float volume)
         {
             if (hitSounds.Length == 0) { return; }
 
             int audioIndex = UnityEngine.Random.Range(0, hitSounds.Length);
             var clip = hitSounds[audioIndex];
-            audioSource.PlayOneShot(clip);
+            audioSource.PlayOneShot(clip, volume);
 
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -6,6 +7,8 @@ namespace RPG.Characters
 {
     public class WeaponSystem : MonoBehaviour
     {
+        [SerializeField] float attackBonus = 100f;
+        [SerializeField] float parryBonus = 110f;
         [SerializeField] float baseDamage = 220f;
         [SerializeField] WeaponConfig currentWeaponConfig;
 
@@ -21,6 +24,8 @@ namespace RPG.Characters
 
         const string ATTACK_TRIGGER = "Attack";
         const string DEFAULT_ATTACK = "DEFAULT ATTACK";
+
+        public float GetParryBonus() {  return parryBonus; }
 
         void Start()
         {
@@ -133,12 +138,33 @@ namespace RPG.Characters
 
         private void AttackTargetOnce()
         {
-            if (targetHealthSystem != null)
+            if (targetHealthSystem == null) { return; }
+
+            SetAttackAnimation();
+            animator.SetTrigger(ATTACK_TRIGGER);
+            float damageDelay = currentWeaponConfig.GetDamageDelay();
+            if (TryToHit() == true)
             {
-                SetAttackAnimation();
-                animator.SetTrigger(ATTACK_TRIGGER);
-                float damageDelay = currentWeaponConfig.GetDamageDelay(); 
-                StartCoroutine(DamageAfterDelay(damageDelay));                
+                StartCoroutine(DamageAfterDelay(damageDelay));
+            }
+            else
+            {
+                StartCoroutine(HandleParryAfterDelay(damageDelay));
+            }
+        }
+
+        private bool TryToHit()
+        {
+            float attackScore = UnityEngine.Random.Range(1, 100) + attackBonus;
+            float defenceScore = UnityEngine.Random.Range(1, 100) + target.GetComponent<WeaponSystem>().GetParryBonus();
+
+            if(attackScore > defenceScore)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -146,6 +172,13 @@ namespace RPG.Characters
         {
             yield return new WaitForSecondsRealtime(delay);
             targetHealthSystem.AdjustHealth(CalculateDamage());            
+        }
+
+        IEnumerator HandleParryAfterDelay(float delay)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            var audioSource = GetComponent<AudioSource>();
+            audioSource.PlayOneShot(currentWeaponConfig.GetParrySound());
         }
 
         private void FaceTarget()

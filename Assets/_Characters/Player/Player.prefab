@@ -3380,7 +3380,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.85, y: 0, z: -25.95}
+  m_LocalPosition: {x: -112.32, y: 0.27, z: -207.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827194604900974}
@@ -5226,10 +5226,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96707d7169b1c204197a14724bdb4305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headArmourConfig: {fileID: 0}
+  headArmourConfig: {fileID: 11400000, guid: bc73ab6df80beb94c978d2d22baa5eb6, type: 2}
   bodyArmourConfig: {fileID: 11400000, guid: bc73ab6df80beb94c978d2d22baa5eb6, type: 2}
   armArmourConfig: {fileID: 0}
-  legArmourConfig: {fileID: 0}
+  legArmourConfig: {fileID: 11400000, guid: bc73ab6df80beb94c978d2d22baa5eb6, type: 2}
   unarmouredHitParticleSystem: {fileID: 198151861368961474}
 --- !u!114 &114988453791225846
 MonoBehaviour:
@@ -5261,8 +5261,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0929f2459c8e3ac4e96e06a1ad74c8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseDamage: 100
-  currentWeaponConfig: {fileID: 11400000, guid: be8682e7dc89b4f4ab8fa39b83a799e2,
+  attackBonus: 100
+  parryBonus: 110
+  baseDamage: 300
+  currentWeaponConfig: {fileID: 11400000, guid: 56775f97211f3164ebdc486f3dc8fbdc,
     type: 2}
 --- !u!137 &137166622535503550
 SkinnedMeshRenderer:
