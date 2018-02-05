@@ -1982,8 +1982,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1374544487445980}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -137.03, y: 0, z: -190.41}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.4190826, y: 0, z: -49.74167}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4795518968399166}
@@ -2166,11 +2166,11 @@ MonoBehaviour:
   colliderCentre: {x: 0, y: 0.9, z: 0}
   colliderRadius: 0.3
   colliderHeight: 1.8
-  moveSpeedMultiplier: 0.8
-  animationSpeedMultiplier: 1
-  movingTurnSpeed: 360
+  moveSpeedMultiplier: 0.7
+  animationSpeedMultiplier: 0.8
+  movingTurnSpeed: 270
   stationaryTurnSpeed: 180
-  attackTurnRate: 0.5
+  attackTurnRate: 4
   navMeshAgentSteeringSpeed: 1.2
   navMeshAgentStoppingDistance: 1
   navMeshAgentAutoBraking: 0
@@ -2207,7 +2207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f251b285f08d6140bd193582adc46c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 400
+  maxHealthPoints: 700
   healthBar: {fileID: 114612563289777852}
   deathVanishSeconds: 2
   hitSounds:
@@ -2274,7 +2274,8 @@ MonoBehaviour:
   bodyArmourConfig: {fileID: 0}
   armArmourConfig: {fileID: 0}
   legArmourConfig: {fileID: 0}
-  unarmouredHitParticleSystem: {fileID: 198295042528824062}
+  bloodSpurtPrefab: {fileID: 1439545716550898, guid: ac404bdb8d3312948ae97826d2d7d459,
+    type: 2}
 --- !u!114 &114648888128682508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2313,7 +2314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroDistance: 3.15
+  aggroDistance: 8
   patrolPath: {fileID: 0}
   waypointTolerance: 3
   waypointDwellTime: 0.5
@@ -2330,8 +2331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackBonus: 100
-  parryBonus: 110
-  baseDamage: 300
+  parryBonus: 30
+  baseDamage: 250
   currentWeaponConfig: {fileID: 11400000, guid: be8682e7dc89b4f4ab8fa39b83a799e2,
     type: 2}
 --- !u!137 &137304110501141996

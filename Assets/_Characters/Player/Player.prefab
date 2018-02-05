@@ -3380,7 +3380,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -112.32, y: 0.27, z: -207.77}
+  m_LocalPosition: {x: -107.3, y: 0.96, z: -216.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827194604900974}
@@ -5204,16 +5204,16 @@ MonoBehaviour:
   characterAvatar: {fileID: 9000000, guid: 6a0af412b3bd5e4429eb52b218255660, type: 3}
   audioVolume: 1
   colliderCentre: {x: 0, y: 0.95, z: 0}
-  colliderRadius: 0.3
+  colliderRadius: 0.4
   colliderHeight: 1.8
   moveSpeedMultiplier: 1
   animationSpeedMultiplier: 1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
-  attackTurnRate: 2
+  attackTurnRate: 5
   navMeshAgentSteeringSpeed: 1.2
   navMeshAgentStoppingDistance: 1
-  navMeshAgentAutoBraking: 0
+  navMeshAgentAutoBraking: 1
   rigidBodyMass: 80
 --- !u!114 &114969935699904204
 MonoBehaviour:
@@ -5230,7 +5230,8 @@ MonoBehaviour:
   bodyArmourConfig: {fileID: 11400000, guid: bc73ab6df80beb94c978d2d22baa5eb6, type: 2}
   armArmourConfig: {fileID: 0}
   legArmourConfig: {fileID: 11400000, guid: bc73ab6df80beb94c978d2d22baa5eb6, type: 2}
-  unarmouredHitParticleSystem: {fileID: 198151861368961474}
+  bloodSpurtPrefab: {fileID: 1439545716550898, guid: 60c5b585be4a9ec42865b35460bbb91c,
+    type: 2}
 --- !u!114 &114988453791225846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5262,8 +5263,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackBonus: 100
-  parryBonus: 110
-  baseDamage: 300
+  parryBonus: 100
+  baseDamage: 250
   currentWeaponConfig: {fileID: 11400000, guid: 56775f97211f3164ebdc486f3dc8fbdc,
     type: 2}
 --- !u!137 &137166622535503550

@@ -47,6 +47,7 @@ namespace RPG.Characters
         {
             if (Input.GetMouseButton(0))
             {
+                weaponSystem.StopAttacking();
                 character.SetDestination(targetLocation);
             }
         }
@@ -75,10 +76,11 @@ namespace RPG.Characters
         IEnumerator MoveToTarget(GameObject target)
         {
             character.SetDestination(target.transform.position);
-            while (!IsInRange(target))
+            while (!IsInRange(target))  // TODO fix move to attack
             {
                 yield return new WaitForEndOfFrame();
             }
+            character.SetDestination(transform.position);
             yield return new WaitForEndOfFrame();
         }
 

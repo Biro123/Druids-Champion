@@ -13,7 +13,7 @@ namespace RPG.Characters
         [SerializeField] ArmourConfig armArmourConfig;
         [SerializeField] ArmourConfig legArmourConfig;
 
-        [SerializeField] ParticleSystem unarmouredHitParticleSystem;
+        [SerializeField] GameObject bloodSpurtPrefab;
 
         ArmourConfig armourConfigHit;
 
@@ -38,7 +38,9 @@ namespace RPG.Characters
             }
             else
             {
-                unarmouredHitParticleSystem.Play();
+                GameObject bloodSpurt = Instantiate(bloodSpurtPrefab, transform);
+                bloodSpurt.GetComponent<ParticleSystem>().Play();
+                Destroy(bloodSpurt, bloodSpurt.GetComponent<ParticleSystem>().main.duration);
             }
 
             return armourProtection;

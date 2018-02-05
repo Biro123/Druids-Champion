@@ -48,28 +48,39 @@ namespace RPG.Characters
         {
             target = FindTargetInRange(aggroDistance);
             distanceToTarget = 0f;
+            bool inAttackRange = false;
+            bool inAggroRange = false;
+
             if (target)
             {
                 distanceToTarget = (transform.position - target.transform.position).magnitude;
+                inAttackRange = (distanceToTarget <= currentWeaponRange);
+                inAggroRange = (distanceToTarget <= aggroDistance && !inAttackRange);
+            }
+            else
+            {
+                inAttackRange = false;
+                inAggroRange = false;
             }
 
-            if (target == null && state != State.patrolling)
+            if (! inAttackRange && ! inAggroRange )
             {
                 StopAllCoroutines();
                 weaponSystem.StopAttacking();
                 StartCoroutine(Patrol());
             }
             
-            if (target && state != State.chasing)
+            if (inAggroRange)
             {
                 StopAllCoroutines();
                 weaponSystem.StopAttacking();
                 StartCoroutine(ChaseTarget());
             }
 
-            if(target && distanceToTarget <= currentWeaponRange && state != State.attacking)
+            if(inAttackRange)
             {
                 StopAllCoroutines();
+                state = State.attacking;
                 weaponSystem.AttackTarget(target.gameObject);
             }
         }

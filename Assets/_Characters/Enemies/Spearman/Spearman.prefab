@@ -4959,7 +4959,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1874870402382558}
-  m_LocalRotation: {x: 0.29402483, y: -0.071910895, z: -0.60526663, w: 0.73622733}
+  m_LocalRotation: {x: 0.2940248, y: -0.07191089, z: -0.6052666, w: 0.7362273}
   m_LocalPosition: {x: -0.07850078, y: -0.041947484, z: -0.018961621}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5201,10 +5201,10 @@ MonoBehaviour:
   animationSpeedMultiplier: 1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
-  attackTurnRate: 0.5
+  attackTurnRate: 4
   navMeshAgentSteeringSpeed: 1.2
   navMeshAgentStoppingDistance: 1
-  navMeshAgentAutoBraking: 0
+  navMeshAgentAutoBraking: 1
   rigidBodyMass: 80
 --- !u!114 &114105657418862194
 MonoBehaviour:
@@ -5276,8 +5276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0929f2459c8e3ac4e96e06a1ad74c8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseDamage: 80
-  currentWeaponConfig: {fileID: 11400000, guid: aa8d31eabaad46347a61d18befb81178,
+  attackBonus: 80
+  parryBonus: 95
+  baseDamage: 200
+  currentWeaponConfig: {fileID: 11400000, guid: d28d056d929445d4bb145b06db2a3edc,
     type: 2}
 --- !u!114 &114569416519196892
 MonoBehaviour:
@@ -5315,7 +5317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroDistance: 3.15
+  aggroDistance: 6
   patrolPath: {fileID: 0}
   waypointTolerance: 3
   waypointDwellTime: 0.5
@@ -5335,7 +5337,8 @@ MonoBehaviour:
   bodyArmourConfig: {fileID: 11400000, guid: bc73ab6df80beb94c978d2d22baa5eb6, type: 2}
   armArmourConfig: {fileID: 0}
   legArmourConfig: {fileID: 0}
-  unarmouredHitParticleSystem: {fileID: 198281130813192408}
+  bloodSpurtPrefab: {fileID: 1439545716550898, guid: 60c5b585be4a9ec42865b35460bbb91c,
+    type: 2}
 --- !u!114 &114758685140509644
 MonoBehaviour:
   m_ObjectHideFlags: 1

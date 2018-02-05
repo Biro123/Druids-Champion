@@ -17,7 +17,7 @@ namespace RPG.Characters
 
         [Header("Capsule Collider")]
         [SerializeField] Vector3 colliderCentre = new Vector3(0, 0.9f, 0f);
-        [SerializeField] float colliderRadius = 0.3f;
+        [SerializeField] float colliderRadius = 0.4f;
         [SerializeField] float colliderHeight = 1.8f;
 
         [Header("Movement")]
@@ -25,12 +25,12 @@ namespace RPG.Characters
         [SerializeField] float animationSpeedMultiplier = 1f;
         [SerializeField] float movingTurnSpeed = 360;
         [SerializeField] float stationaryTurnSpeed = 180;
-        [SerializeField] float attackTurnRate = 0.5f;
+        [SerializeField] float attackTurnRate = 4;
 
         [Header("Navigation")]
         [SerializeField] float navMeshAgentSteeringSpeed = 1.2f;
         [SerializeField] float navMeshAgentStoppingDistance = 1f;
-        [SerializeField] bool navMeshAgentAutoBraking = false;
+        [SerializeField] bool navMeshAgentAutoBraking = true;
 
         [Header("Rigid Body")]
         [SerializeField] float rigidBodyMass = 80f;

@@ -2172,7 +2172,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1482385840520280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.39, y: 0, z: -11.88}
+  m_LocalPosition: {x: -132.74629, y: 0, z: -208.40611}
   m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children:
   - {fileID: 4165130917727786}
@@ -2333,8 +2333,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0929f2459c8e3ac4e96e06a1ad74c8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseDamage: 80
-  currentWeaponConfig: {fileID: 11400000, guid: aa8d31eabaad46347a61d18befb81178,
+  attackBonus: 40
+  parryBonus: 45
+  baseDamage: 150
+  currentWeaponConfig: {fileID: 11400000, guid: d28d056d929445d4bb145b06db2a3edc,
     type: 2}
 --- !u!114 &114132155044677650
 MonoBehaviour:
@@ -2382,11 +2384,11 @@ MonoBehaviour:
   colliderCentre: {x: 0, y: 0.9, z: 0}
   colliderRadius: 0.3
   colliderHeight: 1.8
-  moveSpeedMultiplier: 0.8
+  moveSpeedMultiplier: 1
   animationSpeedMultiplier: 1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
-  attackTurnRate: 0.5
+  attackTurnRate: 5
   navMeshAgentSteeringSpeed: 1.2
   navMeshAgentStoppingDistance: 1
   navMeshAgentAutoBraking: 0
@@ -2413,7 +2415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroDistance: 3.15
+  aggroDistance: 8
   patrolPath: {fileID: 0}
   waypointTolerance: 3
   waypointDwellTime: 0.5
@@ -2477,7 +2479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f251b285f08d6140bd193582adc46c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 400
+  maxHealthPoints: 300
   healthBar: {fileID: 114132155044677650}
   deathVanishSeconds: 2
   hitSounds:
@@ -2506,7 +2508,8 @@ MonoBehaviour:
   bodyArmourConfig: {fileID: 0}
   armArmourConfig: {fileID: 0}
   legArmourConfig: {fileID: 0}
-  unarmouredHitParticleSystem: {fileID: 198380591257563822}
+  bloodSpurtPrefab: {fileID: 1439545716550898, guid: 60c5b585be4a9ec42865b35460bbb91c,
+    type: 2}
 --- !u!137 &137077583964952322
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

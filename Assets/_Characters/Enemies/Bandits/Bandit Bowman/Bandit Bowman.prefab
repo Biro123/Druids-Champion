@@ -2335,7 +2335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackBonus: 100
   parryBonus: 10
-  baseDamage: 250
+  baseDamage: 200
   currentWeaponConfig: {fileID: 11400000, guid: 308054e9695fa5c4f83c898cfcbcdfc1,
     type: 2}
 --- !u!114 &114324378698088226
@@ -2353,7 +2353,8 @@ MonoBehaviour:
   bodyArmourConfig: {fileID: 0}
   armArmourConfig: {fileID: 0}
   legArmourConfig: {fileID: 0}
-  unarmouredHitParticleSystem: {fileID: 198293631722863430}
+  bloodSpurtPrefab: {fileID: 1439545716550898, guid: 60c5b585be4a9ec42865b35460bbb91c,
+    type: 2}
 --- !u!114 &114448687577952804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2376,7 +2377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f251b285f08d6140bd193582adc46c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 400
+  maxHealthPoints: 350
   healthBar: {fileID: 114847164371930926}
   deathVanishSeconds: 2
   hitSounds:
@@ -2434,7 +2435,7 @@ MonoBehaviour:
   animationSpeedMultiplier: 1
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
-  attackTurnRate: 0.5
+  attackTurnRate: 4
   navMeshAgentSteeringSpeed: 1.2
   navMeshAgentStoppingDistance: 1
   navMeshAgentAutoBraking: 0
@@ -2450,7 +2451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e60e330f232df44a758cd84b3011ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroDistance: 3.1
+  aggroDistance: 10
   patrolPath: {fileID: 0}
   waypointTolerance: 3
   waypointDwellTime: 0.5
