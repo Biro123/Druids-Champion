@@ -60,7 +60,8 @@ namespace RPG.Characters
             }
             else if (Input.GetMouseButton(0) && ! IsInRange(enemy.gameObject))
             {
-                StartCoroutine(MoveAndAttack(enemy.gameObject));
+                // StartCoroutine(MoveAndAttack(enemy.gameObject));
+                StartCoroutine(MoveToTarget(enemy.gameObject));
             }
 
             if (Input.GetMouseButtonDown(1) && IsInRange(enemy.gameObject))
@@ -78,9 +79,20 @@ namespace RPG.Characters
             character.SetDestination(target.transform.position);
             while (!IsInRange(target))  // TODO fix move to attack
             {
+                Debug.Log("out of attack range");
+                character.SetDestination(target.transform.position);
                 yield return new WaitForEndOfFrame();
             }
+            Debug.Log("IN attack range");
             character.SetDestination(transform.position);
+            yield return StartCoroutine(Attack(target));
+        }
+
+        IEnumerator Attack (GameObject target )
+        {
+            Debug.Log("starting attack");
+            weaponSystem.AttackTarget(target.gameObject);
+            Debug.Log("ending attack");
             yield return new WaitForEndOfFrame();
         }
 

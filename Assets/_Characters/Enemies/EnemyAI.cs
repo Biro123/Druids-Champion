@@ -46,7 +46,7 @@ namespace RPG.Characters
 
         private void Update()
         {
-            target = FindTargetInRange(aggroDistance);
+            target = FindTargetInRange(Mathf.Max(aggroDistance, currentWeaponRange));
             distanceToTarget = 0f;
             bool inAttackRange = false;
             bool inAggroRange = false;

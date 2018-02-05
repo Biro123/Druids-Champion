@@ -29,7 +29,7 @@ namespace RPG.Characters
 
         [Header("Navigation")]
         [SerializeField] float navMeshAgentSteeringSpeed = 1.2f;
-        [SerializeField] float navMeshAgentStoppingDistance = 1f;
+        [SerializeField] float navMeshAgentStoppingDistance = 0.2f;
         [SerializeField] bool navMeshAgentAutoBraking = true;
 
         [Header("Rigid Body")]
@@ -72,7 +72,6 @@ namespace RPG.Characters
             navMeshAgent.autoBraking = navMeshAgentAutoBraking;
             navMeshAgent.stoppingDistance = navMeshAgentStoppingDistance;
             navMeshAgent.speed = navMeshAgentSteeringSpeed;
-            //navMeshAgent.areaMask.   // TODO need to set to walkable? 
         }
 
         private void Update()
@@ -104,7 +103,7 @@ namespace RPG.Characters
 
         public void SetDestination(Vector3 worldPosition)
         {
-            navMeshAgent.destination = worldPosition; ;
+            navMeshAgent.destination = worldPosition; 
         }
 
         private void Move(Vector3 movement)

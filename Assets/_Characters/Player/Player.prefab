@@ -3380,7 +3380,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -107.3, y: 0.96, z: -216.79}
+  m_LocalPosition: {x: 21.5, y: 0.11, z: -84.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827194604900974}
@@ -5212,7 +5212,7 @@ MonoBehaviour:
   stationaryTurnSpeed: 180
   attackTurnRate: 5
   navMeshAgentSteeringSpeed: 1.2
-  navMeshAgentStoppingDistance: 1
+  navMeshAgentStoppingDistance: 0.2
   navMeshAgentAutoBraking: 1
   rigidBodyMass: 80
 --- !u!114 &114969935699904204
