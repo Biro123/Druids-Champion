@@ -15,11 +15,12 @@ MonoBehaviour:
     type: 2}
   weaponPrefab: {fileID: 1274797246840802, guid: cc0dbe33ee8adbe4eb124e2d95d37fe4,
     type: 2}
-  attackAnimation: {fileID: 7400000, guid: 9d4050b41f686a947b403b85bcf73ca7, type: 3}
+  swingAnimation: {fileID: 7400000, guid: 053ec18f067de0a4c9650802e1995cb6, type: 3}
+  thrustAnimation: {fileID: 7400000, guid: 053ec18f067de0a4c9650802e1995cb6, type: 3}
   parrySound: {fileID: 0}
   quality: 0.8
   condition: 0.8
-  timeBetweenHits: 1
+  timeBetweenAnimationCycles: 1
   damageDelay: 0.5
   attackRange: 0.001
   bladeDamageModifier: 0.5

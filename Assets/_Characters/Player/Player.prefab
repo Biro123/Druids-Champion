@@ -5205,7 +5205,7 @@ MonoBehaviour:
   walkOrRun: 1
   audioVolume: 1
   colliderCentre: {x: 0, y: 0.95, z: 0}
-  colliderRadius: 0.6
+  colliderRadius: 0.4
   colliderHeight: 1.8
   moveSpeedMultiplier: 1
   animationSpeedMultiplier: 1
@@ -5213,7 +5213,7 @@ MonoBehaviour:
   stationaryTurnSpeed: 180
   attackTurnRate: 5
   navMeshAgentSteeringSpeed: 1.2
-  navMeshAgentStoppingDistance: 0.2
+  navMeshAgentStoppingDistance: 0.4
   navMeshAgentAutoBraking: 1
   rigidBodyMass: 80
 --- !u!114 &114969935699904204

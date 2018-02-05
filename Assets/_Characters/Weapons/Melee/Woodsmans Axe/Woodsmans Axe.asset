@@ -14,13 +14,14 @@ MonoBehaviour:
   gripTransform: {fileID: 4689537459407266, guid: 7d8e995a5da50c54894ea6d2c5420d2c,
     type: 2}
   weaponPrefab: {fileID: 100000, guid: ee04c8e479165444cacd1a3a7b02cad1, type: 2}
-  attackAnimation: {fileID: 7400000, guid: 5937d12bb68bf5f438c6caf3d4222063, type: 3}
+  swingAnimation: {fileID: 7400000, guid: f94c62a8b96f5a7469ce0da8ccac09b3, type: 3}
+  thrustAnimation: {fileID: 7400000, guid: f9a41b3feea198048b4d8a29a9268d72, type: 3}
   parrySound: {fileID: 8300000, guid: 34aca9e3f1ade4802b9062b1380aa523, type: 3}
   quality: 0.8
   condition: 0.8
-  timeBetweenHits: 2.5
+  timeBetweenAnimationCycles: 1
   damageDelay: 0.5
-  attackRange: 2
+  attackRange: 3
   bladeDamageModifier: 1
   bluntDamageModifier: 0.9
   pierceDamageModifier: 0

@@ -33,7 +33,7 @@ namespace RPG.Characters
             character = GetComponent<Character>();
 
             PutWeaponInHand(currentWeaponConfig);
-            SetAttackAnimation();
+            SetAttackAnimation(currentWeaponConfig.GetSwingAnimClip());
         }
 
         private void Update()
@@ -100,7 +100,7 @@ namespace RPG.Characters
         {
             while (attackerIsAlive && targetIsAlive)
             {
-                var animationClip = currentWeaponConfig.GetAttackAnimClip();
+                var animationClip = currentWeaponConfig.GetSwingAnimClip();
                 float animationClipTime = animationClip.length / character.GetAnimSpeedMultiplier();
                 float timeToWait = animationClipTime + currentWeaponConfig.GetTimeBetweenAnimationCycles();
 
@@ -120,7 +120,7 @@ namespace RPG.Characters
             return currentWeaponConfig;
         }
         
-        private void SetAttackAnimation()
+        private void SetAttackAnimation(AnimationClip weaponAnimation)
         {
             if (!character.GetAnimatorOverrideController())
             {
@@ -131,7 +131,7 @@ namespace RPG.Characters
             {
                 var animatorOverrideController = character.GetAnimatorOverrideController();
                 animator.runtimeAnimatorController = animatorOverrideController;
-                animatorOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();
+                animatorOverrideController[DEFAULT_ATTACK] = weaponAnimation; 
             }
         }
 
@@ -148,14 +148,14 @@ namespace RPG.Characters
 
         private void AttackTargetOnce()
         {
-            if (targetHealthSystem == null) { return; }
-
-            SetAttackAnimation();
-            animator.SetTrigger(ATTACK_TRIGGER);
+            if (targetHealthSystem == null) { return; }            
+            
             float damageDelay = currentWeaponConfig.GetDamageDelay();
+            float damageDone = CalculateDamage();
+            animator.SetTrigger(ATTACK_TRIGGER);
             if (TryToHit() == true)
             {
-                StartCoroutine(DamageAfterDelay(damageDelay));
+                StartCoroutine(DamageAfterDelay(damageDone, damageDelay));
             }
             else
             {
@@ -178,10 +178,10 @@ namespace RPG.Characters
             }
         }
 
-        IEnumerator DamageAfterDelay (float delay)
+        IEnumerator DamageAfterDelay (float damage, float delay)
         {
             yield return new WaitForSecondsRealtime(delay);
-            targetHealthSystem.AdjustHealth(CalculateDamage());            
+            targetHealthSystem.AdjustHealth(damage);            
         }
 
         IEnumerator HandleParryAfterDelay(float delay)
@@ -210,10 +210,12 @@ namespace RPG.Characters
 
             if (UnityEngine.Random.Range(0f, 1f) <= currentWeaponConfig.GetChanceForSwing())
             {
+                SetAttackAnimation(currentWeaponConfig.GetSwingAnimClip());
                 return CalculateSwingDamage(targetArmour);
             }
             else
             {
+                SetAttackAnimation(currentWeaponConfig.GetThrustAnimClip());
                 return CalculateThrustDamage(targetArmour);
             }
         }

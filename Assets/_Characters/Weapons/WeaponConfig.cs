@@ -10,7 +10,8 @@ namespace RPG.Characters
         public Transform gripTransform;
 
         [SerializeField] GameObject weaponPrefab;
-        [SerializeField] AnimationClip attackAnimation;
+        [SerializeField] AnimationClip swingAnimation;
+        [SerializeField] AnimationClip thrustAnimation;
         [SerializeField] AudioClip parrySound;
         [Range(0.1f, 1.2f)] [SerializeField] float quality = 0.8f;
         [Range(0.1f, 1.0f)] [SerializeField] float condition = 0.8f;
@@ -26,10 +27,16 @@ namespace RPG.Characters
             return weaponPrefab;
         }
 
-        public AnimationClip GetAttackAnimClip()
+        public AnimationClip GetSwingAnimClip()
         {
             RemoveAnimationEvents();
-            return attackAnimation;
+            return swingAnimation;
+        }
+
+        public AnimationClip GetThrustAnimClip()
+        {
+            RemoveAnimationEvents();
+            return thrustAnimation;
         }
 
         public AudioClip GetParrySound()
@@ -77,7 +84,8 @@ namespace RPG.Characters
         // So that asset packs cannot cause bugs by expecting 'hit event' methods.
         private void RemoveAnimationEvents()
         {
-            attackAnimation.events = new AnimationEvent[0];
+            swingAnimation.events = new AnimationEvent[0];
+            thrustAnimation.events = new AnimationEvent[0];
         }
     }
 }
