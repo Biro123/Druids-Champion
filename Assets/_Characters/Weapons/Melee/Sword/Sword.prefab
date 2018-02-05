@@ -21,8 +21,6 @@ GameObject:
   - component: {fileID: 4237132595025504}
   - component: {fileID: 33477357844897502}
   - component: {fileID: 23519976338056614}
-  - component: {fileID: 95348240563603360}
-  - component: {fileID: 65274111557117380}
   m_Layer: 0
   m_Name: challenger_sword
   m_TagString: Untagged
@@ -111,32 +109,3 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1228113421934546}
   m_Mesh: {fileID: 4300000, guid: 4bb2ab28e29efb441bd272e9200f639e, type: 3}
---- !u!65 &65274111557117380
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1228113421934546}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.14581057, y: 0.036718644, z: 0.7}
-  m_Center: {x: 0.0000000037252903, y: 0.0000000027939677, z: -0.3}
---- !u!95 &95348240563603360
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1228113421934546}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4bb2ab28e29efb441bd272e9200f639e, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1

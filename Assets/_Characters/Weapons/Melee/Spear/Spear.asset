@@ -18,9 +18,9 @@ MonoBehaviour:
   parrySound: {fileID: 8300000, guid: 34aca9e3f1ade4802b9062b1380aa523, type: 3}
   quality: 0.8
   condition: 0.8
-  timeBetweenHits: 1
+  timeBetweenAnimationCycles: 0.3
   damageDelay: 0.5
-  attackRange: 2
+  attackRange: 3.5
   bladeDamageModifier: 0.2
   bluntDamageModifier: 0.3
   pierceDamageModifier: 1

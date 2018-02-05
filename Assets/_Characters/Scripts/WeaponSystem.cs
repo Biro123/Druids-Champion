@@ -49,7 +49,7 @@ namespace RPG.Characters
             }
             else
             {
-                targetIsAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+                targetIsAlive = targetHealthSystem.healthAsPercentage >= Mathf.Epsilon;
 
                 float distanceToTarget = Vector3.Distance(this.transform.position, target.transform.position);
                 targetInRange = (distanceToTarget <= currentWeaponConfig.GetAttackRange());
@@ -57,12 +57,13 @@ namespace RPG.Characters
 
             if (targetIsAlive && attackerIsAlive && targetInRange)
             {
-                FaceTarget();
+                //FaceTarget();
+                transform.LookAt(target.transform);
             }
             else
             {
                 StopAllCoroutines();
-            } 
+            }
         }
 
         public void PutWeaponInHand(WeaponConfig weaponToUse)
@@ -82,19 +83,27 @@ namespace RPG.Characters
             StopAllCoroutines();
         }
 
+        public void SetTarget(GameObject targetToSet) 
+        {
+            // Required to ensure that co-routines are not immediately stopped when AttackTarget is called.
+            target = targetToSet;
+            targetHealthSystem = target.GetComponent<HealthSystem>();
+        }
+
         public void AttackTarget(GameObject targetToAttack)
         {
-            target = targetToAttack;
-            targetHealthSystem = target.GetComponent<HealthSystem>();
+            SetTarget(targetToAttack);         
             StartCoroutine(AttackTargetRepeatedly());
         }
 
         IEnumerator AttackTargetRepeatedly()
-        {            
-            while(attackerIsAlive && targetIsAlive)
+        {
+            while (attackerIsAlive && targetIsAlive)
             {
-                float weaponHitPeriod = currentWeaponConfig.GetTimeBetweenHits();
-                float timeToWait = weaponHitPeriod * character.GetAnimSpeedMultiplier();
+                var animationClip = currentWeaponConfig.GetAttackAnimClip();
+                float animationClipTime = animationClip.length / character.GetAnimSpeedMultiplier();
+                float timeToWait = animationClipTime + currentWeaponConfig.GetTimeBetweenAnimationCycles();
+
                 bool isTimeToHit = Time.time - lastHitTime > timeToWait;
 
                 if(isTimeToHit)
@@ -132,8 +141,8 @@ namespace RPG.Characters
             int numberOfDominantHands = dominantHands.Length;
 
             // Ensure either 1 dominant hand - or an error is returned. 
-            Assert.AreNotEqual(numberOfDominantHands, 0, "No Dominant Hand on Player");
-            Assert.IsFalse(numberOfDominantHands > 1, "Multiple Dominant Hands on Player");
+            Assert.AreNotEqual(numberOfDominantHands, 0, "No Dominant Hand on " + gameObject.name);
+            Assert.IsFalse(numberOfDominantHands > 1, "Multiple Dominant Hands on " + gameObject.name);
             return dominantHands[0].gameObject;
         }
 
@@ -182,7 +191,7 @@ namespace RPG.Characters
             audioSource.PlayOneShot(currentWeaponConfig.GetParrySound());
         }
 
-        private void FaceTarget()
+        private void FaceTarget()  // currently not used
         {
             var attackTurnSpeed = character.GetAttackTurnRate();
             var amountToRotate = Quaternion.LookRotation(target.transform.position - this.transform.position);

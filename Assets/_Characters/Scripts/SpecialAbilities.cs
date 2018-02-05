@@ -84,7 +84,10 @@ namespace RPG.Characters
         private void SetStaminaBar()
         {
             var staminaAsPercentage = currentStamina / maxStamina;
-            staminaBarImage.fillAmount = staminaAsPercentage;
+            if (staminaBarImage)
+            {
+                staminaBarImage.fillAmount = staminaAsPercentage;
+            }
         }
     }
 }

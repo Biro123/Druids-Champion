@@ -14,7 +14,7 @@ namespace RPG.Characters
         [SerializeField] AudioClip parrySound;
         [Range(0.1f, 1.2f)] [SerializeField] float quality = 0.8f;
         [Range(0.1f, 1.0f)] [SerializeField] float condition = 0.8f;
-        [SerializeField] float timeBetweenHits = 1f;
+        [SerializeField] float timeBetweenAnimationCycles = 1f;
         [SerializeField] float damageDelay = 0.5f;
         [SerializeField] float attackRange = 2f;
         [Range(0f, 2.0f)] [SerializeField] float bladeDamageModifier = 0.5f;
@@ -37,9 +37,9 @@ namespace RPG.Characters
             return parrySound;
         }
 
-        public float GetTimeBetweenHits()
+        public float GetTimeBetweenAnimationCycles()
         {
-            return timeBetweenHits;
+            return timeBetweenAnimationCycles;
         }
 
         public float GetDamageDelay()

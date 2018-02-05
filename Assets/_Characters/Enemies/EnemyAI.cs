@@ -81,6 +81,7 @@ namespace RPG.Characters
             {
                 StopAllCoroutines();
                 state = State.attacking;
+                character.SetDestination(transform.position);
                 weaponSystem.AttackTarget(target.gameObject);
             }
         }
@@ -91,14 +92,11 @@ namespace RPG.Characters
 
             while(patrolPath != null)
             {
-                // work out where to go next
                 Vector3 nextWaypointPos = patrolPath.transform.GetChild(waypointIndex).position;
 
-                // tell character to go there
                 character.SetDestination(nextWaypointPos);
                 CycleWaypointWhenClose(nextWaypointPos);
-                // wait at waypoint
-                yield return new WaitForSeconds(waypointDwellTime);  
+                yield return new WaitForSeconds(waypointDwellTime);  // TODO wait not working
             }
 
         }

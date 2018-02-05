@@ -11,13 +11,14 @@ namespace RPG.Characters
         [SerializeField] RuntimeAnimatorController animatorController;
         [SerializeField] AnimatorOverrideController animatorOverrideController;
         [SerializeField] Avatar characterAvatar;
+        [SerializeField] [Range(0.1f, 1f)] float walkOrRun = 1f;
 
         [Header("Audio")]
-        [Range(0f, 1f)] [SerializeField] float audioVolume = 1;
+        [SerializeField] [Range(0f, 1f)] float audioVolume = 1;
 
         [Header("Capsule Collider")]
         [SerializeField] Vector3 colliderCentre = new Vector3(0, 0.9f, 0f);
-        [SerializeField] float colliderRadius = 0.4f;
+        [SerializeField] float colliderRadius = 0.8f;
         [SerializeField] float colliderHeight = 1.8f;
 
         [Header("Movement")]
@@ -76,9 +77,8 @@ namespace RPG.Characters
 
         private void Update()
         {
-            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive)
-            {
-                Move(navMeshAgent.desiredVelocity);
+            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance && isAlive)            {
+                Move(navMeshAgent.desiredVelocity);                
             }
             else
             {
@@ -141,7 +141,7 @@ namespace RPG.Characters
 
         void UpdateAnimator()
         {
-            animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
+            animator.SetFloat("Forward", forwardAmount * walkOrRun, 0.1f, Time.deltaTime);
             animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
             animator.speed = animationSpeedMultiplier;
         }

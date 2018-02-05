@@ -3380,7 +3380,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1400500621032120}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.5, y: 0.11, z: -84.99}
+  m_LocalPosition: {x: 51.19, y: 8.057, z: -239.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4827194604900974}
@@ -5202,9 +5202,10 @@ MonoBehaviour:
   animatorOverrideController: {fileID: 22100000, guid: 7fc2e569acb3aa046895bfd768cedf2a,
     type: 2}
   characterAvatar: {fileID: 9000000, guid: 6a0af412b3bd5e4429eb52b218255660, type: 3}
+  walkOrRun: 1
   audioVolume: 1
   colliderCentre: {x: 0, y: 0.95, z: 0}
-  colliderRadius: 0.4
+  colliderRadius: 0.6
   colliderHeight: 1.8
   moveSpeedMultiplier: 1
   animationSpeedMultiplier: 1
