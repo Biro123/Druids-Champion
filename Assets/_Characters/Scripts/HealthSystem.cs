@@ -15,6 +15,7 @@ namespace RPG.Characters
         [SerializeField] float deathVanishSeconds = 2f;
         [SerializeField] AudioClip[] hitSounds;
         [SerializeField] AudioClip[] deathSounds;
+        [SerializeField] GameObject bloodSpurtPrefab;
 
         const string DEATH_TRIGGER = "Death";
 
@@ -66,6 +67,11 @@ namespace RPG.Characters
             
             float hitSoundVolume = (damage / maxHealthPoints * 2);   // anything over half health = full volume
             PlayHitSound( Mathf.Clamp(hitSoundVolume, 0, 1) );
+
+            GameObject bloodSpurt = Instantiate(bloodSpurtPrefab, transform);
+            bloodSpurt.GetComponent<ParticleSystem>().Play();
+            Destroy(bloodSpurt, bloodSpurt.GetComponent<ParticleSystem>().main.duration);
+
         }
 
         private void PlayHitSound(float volume)

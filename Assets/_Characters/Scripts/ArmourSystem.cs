@@ -13,8 +13,6 @@ namespace RPG.Characters
         [SerializeField] ArmourConfig armArmourConfig;
         [SerializeField] ArmourConfig legArmourConfig;
 
-        [SerializeField] GameObject bloodSpurtPrefab;
-
         ArmourConfig armourConfigHit;
 
         public struct ArmourProtection
@@ -35,12 +33,6 @@ namespace RPG.Characters
                 armourProtection.blade = armourConfigHit.GetBladeArmourAmount();
                 armourProtection.blunt = armourConfigHit.GetBluntArmourAmount();
                 armourProtection.pierce = armourConfigHit.GetPierceArmourAmount();
-            }
-            else
-            {
-                GameObject bloodSpurt = Instantiate(bloodSpurtPrefab, transform);
-                bloodSpurt.GetComponent<ParticleSystem>().Play();
-                Destroy(bloodSpurt, bloodSpurt.GetComponent<ParticleSystem>().main.duration);
             }
 
             return armourProtection;

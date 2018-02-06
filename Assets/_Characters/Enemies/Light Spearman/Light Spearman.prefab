@@ -2494,6 +2494,8 @@ MonoBehaviour:
   deathSounds:
   - {fileID: 8300000, guid: 0a14b81c9eeb97d42861fbdd686e65da, type: 3}
   - {fileID: 8300000, guid: f03ca00748cc75c438092911536058b5, type: 3}
+  bloodSpurtPrefab: {fileID: 1439545716550898, guid: 60c5b585be4a9ec42865b35460bbb91c,
+    type: 2}
 --- !u!114 &114891974816843462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2509,8 +2511,6 @@ MonoBehaviour:
   bodyArmourConfig: {fileID: 0}
   armArmourConfig: {fileID: 0}
   legArmourConfig: {fileID: 0}
-  bloodSpurtPrefab: {fileID: 1439545716550898, guid: 60c5b585be4a9ec42865b35460bbb91c,
-    type: 2}
 --- !u!137 &137077583964952322
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

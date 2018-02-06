@@ -187,7 +187,7 @@ namespace RPG.Characters
         IEnumerator DamageAfterDelay (float damage, float delay)
         {
             yield return new WaitForSecondsRealtime(delay);
-            targetHealthSystem.AdjustHealth(damage);            
+            targetHealthSystem.AdjustHealth(damage);
         }
 
         IEnumerator HandleParryAfterDelay(float delay)
@@ -234,7 +234,7 @@ namespace RPG.Characters
             float bladeDamageDone = (baseDamage + damageAdj) * currentWeaponConfig.GetBladeDamageModification();
             float bladeDamageTaken = Mathf.Clamp(bladeDamageDone - targetArmour.blade, 0f, bladeDamageDone);
 
-            Debug.Log("Swing Dmg on " + target + ": " + bladeDamageTaken + " Blade, " + bluntDamageTaken + " Blunt." );
+            Debug.Log(Time.time + " Swing Dmg on " + target + ": " + bladeDamageTaken + " Blade, " + bluntDamageTaken + " Blunt." );
             return bluntDamageTaken + bladeDamageTaken;
         }
         
@@ -242,7 +242,7 @@ namespace RPG.Characters
         {
             float pierceDamageDone = (baseDamage + damageAdj) * currentWeaponConfig.GetPierceDamageModification();
             float pierceDamageTaken = Mathf.Clamp(pierceDamageDone - targetArmour.pierce, 0f, pierceDamageDone);
-            Debug.Log("Pierce Dmg on " + target + ": " + pierceDamageTaken);
+            Debug.Log(Time.time + "Pierce Dmg on " + target + ": " + pierceDamageTaken);
             return pierceDamageTaken;
         }
     }
