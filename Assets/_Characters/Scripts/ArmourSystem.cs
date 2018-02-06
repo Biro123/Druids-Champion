@@ -24,13 +24,13 @@ namespace RPG.Characters
             public float pierce;
         }
 
-        public ArmourProtection CalculateArmour()
+        public ArmourProtection CalculateArmour(float armourAvoidAdj)
         {
             ArmourProtection armourProtection = new ArmourProtection();
 
             armourConfigHit = DetermineLocationHit();
 
-            if (armourConfigHit && IsArmourHit()) // Armour Bypassed (critical)
+            if (armourConfigHit && IsArmourHit(armourAvoidAdj)) // Armour Bypassed (critical)
             {
                 armourProtection.blade = armourConfigHit.GetBladeArmourAmount();
                 armourProtection.blunt = armourConfigHit.GetBluntArmourAmount();
@@ -56,9 +56,11 @@ namespace RPG.Characters
             else { return legArmourConfig; }
         }
 
-        private bool IsArmourHit()
+        private bool IsArmourHit(float armourAvoidAdj)
         {
-            return UnityEngine.Random.Range(0f, 1f) <= armourConfigHit.GetArmourCoverage();
+            float chanceToHitArmour = Mathf.Clamp(armourConfigHit.GetArmourCoverage() - armourAvoidAdj, 0f, 1f);
+            Debug.Log("ChanceToHitArmour " + chanceToHitArmour); 
+            return UnityEngine.Random.Range(0f, 1f) <= chanceToHitArmour;
         }
     }
 }

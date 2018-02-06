@@ -98,6 +98,7 @@ namespace RPG.Characters
 
         public void Kill()
         {
+            navMeshAgent.isStopped = true;
             isAlive = false;
         }
 

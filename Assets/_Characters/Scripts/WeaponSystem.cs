@@ -99,7 +99,7 @@ namespace RPG.Characters
         public void SpecialAttack(GameObject targetToAttack, float attackAdj, float damageAdj, float armourAvoidAdj)
         {
             SetTarget(targetToAttack);
-            AttackTargetOnce();
+            AttackTargetOnce(attackAdj, damageAdj, armourAvoidAdj);
         }
 
         IEnumerator AttackTargetRepeatedly()
@@ -152,14 +152,14 @@ namespace RPG.Characters
             return dominantHands[0].gameObject;
         }
 
-        private void AttackTargetOnce()
+        private void AttackTargetOnce(float attackAdj = 0f, float damageAdj = 0f, float armourAvoidAdj = 0f)
         {
             if (targetHealthSystem == null) { return; }            
             
             float damageDelay = currentWeaponConfig.GetDamageDelay();
-            float damageDone = CalculateDamage();
+            float damageDone = CalculateDamage(damageAdj, armourAvoidAdj);
             animator.SetTrigger(ATTACK_TRIGGER);
-            if (TryToHit() == true)
+            if (TryToHit(attackAdj) == true)
             {
                 StartCoroutine(DamageAfterDelay(damageDone, damageDelay));
             }
@@ -169,9 +169,9 @@ namespace RPG.Characters
             }
         }
 
-        private bool TryToHit()
+        private bool TryToHit(float attackAdj)
         {
-            float attackScore = UnityEngine.Random.Range(1, 100) + attackBonus;
+            float attackScore = UnityEngine.Random.Range(1, 100) + attackBonus + attackAdj;
             float defenceScore = UnityEngine.Random.Range(1, 100) + target.GetComponent<WeaponSystem>().GetParryBonus();
 
             if(attackScore > defenceScore)
@@ -205,42 +205,42 @@ namespace RPG.Characters
             transform.rotation = Quaternion.Lerp(transform.rotation, amountToRotate, rotateSpeed);
         }
 
-        private float CalculateDamage()
+        private float CalculateDamage(float damageAdj, float armourAvoidAdj)
         {
             ArmourSystem.ArmourProtection targetArmour = new ArmourSystem.ArmourProtection();
             ArmourSystem targetArmourSystem = target.GetComponent<ArmourSystem>();
             if (targetArmourSystem)
             {
-                targetArmour = targetArmourSystem.CalculateArmour();
+                targetArmour = targetArmourSystem.CalculateArmour(armourAvoidAdj);
             }
 
             if (UnityEngine.Random.Range(0f, 1f) <= currentWeaponConfig.GetChanceForSwing())
             {
                 SetAttackAnimation(currentWeaponConfig.GetSwingAnimClip());
-                return CalculateSwingDamage(targetArmour);
+                return CalculateSwingDamage(targetArmour, damageAdj);
             }
             else
             {
                 SetAttackAnimation(currentWeaponConfig.GetThrustAnimClip());
-                return CalculateThrustDamage(targetArmour);
+                return CalculateThrustDamage(targetArmour, damageAdj);
             }
         }
 
-        private float CalculateSwingDamage(ArmourSystem.ArmourProtection targetArmour)
+        private float CalculateSwingDamage(ArmourSystem.ArmourProtection targetArmour, float damageAdj)
         {
-            float bluntDamageDone = baseDamage * currentWeaponConfig.GetBluntDamageModification();
+            float bluntDamageDone = (baseDamage+ damageAdj) * currentWeaponConfig.GetBluntDamageModification();
             float bluntDamageTaken = Mathf.Clamp(bluntDamageDone - targetArmour.blunt, 0f, bluntDamageDone);
 
-            float bladeDamageDone = baseDamage * currentWeaponConfig.GetBladeDamageModification();
+            float bladeDamageDone = (baseDamage + damageAdj) * currentWeaponConfig.GetBladeDamageModification();
             float bladeDamageTaken = Mathf.Clamp(bladeDamageDone - targetArmour.blade, 0f, bladeDamageDone);
 
-            Debug.Log("Swing Dmg on " + target + ": " + bladeDamageTaken + " Blade, " + bluntDamageDone + " Blunt." );
+            Debug.Log("Swing Dmg on " + target + ": " + bladeDamageTaken + " Blade, " + bluntDamageTaken + " Blunt." );
             return bluntDamageTaken + bladeDamageTaken;
         }
         
-        private float CalculateThrustDamage(ArmourSystem.ArmourProtection targetArmour)
+        private float CalculateThrustDamage(ArmourSystem.ArmourProtection targetArmour, float damageAdj)
         {
-            float pierceDamageDone = baseDamage * currentWeaponConfig.GetPierceDamageModification();
+            float pierceDamageDone = (baseDamage + damageAdj) * currentWeaponConfig.GetPierceDamageModification();
             float pierceDamageTaken = Mathf.Clamp(pierceDamageDone - targetArmour.pierce, 0f, pierceDamageDone);
             Debug.Log("Pierce Dmg on " + target + ": " + pierceDamageTaken);
             return pierceDamageTaken;

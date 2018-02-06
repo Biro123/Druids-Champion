@@ -34,7 +34,7 @@ namespace RPG.Characters
             {
                 Animator animator = GetComponent<Animator>();                
                 animator.runtimeAnimatorController = animatorOverrideController;
-                animatorOverrideController[DEFAULT_ATTACK] = config.GetAbilityAnimation();
+                animatorOverrideController[DEFAULT_ATTACK] = config.GetAbilityAnimation();                
                 animator.SetTrigger(ATTACK_TRIGGER);
             }
         }

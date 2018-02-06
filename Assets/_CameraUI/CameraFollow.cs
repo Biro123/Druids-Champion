@@ -17,7 +17,11 @@ namespace RPG.CameraUI
 
         private void LateUpdate()
         {
-            transform.position = player.transform.position;
+            if (player)
+            {
+                // Lerp smoothes it to deal with bobbing
+                transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.05f);
+            }
         }
     }
 

@@ -46,6 +46,7 @@ namespace RPG.Characters
 
         public AnimationClip GetAbilityAnimation()
         {
+            abilityAnimation.events = new AnimationEvent[0];
             return abilityAnimation;
         }
 
