@@ -2162,6 +2162,7 @@ MonoBehaviour:
   animatorOverrideController: {fileID: 22100000, guid: a29d86ec3492f2640ae1a763a248f174,
     type: 2}
   characterAvatar: {fileID: 9000000, guid: 8b46e2cd204b0e544bfc1ecb76f869c3, type: 3}
+  walkOrRun: 1
   audioVolume: 1
   colliderCentre: {x: 0, y: 0.9, z: 0}
   colliderRadius: 0.3
@@ -2209,7 +2210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 700
   healthBar: {fileID: 114612563289777852}
-  deathVanishSeconds: 2
+  deathVanishSeconds: 3
   hitSounds:
   - {fileID: 8300000, guid: 032a4f39620b7994aa36483d2e211ff1, type: 3}
   - {fileID: 8300000, guid: 9e4c5f2327fc67c49ac5c94471e3107a, type: 3}

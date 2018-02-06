@@ -2333,9 +2333,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0929f2459c8e3ac4e96e06a1ad74c8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackBonus: 100
+  attackBonus: 80
   parryBonus: 10
-  baseDamage: 200
+  baseDamage: 150
   currentWeaponConfig: {fileID: 11400000, guid: 308054e9695fa5c4f83c898cfcbcdfc1,
     type: 2}
 --- !u!114 &114324378698088226
@@ -2377,9 +2377,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f251b285f08d6140bd193582adc46c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 350
+  maxHealthPoints: 300
   healthBar: {fileID: 114847164371930926}
-  deathVanishSeconds: 2
+  deathVanishSeconds: 3
   hitSounds:
   - {fileID: 8300000, guid: 032a4f39620b7994aa36483d2e211ff1, type: 3}
   - {fileID: 8300000, guid: 9e4c5f2327fc67c49ac5c94471e3107a, type: 3}
@@ -2427,6 +2427,7 @@ MonoBehaviour:
   animatorOverrideController: {fileID: 22100000, guid: e9604075596657f4282435b1fdb065c1,
     type: 2}
   characterAvatar: {fileID: 9000000, guid: fe55e5a0c1bcd72488aa4508bea6f93b, type: 3}
+  walkOrRun: 1
   audioVolume: 1
   colliderCentre: {x: 0, y: 0.9, z: 0}
   colliderRadius: 0.3

@@ -2336,7 +2336,7 @@ MonoBehaviour:
   attackBonus: 40
   parryBonus: 45
   baseDamage: 150
-  currentWeaponConfig: {fileID: 11400000, guid: 2f0bc1f0ae8ea0540b38ca8542a6fbd5,
+  currentWeaponConfig: {fileID: 11400000, guid: d28d056d929445d4bb145b06db2a3edc,
     type: 2}
 --- !u!114 &114132155044677650
 MonoBehaviour:
@@ -2482,7 +2482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 300
   healthBar: {fileID: 114132155044677650}
-  deathVanishSeconds: 2
+  deathVanishSeconds: 3
   hitSounds:
   - {fileID: 8300000, guid: 032a4f39620b7994aa36483d2e211ff1, type: 3}
   - {fileID: 8300000, guid: 9e4c5f2327fc67c49ac5c94471e3107a, type: 3}

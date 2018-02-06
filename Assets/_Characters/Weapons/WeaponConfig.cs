@@ -12,6 +12,7 @@ namespace RPG.Characters
         [SerializeField] GameObject weaponPrefab;
         [SerializeField] AnimationClip swingAnimation;
         [SerializeField] AnimationClip thrustAnimation;
+        [SerializeField] AnimatorOverrideController weaponSpecificAnimations;
         [SerializeField] AudioClip parrySound;
         [Range(0.1f, 1.2f)] [SerializeField] float quality = 0.8f;
         [Range(0.1f, 1.0f)] [SerializeField] float condition = 0.8f;
@@ -21,6 +22,11 @@ namespace RPG.Characters
         [Range(0f, 2.0f)] [SerializeField] float bladeDamageModifier = 0.5f;
         [Range(0f, 2.0f)] [SerializeField] float bluntDamageModifier = 0.5f;
         [Range(0f, 2.0f)] [SerializeField] float pierceDamageModifier = 0.5f;
+
+        public AnimatorOverrideController GetWeaponSpecificAnimations()
+        {
+            return weaponSpecificAnimations;
+        }
 
         public GameObject GetWeaponPrefab()
         {

@@ -115,7 +115,17 @@ namespace RPG.Characters
 
         public AnimatorOverrideController GetAnimatorOverrideController()
         {
-            return animatorOverrideController;
+            var weapon = GetComponent<WeaponSystem>().GetCurrentWeapon();
+            var weaponSpecificAnimationOverrides = weapon.GetWeaponSpecificAnimations();
+            if(weaponSpecificAnimationOverrides)
+            {
+                return weaponSpecificAnimationOverrides;
+            }
+            else
+            {
+                return animatorOverrideController;
+            }
+            
         }
 
         private void SetForwardAndTurn(Vector3 movement)

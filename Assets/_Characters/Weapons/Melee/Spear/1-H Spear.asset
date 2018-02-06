@@ -16,6 +16,8 @@ MonoBehaviour:
   weaponPrefab: {fileID: 100000, guid: bd54beb6d2ac6244783b660b1dc4975f, type: 3}
   swingAnimation: {fileID: 7400000, guid: 60077d0c659ea5441b8d46779caff80d, type: 3}
   thrustAnimation: {fileID: 7400000, guid: 96f8270c0e4678d4580d41b43babe823, type: 3}
+  weaponSpecificAnimations: {fileID: 22100000, guid: cb2b5c576761a15469275b5aedd14c55,
+    type: 2}
   parrySound: {fileID: 8300000, guid: 34aca9e3f1ade4802b9062b1380aa523, type: 3}
   quality: 0.8
   condition: 0.8
