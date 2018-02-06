@@ -96,6 +96,12 @@ namespace RPG.Characters
             StartCoroutine(AttackTargetRepeatedly());
         }
 
+        public void SpecialAttack(GameObject targetToAttack, float attackAdj, float damageAdj, float armourAvoidAdj)
+        {
+            SetTarget(targetToAttack);
+            AttackTargetOnce();
+        }
+
         IEnumerator AttackTargetRepeatedly()
         {
             while (attackerIsAlive && targetIsAlive)

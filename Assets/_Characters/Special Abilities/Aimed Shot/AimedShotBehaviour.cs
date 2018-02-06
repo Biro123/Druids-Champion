@@ -17,8 +17,14 @@ namespace RPG.Characters
 
         private void DealDamage(GameObject target)
         {
-            float damageToDeal = (config as AimedShotConfig).GetExtraDamage();
-            target.GetComponent<HealthSystem>().AdjustHealth(damageToDeal);
+            GetComponent<WeaponSystem>().SpecialAttack(
+                target, 
+                (config as AimedShotConfig).GetAttackAdj(),
+                (config as AimedShotConfig).GetDamageAdj(),
+                (config as AimedShotConfig).GetArmourAvoidAdj() 
+                );
+            //float damageToDeal = (config as AimedShotConfig).GetExtraDamage();
+            //target.GetComponent<HealthSystem>().AdjustHealth(damageToDeal);
         }
         
     }
