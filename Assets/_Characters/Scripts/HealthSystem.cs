@@ -87,11 +87,11 @@ namespace RPG.Characters
         {
             character.Kill();
             animator.SetTrigger(DEATH_TRIGGER);
+            PlayDeathSound();
 
             var playerComponent = GetComponent<PlayerControl>();
             if (playerComponent && playerComponent.isActiveAndEnabled)
-            {
-                PlayDeathSound();
+            {                
                 yield return new WaitForSeconds(audioSource.clip.length);
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
@@ -108,7 +108,7 @@ namespace RPG.Characters
             int audioIndex = UnityEngine.Random.Range(0, deathSounds.Length);
             audioSource.clip = deathSounds[audioIndex];
             audioSource.Stop();
-            audioSource.Play();
+            audioSource.PlayOneShot(audioSource.clip);
         }
     }
 }

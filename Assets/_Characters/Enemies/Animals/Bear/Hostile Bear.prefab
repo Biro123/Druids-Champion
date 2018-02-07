@@ -1004,8 +1004,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1579087591703866}
   m_LocalRotation: {x: -0, y: 0.9998864, z: -0, w: -0.015077866}
-  m_LocalPosition: {x: -159.86, y: 0, z: -207.37}
-  m_LocalScale: {x: 0.90000093, y: 0.9, z: 0.90000093}
+  m_LocalPosition: {x: -15.01387, y: 8.002197, z: -208.64557}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224447586950243922}
   - {fileID: 4635869950044878}
@@ -1460,7 +1460,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: effc0d496f2c4e144a91033290aefb66, type: 3}
   deathSounds:
   - {fileID: 8300000, guid: 0a14b81c9eeb97d42861fbdd686e65da, type: 3}
-  - {fileID: 8300000, guid: f03ca00748cc75c438092911536058b5, type: 3}
+  - {fileID: 8300000, guid: ec9998b131518f740b7fba9f258b293f, type: 3}
   bloodSpurtPrefab: {fileID: 1439545716550898, guid: 60c5b585be4a9ec42865b35460bbb91c,
     type: 2}
 --- !u!114 &114718505780816646
