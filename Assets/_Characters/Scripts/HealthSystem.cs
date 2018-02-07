@@ -69,7 +69,7 @@ namespace RPG.Characters
             PlayHitSound( Mathf.Clamp(hitSoundVolume, 0, 1) );
 
             GameObject bloodSpurt = Instantiate(bloodSpurtPrefab, transform);
-            bloodSpurt.GetComponent<ParticleSystem>().Play();
+            bloodSpurt.GetComponent<ParticleSystem>().Play();  // TODO make size depend on damage done?
             Destroy(bloodSpurt, bloodSpurt.GetComponent<ParticleSystem>().main.duration);
 
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace RPG.Characters
 {
-    public class AimedShotBehaviour : AbilityBehaviour 
+    public class FeignedAttackBehaviour : AbilityBehaviour 
     {
         ParticleSystem myParticleSystem;
 
@@ -17,15 +17,14 @@ namespace RPG.Characters
 
         private void DealDamage(GameObject target)
         {
-            if (!target) { return; }
+            if (!target) { return; };
 
             GetComponent<WeaponSystem>().SpecialAttack(
                 target, 
-                (config as AimedShotConfig).GetAttackAdj(),
-                (config as AimedShotConfig).GetDamageAdj(),
-                (config as AimedShotConfig).GetArmourAvoidAdj() 
+                (config as FeignedAttackConfig).GetAttackAdj(),
+                (config as FeignedAttackConfig).GetDamageAdj(),
+                (config as FeignedAttackConfig).GetArmourAvoidAdj() 
                 );
-        }
-        
+        }        
     }
 }

@@ -108,7 +108,9 @@ namespace RPG.Characters
             {
                 var animationClip = currentWeaponConfig.GetSwingAnimClip();
                 float animationClipTime = animationClip.length / character.GetAnimSpeedMultiplier();
-                float timeToWait = animationClipTime + currentWeaponConfig.GetTimeBetweenAnimationCycles();
+                float randomDelay = currentWeaponConfig.GetTimeBetweenAnimationCycles() 
+                    * (1f + UnityEngine.Random.Range(-0.5f, 0.5f));
+                float timeToWait = animationClipTime + randomDelay;
 
                 bool isTimeToHit = Time.time - lastHitTime > timeToWait;
 
