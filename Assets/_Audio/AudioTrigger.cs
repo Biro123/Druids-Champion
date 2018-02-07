@@ -6,6 +6,7 @@ public class AudioTrigger : MonoBehaviour
     [SerializeField] AudioClip clip;
     [SerializeField] float triggerRadius = 5f;
     [SerializeField] bool isOneTimeOnly = true;
+    [SerializeField] [Range(0f, 1f)] float volume = 1f;
 
     bool hasPlayed = false;
     AudioSource audioSource;
@@ -16,6 +17,7 @@ public class AudioTrigger : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.clip = clip;
+        audioSource.volume = volume;
         player = FindObjectOfType<PlayerControl>().gameObject;
     }
 
