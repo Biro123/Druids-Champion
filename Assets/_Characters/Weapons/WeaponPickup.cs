@@ -12,10 +12,12 @@ namespace RPG.Characters
         [SerializeField] AudioClip pickupSFX = null;
 
         AudioSource audioSource = null;
+        bool isPickedUp;
 
         // Use this for initialization
         void Start()
         {
+            isPickedUp = false;
             audioSource = GetComponent<AudioSource>();
         }
 
@@ -46,11 +48,13 @@ namespace RPG.Characters
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.GetComponent<PlayerControl>())
+            if (other.GetComponent<PlayerControl>() && !isPickedUp)
             {
-                print("switching weapon");
+                isPickedUp = true;
                 other.GetComponent<WeaponSystem>().PutWeaponInHand(weaponConfig);
-                audioSource.PlayOneShot(pickupSFX);
+                audioSource.clip = pickupSFX;
+                audioSource.Play();
+                Destroy(gameObject, audioSource.clip.length);
             }
         }
 
