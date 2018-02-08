@@ -1956,7 +1956,7 @@ MonoBehaviour:
   movingTurnSpeed: 360
   stationaryTurnSpeed: 180
   attackTurnRate: 4
-  navMeshAgentSteeringSpeed: 1.2
+  navMeshAgentSteeringSpeed: 1
   navMeshAgentStoppingDistance: 0.2
   navMeshAgentAutoBraking: 1
   rigidBodyMass: 80
