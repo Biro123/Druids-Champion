@@ -24,6 +24,7 @@ namespace RPG.Characters
         Character character;
         Transform target = null;
         WeaponSystem weaponSystem;
+        Vector3 nextWaypointPos;
         int opponentLayerMask = 0;
         float distanceToTarget = 0f;
         int waypointIndex;
@@ -65,9 +66,12 @@ namespace RPG.Characters
 
             if (! inAttackRange && ! inAggroRange )
             {
-                StopAllCoroutines();
-                weaponSystem.StopAttacking();
-                StartCoroutine(Patrol());
+                if (state != State.patrolling)
+                {
+                    StopAllCoroutines();
+                    weaponSystem.StopAttacking();
+                    StartCoroutine(Patrol());
+                }
             }
             
             if (inAggroRange)
@@ -88,26 +92,35 @@ namespace RPG.Characters
 
         IEnumerator Patrol()
         {
+            if (patrolPath == null) { yield return null; }
             state = State.patrolling;
 
-            while(patrolPath != null)
-            {
-                Vector3 nextWaypointPos = patrolPath.transform.GetChild(waypointIndex).position;
+            // Set initial waypoint
+            CycleWaypoint();
 
-                character.SetDestination(nextWaypointPos);
-                CycleWaypointWhenClose(nextWaypointPos);
-                yield return new WaitForSeconds(waypointDwellTime);  // TODO wait not working
+            while (true)
+            {
+                var distanceToWaypoint = Vector3.Distance(transform.position, nextWaypointPos);
+                if (distanceToWaypoint <= waypointTolerance)
+                {
+                    // Reached waypoint - so wait then change to next
+                    yield return new WaitForSeconds(waypointDwellTime);
+                    CycleWaypoint();
+                }
+                else
+                {
+                    yield return null;
+                }
             }
 
         }
 
-        private void CycleWaypointWhenClose(Vector3 nextWaypointPos)
+        private void CycleWaypoint()
         {
-            if (Vector3.Distance(transform.position, nextWaypointPos) <= waypointTolerance)
-            {
-                // % = remainder from division.. i don't understand this
-                waypointIndex = (waypointIndex + 1) % patrolPath.transform.childCount;
-            }
+            // % = remainder from division.. i don't understand this
+            waypointIndex = (waypointIndex + 1) % patrolPath.transform.childCount;
+            nextWaypointPos = patrolPath.transform.GetChild(waypointIndex).position;
+            character.SetDestination(nextWaypointPos);
         }
 
         IEnumerator ChaseTarget()

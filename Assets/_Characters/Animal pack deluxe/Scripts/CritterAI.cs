@@ -40,7 +40,6 @@ namespace RPG.Characters
                 Debug.Log(Time.time + " " + gameObject.name + " Starting Coroutine");
                 StartCoroutine(Patrol());
             }       
-
         }
 
         private void Update()
@@ -75,7 +74,6 @@ namespace RPG.Characters
                 }
                 else
                 {
-                    character.SetDestination(nextWaypointPos);
                     yield return null;
                 }
             }
